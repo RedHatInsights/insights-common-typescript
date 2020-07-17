@@ -1,6 +1,9 @@
 {
   "name": "@redhat-cloud-services/insights-common-typescript-root",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "lerna run build",
     "ci": "lerna run ci",
