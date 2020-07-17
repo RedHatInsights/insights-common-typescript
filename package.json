@@ -3,12 +3,22 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
+    "ci": "lerna run ci",
     "lint": "lerna run lint",
-    "test": "lerna run test",
-    "ci": "lerna run ci"
+    "test": "lerna run test"
+  },
+  "dependencies": {
+    "insights-common-typescript": "file:packages/insights-common-typescript"
   },
   "devDependencies": {
+    "@patternfly/react-core": "^4.18.5",
+    "@patternfly/react-icons": "^4.3.5",
+    "@patternfly/react-table": "^4.5.7",
+    "@redhat-cloud-services/frontend-components": "^2.1.2",
     "@redhat-cloud-services/frontend-components-config": "2.1.0",
+    "@redhat-cloud-services/frontend-components-notifications": "^2.1.0",
+    "@redhat-cloud-services/frontend-components-utilities": "^2.1.0",
+    "@redhat-cloud-services/rbac-client": "^1.0.67",
     "@testing-library/dom": "7.11.0",
     "@testing-library/jest-dom": "5.5.0",
     "@testing-library/react": "10.0.1",
@@ -22,9 +32,11 @@
     "@types/react-router-dom": "5.1.2",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
+    "axios": "^0.19.2",
     "axios-mock-adapter": "1.18.1",
     "cross-fetch": "^3.0.4",
     "css-loader": "^3.2.0",
+    "csx": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-loader": "^3.0.2",
@@ -34,23 +46,31 @@
     "eslint-plugin-react-hooks": "4.0.4",
     "eslint-plugin-testing-library": "3.0.4",
     "fetch-mock": "9.4.0",
+    "formik": "^2.1.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "lerna": "^3.22.1",
+    "lodash": "^4.17.15",
     "npm-run-all": "^4.1.5",
     "prop-types": "15.6.2",
     "react": "16.13.1",
+    "react-content-loader": "^3.4.2",
     "react-dom": "16.13.1",
+    "react-fetching-library": "^1.7.4",
+    "react-redux": "^5.1.2",
+    "react-router-dom": "^5.1.2",
     "react-test-renderer": "^16.13.1",
+    "react-use": "^13.24.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^5.1.1",
     "stylelint": "^11.1.1",
     "stylelint-config-recommended-scss": "^4.0.0",
     "stylelint-scss": "^3.12.1",
     "ts-essentials": "^3.0.5",
     "ts-jest": "^24.2.0",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.2"
-  },
-  "dependencies": {
-    "insights-common-typescript": "file:packages/insights-common-typescript"
+    "typescript": "^3.7.2",
+    "typestyle": "^2.0.4"
   }
 }

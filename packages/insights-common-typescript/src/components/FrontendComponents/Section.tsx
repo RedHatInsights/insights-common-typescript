@@ -4,7 +4,7 @@ import { classes } from 'typestyle';
 
 type SectionProps = {
     className?: string;
-    style?: Partial<CSSStyleDeclaration>;
+    style?: React.CSSProperties;
 };
 
 export const Section: React.FunctionComponent<SectionProps> = (props) => {
