@@ -1,6 +1,6 @@
 import { useHistory, useLocation } from 'react-router-dom';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
-import {useEffectOnce, useUpdateEffect} from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 
 export type UseUrlStateResponse<T> = [ T | undefined, Dispatch<SetStateAction<T | undefined>> ];
 export type Serializer<T> = (value: T | undefined) => string | undefined;
