@@ -45,8 +45,14 @@ export const useUrlState =
         });
 
         useEffectOnce(() => {
-            if (getUrlValue() === undefined) {
+            const urlValue = getUrlValue();
+            if (urlValue === undefined) {
                 setUrlValue(serializer(initialValue));
+            } else {
+                const sanitizedUrlValue = serializer(deserializer(urlValue));
+                if (sanitizedUrlValue !== urlValue) {
+                    setUrlValue(sanitizedUrlValue);
+                }
             }
         });
 

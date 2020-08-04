@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useUrlState, UseUrlStateType, useUrlStateString, UseUrlStateStringType } from '../useUrlState';
-import { MemoryRouter, useLocation } from 'react-router';
+import { MemoryRouter, useLocation, useHistory } from 'react-router';
 
 const getWrapper = (path?: string): React.FunctionComponent => {
     const Wrapper = (props) => (
@@ -17,7 +17,7 @@ describe('src/hooks/useUrlState', () => {
         val2: number;
     }
 
-    const serializer = (val: MyObject | undefined) => `${val?.val}_${val?.val2}`;
+    const serializer = (val: MyObject | undefined) => (val === undefined) ? undefined : `${val?.val}_${val?.val2}`;
     const deserializer = (val: string | undefined) => (val === undefined ? undefined : { val: val.split('_')[0], val2: +val.split('_')[1] });
 
     it('preamble tests to serializer & deserializers used for testing', () => {
@@ -61,6 +61,85 @@ describe('src/hooks/useUrlState', () => {
 
         const { search } = result.current.location;
         expect(search).toEqual('?my-param=hello_5');
+    });
+
+    it('Changing history also updates the value', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState: useUrlState<MyObject>(...args),
+                location: useLocation(),
+                history: useHistory()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
+                wrapper: getWrapper()
+            }
+        );
+
+        act(() => {
+            result.current.history.replace({
+                search: '?my-param=foo_15'
+            });
+        });
+        const { search } = result.current.location;
+        const [ value ] = result.current.urlState;
+        expect(search).toEqual('?my-param=foo_15');
+        expect(value).toEqual({ val: 'foo', val2: 15 });
+    });
+
+    it('Removing param from url also updates the value', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState: useUrlState<MyObject>(...args),
+                location: useLocation(),
+                history: useHistory()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
+                wrapper: getWrapper()
+            }
+        );
+
+        act(() => {
+            result.current.history.replace({});
+        });
+        const { search } = result.current.location;
+        const [ value ] = result.current.urlState;
+        expect(search).toEqual('');
+        expect(value).toEqual(undefined);
+    });
+
+    it('Setting the same value does not update the location', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState: useUrlState<MyObject>(...args),
+                location: useLocation(),
+                history: useHistory()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
+                wrapper: getWrapper()
+            }
+        );
+
+        const historyReplace = jest.spyOn(result.current.history, 'replace');
+
+        act(() => {
+            result.current.urlState[1]({ val: 'hello', val2: 5 });
+        });
+        expect(historyReplace).not.toHaveBeenCalled();
+    });
+
+    it('removes url param if serializer(deserializer(params)) returns undefined', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState: useUrlState<MyObject>(...args),
+                location: useLocation()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, undefined ],
+                wrapper: getWrapper('foo')
+            }
+        );
+
+        const { search } = result.current.location;
+        expect(search).toEqual('?');
     });
 
     it('should change value and location on setState', () => {
@@ -370,6 +449,26 @@ describe('src/hooks/useUrlState', () => {
 
             expect(result.current.urlStateString[0]).toEqual('foo-bar');
             expect(result.current.location.search).toEqual('?my-param=foo-bar');
+        });
+
+        it('removes the value when removing form the url', () => {
+            const { result } = renderHook(
+                (args: Parameters<UseUrlStateStringType>) => ({
+                    urlStateString: useUrlStateString(...args),
+                    location: useLocation(),
+                    history: useHistory()
+                }), {
+                    initialProps: [ 'my-param', 'init-value' ],
+                    wrapper: getWrapper('http://localhost?my-param=foo-bar')
+                }
+            );
+
+            act(() => {
+                result.current.history.replace({});
+            });
+
+            expect(result.current.urlStateString[0]).toEqual('');
+            expect(result.current.location.search).toEqual('');
         });
     });
 });
