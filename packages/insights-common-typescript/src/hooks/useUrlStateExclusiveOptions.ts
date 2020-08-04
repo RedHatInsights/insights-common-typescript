@@ -9,17 +9,27 @@ export const useUrlStateExclusiveOptions = <T extends string, AT extends Array<T
 
     const serializer = useCallback((val: Unpacked<AT> | undefined) => {
         const value = val?.trim().toLowerCase();
-        if (value && lowerCaseOptions.includes(value)) {
-            return value;
+        if (value) {
+            const index = lowerCaseOptions.indexOf(value);
+            if (index !== -1) {
+                return options[index];
+            }
         }
 
         return undefined;
-    }, [ lowerCaseOptions ]);
+    }, [ lowerCaseOptions, options ]);
 
     const deserializer = useCallback((val: string | undefined) => {
         const value = val?.trim().toLowerCase();
-        return lowerCaseOptions.find(v => v === value) as Unpacked<AT> | undefined;
-    }, [ lowerCaseOptions ]);
+        if (value) {
+            const index = lowerCaseOptions.indexOf(value);
+            if (index !== -1) {
+                return options[index] as Unpacked<AT>;
+            }
+        }
+
+        return undefined;
+    }, [ lowerCaseOptions, options ]);
 
     return useUrlState<Unpacked<AT>>(name, serializer, deserializer, defaultValue);
 };

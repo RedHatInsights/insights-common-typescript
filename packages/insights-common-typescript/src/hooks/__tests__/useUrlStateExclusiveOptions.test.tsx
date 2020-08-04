@@ -58,6 +58,34 @@ describe('src/hooks/useUrlStateExclusiveOptions', () => {
         expect(result.current.location.search).toEqual('?varname=bar');
     });
 
+    it('Loading from url uses undefined if value is not any option', () => {
+        const { result } = renderHook(() => {
+            return {
+                state: useUrlStateExclusiveOptions('varname', [ 'foo', 'bar', 'baz' ], 'foo'),
+                location: useLocation()
+            };
+        }, {
+            wrapper: getWrapper('?varname=captain')
+        });
+
+        expect(result.current.state[0]).toEqual(undefined);
+        expect(result.current.location.search).toEqual('?');
+    });
+
+    it('Ignores case when watching, but preserves case option', () => {
+        const { result } = renderHook(() => {
+            return {
+                state: useUrlStateExclusiveOptions('varname', [ 'foo', 'BAR', 'baz' ], 'foo'),
+                location: useLocation()
+            };
+        }, {
+            wrapper: getWrapper('?varname=BaR')
+        });
+
+        expect(result.current.state[0]).toEqual('BAR');
+        expect(result.current.location.search).toEqual('?varname=BAR');
+    });
+
     it('Loads from url when it changes (and still only accepts initialOptions)', () => {
         const { result } = renderHook(() => {
             return {
