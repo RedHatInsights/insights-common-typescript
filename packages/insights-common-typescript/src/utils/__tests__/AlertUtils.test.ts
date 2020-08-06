@@ -1,4 +1,7 @@
-import { addNotification as createNotificationAction, clearNotifications as createClearNotifications } from '@redhat-cloud-services/frontend-components-notifications';
+import {
+    addNotification as createNotificationAction,
+    clearNotifications as createClearNotifications
+} from '@redhat-cloud-services/frontend-components-notifications';
 import {
     addInfoNotification,
     addNotification,
