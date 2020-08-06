@@ -1,26 +1,33 @@
-import { addNotification as createNotificationAction } from '@redhat-cloud-services/frontend-components-notifications';
+import {
+    addNotification as createNotificationAction,
+    clearNotifications as createClearNotificationsAction
+} from '@redhat-cloud-services/frontend-components-notifications';
 import { getStore } from '../store';
 
 export enum NotificationType {
     SUCCESS = 'success',
     DANGER = 'danger',
     WARNING = 'warning',
-    INFO = 'info',
-    DEFAULT = 'default'
+    INFO = 'info'
 }
 
-export const addNotification = (type: NotificationType, title: string, description: string) => {
+export const addNotification = (type: NotificationType, title: string, description: string, dismissable?: boolean, dismissDelay?: number) => {
     getStore().dispatch(createNotificationAction({
         variant: type,
         title,
-        description
+        description,
+        dismissable,
+        dismissDelay
     }));
 };
 
-export const addSuccessNotification = (title: string, description: string) => {
-    addNotification(NotificationType.SUCCESS, title, description);
-};
+type ExplicitNotificationFunction = (title: string, description: string, dismissable?: boolean, dismissDelay?: number) => void;
 
-export const addDangerNotification = (title: string, description: string) => {
-    addNotification(NotificationType.DANGER, title, description);
+export const addSuccessNotification: ExplicitNotificationFunction = (...args) => addNotification(NotificationType.SUCCESS, ...args);
+export const addDangerNotification: ExplicitNotificationFunction = (...args) => addNotification(NotificationType.DANGER, ...args);
+export const addInfoNotification: ExplicitNotificationFunction = (...args) => addNotification(NotificationType.INFO, ...args);
+export const addWarningNotification: ExplicitNotificationFunction = (...args) => addNotification(NotificationType.WARNING, ...args);
+
+export const clearNotifications = () => {
+    getStore().dispatch(createClearNotificationsAction());
 };
