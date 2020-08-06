@@ -12,9 +12,18 @@ type SerializedObject = {
 export abstract class ExporterCsv<T> implements Exporter<T> {
     readonly type = ExporterType.CSV;
 
+    private encode(value: string): string {
+        let result = value.replace(/"/g, '""');
+        if (result.includes(',') || result.includes('"')) {
+            result = '"' + result + '"';
+        }
+
+        return result;
+    }
+
     public export(elements: Array<T>) {
         const headers = this.headers();
-        const headerString = headers.map(h => h[1]).join(',') + '\r';
+        const headerString = headers.map(h => this.encode(h[1])).join(',') + '\r';
         const dataArray = elements.map(this.serialize).map(e => {
             return Object.values(headers).map(k => {
                 let rawValue = e[k[0]];
@@ -22,8 +31,7 @@ export abstract class ExporterCsv<T> implements Exporter<T> {
                     rawValue = '';
                 }
 
-                const value = rawValue.toString().replace(/"/g, '""');
-                return '"' + value + '"';
+                return this.encode(rawValue.toString());
             }).join(',')  + '\r';
         });
 
