@@ -1,5 +1,4 @@
-import { actionBuilder, pageToQuery } from '../ActionBuilder';
-import { Direction, Filter, Operator, Page, Sort } from '../../types/Page';
+import { actionBuilder, pageToQuery, Direction, Filter, Operator, Page, Sort } from '../..';
 
 describe('src/services/Api/ActionBuilder', () => {
 
@@ -55,6 +54,11 @@ describe('src/services/Api/ActionBuilder', () => {
 
     it('empty query yields no params in the url', () => {
         const action = actionBuilder('GET', '/foo').queryParams({}).build();
+        expect(action.endpoint).toEqual('/foo');
+    });
+
+    it('undefined params are omitted from the url', () => {
+        const action = actionBuilder('GET', '/foo').queryParams({ foo: undefined }).build();
         expect(action.endpoint).toEqual('/foo');
     });
 

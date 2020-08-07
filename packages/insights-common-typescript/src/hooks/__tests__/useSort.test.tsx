@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useSort } from '../useSort';
-import { Direction, Sort } from '../../types/Page';
+import { useSort, Direction, Sort } from '../..';
 
 describe('src/hooks/useSort', () => {
     it('Default Sort is undefined', () => {

@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useFilters } from '../useFilters';
+import { useFilters } from '../..';
 import { useState } from 'react';
 
 describe('src/hooks/useFilter', () => {

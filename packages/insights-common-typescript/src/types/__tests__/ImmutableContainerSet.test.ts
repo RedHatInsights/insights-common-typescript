@@ -1,4 +1,4 @@
-import { ImmutableContainerSet, ImmutableContainerSetMode } from '../ImmutableContainerSet';
+import { ImmutableContainerSet, ImmutableContainerSetMode } from '../..';
 
 describe('src/types/ImmutableContainerSet', () => {
 

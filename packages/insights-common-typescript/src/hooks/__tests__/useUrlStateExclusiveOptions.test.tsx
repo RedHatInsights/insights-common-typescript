@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useUrlStateExclusiveOptions } from '../useUrlStateExclusiveOptions';
+import { useUrlStateExclusiveOptions } from '../..';
 import * as React from 'react';
 import { MemoryRouter, useLocation, useHistory } from 'react-router';
 import { waitForAsyncEventsHooks } from '../../../test/TestUtils';

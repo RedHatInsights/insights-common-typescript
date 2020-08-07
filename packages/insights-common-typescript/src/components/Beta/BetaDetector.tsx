@@ -59,7 +59,7 @@ export const BetaDetector: React.FunctionComponent<BetaDetectorProps> = (props) 
             } else if (type === BetaIfNot) {
                 ++betaIfNotCount;
             } else {
-                throw new Error('Only BetaIf and BetaIfNot are accepted Elements in BetaDecorator');
+                throw new Error('Only BetaIf and BetaIfNot are accepted Elements in BetaDetector');
             }
         }
     });

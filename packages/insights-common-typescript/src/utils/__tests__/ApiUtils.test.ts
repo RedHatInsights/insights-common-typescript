@@ -1,5 +1,5 @@
-import { useTransformQueryResponse } from '../ApiUtils';
-import { UseQueryResponse } from 'react-fetching-library';
+import { useTransformQueryResponse } from '../..';
+import { Action, useMutation, UseQueryResponse } from 'react-fetching-library';
 import { renderHook } from '@testing-library/react-hooks';
 
 describe('src/utils/ApiUtils', () => {
@@ -16,6 +16,40 @@ describe('src/utils/ApiUtils', () => {
 
         const { result } = renderHook(() => useTransformQueryResponse(response, (val: string) => +val));
         expect(result.current.payload).toBe(5);
+    });
+
+    it('transforms a useMutation return on status 200', () => {
+        const useDummyWrapper = () => useMutation<string, string>((() => '' as unknown as Action));
+
+        const response: ReturnType<typeof useDummyWrapper> = {
+            payload: '5',
+            status: 200,
+            error: false,
+            loading: false,
+            reset: jest.fn(),
+            abort: jest.fn(),
+            mutate: jest.fn()
+        };
+
+        const { result } = renderHook(() => useTransformQueryResponse(response, (val: string) => +val));
+        expect(result.current.payload).toBe(5);
+    });
+
+    it('Throws error if not using query or mutate', () => {
+        const useDummyWrapper = () => useMutation<string, string>((() => '' as unknown as Action));
+
+        const response = {
+            payload: '5',
+            status: 200,
+            error: false,
+            loading: false,
+            reset: jest.fn(),
+            abort: jest.fn(),
+            mutatexx: jest.fn()
+        } as unknown as ReturnType<typeof useDummyWrapper>;
+
+        const { result } = renderHook(() => useTransformQueryResponse(response, (val: string) => +val));
+        expect(() => result.current).toThrowError();
     });
 
     it('keeps payload if status is not 200', () => {

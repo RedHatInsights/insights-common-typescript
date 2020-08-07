@@ -1,4 +1,4 @@
-import { assertNever } from '../Assert';
+import { assertNever } from '../..';
 
 describe('src/utils/Assert', () => {
     it('assertNever represents unreachable code because the received value is "never"', () => {

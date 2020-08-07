@@ -9,9 +9,11 @@ import {
     addWarningNotification,
     addDangerNotification,
     NotificationType,
-    clearNotifications
-} from '../AlertUtils';
-import { getStore, initStore, restoreStore } from '../../store';
+    clearNotifications,
+    getStore,
+    initStore,
+    restoreStore
+} from '../..';
 
 describe('src/utils/AlertUtils', () => {
 

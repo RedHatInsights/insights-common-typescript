@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useDebouncedState, UseDebouncedStateType } from '../useDebouncedState';
+import { useDebouncedState, UseDebouncedStateType } from '../..';
 import { useEffect, useState } from 'react';
 
 type P<T> = Parameters<UseDebouncedStateType<T>>;

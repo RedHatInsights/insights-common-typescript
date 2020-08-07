@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { BetaDetector, BetaIf, BetaIfNot, InsightsBetaDetector } from '../BetaDetector';
-import { InsightsType } from '../../../utils';
+import { InsightsType, BetaDetector, BetaIf, BetaIfNot, InsightsBetaDetector } from '../../..';
 
 describe('src/components/Beta', () => {
 
@@ -83,6 +82,20 @@ describe('src/components/Beta', () => {
         error.mockRestore();
     });
 
+    it('Using BetaIf without BetaDetector throws error', () => {
+        const error = jest.spyOn(console, 'error');
+        error.mockImplementation(() => '');
+
+        expect(() => {
+            render(
+                <BetaIf>
+                    <div>foo</div>
+                </BetaIf>
+            );
+        }).toThrowError('Invalid usage of BetaIf*, must be surrounded by a BetaDetector');
+        error.mockRestore();
+    });
+
     it('Other similar tags throw error', () => {
         const error = jest.spyOn(console, 'error');
         error.mockImplementation(() => '');
@@ -93,7 +106,7 @@ describe('src/components/Beta', () => {
                     <div>hello</div>
                 </BetaDetector>
             );
-        }).toThrowError('Only BetaIf and BetaIfNot are accepted Elements in BetaDecorator');
+        }).toThrowError('Only BetaIf and BetaIfNot are accepted Elements in BetaDetector');
         error.mockRestore();
     });
 

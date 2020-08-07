@@ -1,4 +1,5 @@
-import { localUrl } from '..';
+import { localUrl } from '../..';
+import { Config } from '..';
 
 describe('src/config/Config', () => {
 
@@ -12,5 +13,13 @@ describe('src/config/Config', () => {
 
     it('localUrl does not prepend beta to path when not in beta ', () => {
         expect(localUrl('/baz/bar', false)).toBe('/baz/bar');
+    });
+
+    it('emailPreferences is /user-preferences/email on stable', () => {
+        expect(Config.pages.emailPreferences(false)).toBe('/user-preferences/email');
+    });
+
+    it('emailPreferences is /beta/user-preferences/email on beta', () => {
+        expect(Config.pages.emailPreferences(false)).toBe('/user-preferences/email');
     });
 });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useUrlState, UseUrlStateType, useUrlStateString, UseUrlStateStringType } from '../useUrlState';
+import { useUrlState, UseUrlStateType, useUrlStateString, UseUrlStateStringType } from '../..';
 import { MemoryRouter, useLocation, useHistory } from 'react-router';
 
 const getWrapper = (path?: string): React.FunctionComponent => {

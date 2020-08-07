@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ErrorBoundaryPage } from '../ErrorBoundaryPage';
+import { ErrorBoundaryPage } from '../../..';
 import jestMock from 'jest-mock';
 
 jest.mock('@redhat-cloud-services/frontend-components', () => {

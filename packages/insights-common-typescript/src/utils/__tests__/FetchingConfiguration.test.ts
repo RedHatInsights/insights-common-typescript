@@ -1,6 +1,5 @@
-import { createFetchingClient } from '../FetchingConfiguration';
 import fetchMock from 'fetch-mock';
-import { getInsights, mockInsights } from '../Insights';
+import { getInsights, mockInsights, createFetchingClient } from '../..';
 
 describe('src/app/FetchingConfiguration', () => {
 

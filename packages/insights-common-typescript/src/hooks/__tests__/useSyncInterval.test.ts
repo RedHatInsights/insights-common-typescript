@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { useSyncInterval } from '../useSyncInterval';
+import { useSyncInterval } from '../..';
 
 describe('src/hooks/useSyncInterval', () => {
     it('Calls function after 500ms', () => {

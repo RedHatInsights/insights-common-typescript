@@ -1,4 +1,4 @@
-import { Direction, Filter, Operator, Page, Sort } from '../Page';
+import { Direction, Filter, Operator, Page, Sort } from '../..';
 
 describe('src/types/Page', () => {
 
@@ -49,6 +49,67 @@ describe('src/types/Page', () => {
             1,
             new Filter().and('col', Operator.EQUAL, 'foo')
         ).hasFilter()).toBeTruthy();
+    });
+
+    it('withPage gives a new Page with the given index', () => {
+        expect(Page.of(1, 100).withPage(9).index).toEqual(9);
+        expect(Page.of(1, 1).withPage(13).index).toEqual(13);
+    });
+
+    it('nextPage gives a new Page with the next index', () => {
+        expect(Page.of(2, 100).nextPage().index).toEqual(3);
+        expect(Page.of(4, 1).nextPage().index).toEqual(5);
+        expect(Page.of(9, 10).nextPage().index).toEqual(10);
+        expect(Page.of(15, 1337).nextPage().index).toEqual(16);
+    });
+
+    it('withSort gives a new Page with the given sort', () => {
+        expect(
+            Page.of(1, 100, undefined, Sort.by('foo', Direction.DESCENDING))
+            .withSort(undefined).sort
+        ).toEqual(undefined);
+
+        expect(
+            Page.of(1, 100, undefined, Sort.by('foo', Direction.DESCENDING))
+            .withSort(Sort.by('bar', Direction.ASCENDING)).sort
+        ).toEqual(Sort.by('bar', Direction.ASCENDING));
+
+        expect(
+            Page.of(1, 100)
+            .withSort(Sort.by('baz', Direction.DESCENDING)).sort
+        ).toEqual(Sort.by('baz', Direction.DESCENDING));
+    });
+
+    describe('start', () => {
+        it('Gives the 0 on first page', () => {
+            expect(Page.of(1, 100).start()).toEqual(0);
+            expect(Page.of(1, 1).start()).toEqual(0);
+            expect(Page.of(1, 10).start()).toEqual(0);
+            expect(Page.of(1, 1337).start()).toEqual(0);
+        });
+
+        it('Gives the offset of elements', () => {
+            expect(Page.of(2, 100).start()).toEqual(100);
+            expect(Page.of(4, 1).start()).toEqual(3);
+            expect(Page.of(3, 10).start()).toEqual(20);
+            expect(Page.of(2, 1337).start()).toEqual(1337);
+        });
+    });
+
+    describe('end', () => {
+        it('Gives the size on first page', () => {
+            expect(Page.of(1, 100).end()).toEqual(100);
+            expect(Page.of(1, 1).end()).toEqual(1);
+            expect(Page.of(1, 10).end()).toEqual(10);
+            expect(Page.of(1, 1337).end()).toEqual(1337);
+        });
+
+        it('Gives the end offset of elements', () => {
+            expect(Page.of(2, 100).end()).toEqual(200);
+            expect(Page.of(4, 1).end()).toEqual(4);
+            expect(Page.of(3, 10).end()).toEqual(30);
+            expect(Page.of(2, 1337).end()).toEqual(2674);
+        });
     });
 
     describe('lastPageForElements', () => {

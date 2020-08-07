@@ -1,4 +1,4 @@
-import { waitForInsights } from '../Insights';
+import { waitForInsights } from '../..';
 
 describe('src/utils/Insights', () => {
     it('should resolve once insights is set', async () => {
@@ -10,5 +10,10 @@ describe('src/utils/Insights', () => {
         return insightPromise.then(insights => {
             expect(insights.chrome.isProd).toEqual(true);
         });
+    });
+
+    it('returns the same promise', async () => {
+        const insightPromise = waitForInsights();
+        expect(insightPromise).toBe(waitForInsights());
     });
 });

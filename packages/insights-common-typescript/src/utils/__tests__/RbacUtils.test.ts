@@ -1,4 +1,4 @@
-import { fetchRBAC, RawRbac } from '../RbacUtils';
+import { fetchRBAC, RawRbac } from '../..';
 import axios from 'axios';
 import { Access, AccessPagination } from '@redhat-cloud-services/rbac-client';
 import MockAdapter from 'axios-mock-adapter';

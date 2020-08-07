@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useFilters } from '../useFilters';
-import { ColumnsMetada, usePrimaryToolbarFilterConfig } from '../usePrimaryToolbarFilterConfig';
+import { useFilters, ColumnsMetada, usePrimaryToolbarFilterConfig } from '../..';
 import { useEffect } from 'react';
 
 describe('src/hooks/usePrimaryToolbarFilterConfig', () => {

@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { usePromiseState } from '../usePromiseState';
+import { usePromiseState } from '../..';
 import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
 
 describe('src/hooks/usePromiseState', () => {

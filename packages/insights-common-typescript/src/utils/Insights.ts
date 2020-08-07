@@ -74,6 +74,7 @@ export const waitForInsights = (): Promise<InsightsType> => {
 
 export const getInsights = (): InsightsType => window.insights;
 
+/* istanbul ignore next */
 export const mockInsights = (mock?: InsightsType) => {
     window.insights = mock || {
         chrome: {
