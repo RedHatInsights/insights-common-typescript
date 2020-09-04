@@ -6,13 +6,13 @@ import { onChangePFAdapter } from './Common';
 import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
 import { getOuiaProps } from '../../../utils/Ouia';
 
-interface FormTextInput extends OuiaComponentProps, Omit<TextInputProps, 'onChange' | 'innerRef'> {
+interface FormTextInputProps extends OuiaComponentProps, Omit<TextInputProps, 'onChange' | 'innerRef'> {
     id: string;
     name: string;
     hint?: string;
 }
 
-export const FormTextInput: React.FunctionComponent<FormTextInput> = (props) => {
+export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props) => {
     const { hint, ...otherProps } = props;
     const [ field, meta ] = useField({ ...otherProps });
     const isValid = !meta.error || !meta.touched;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ouiaSelectors, ouiaSelectorsFor } from '../..';
+import { ouiaSelectors, ouiaSelectorsFor } from '../../../dev';
 import { render } from '@testing-library/react';
 
 describe('src/utils/OuiaSelectors', () => {

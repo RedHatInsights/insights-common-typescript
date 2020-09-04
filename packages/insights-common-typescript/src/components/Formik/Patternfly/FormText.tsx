@@ -3,13 +3,13 @@ import { useField } from 'formik';
 import { FormGroup, Text, TextVariants, TextProps } from '@patternfly/react-core';
 import { getOuiaProps, OuiaComponentProps, withoutOuiaProps } from '../../../utils/Ouia';
 
-interface FormText extends OuiaComponentProps, Omit<TextProps, 'ref'> {
+interface FormTextProps extends OuiaComponentProps, Omit<TextProps, 'ref'> {
     id: string;
     name: string;
     isRequired?: boolean;
 }
 
-export const FormText: React.FunctionComponent<FormText> = (props) => {
+export const FormText: React.FunctionComponent<FormTextProps> = (props) => {
     const [ field, meta ] = useField({ ...props });
     const isValid = !meta.error || !meta.touched;
 

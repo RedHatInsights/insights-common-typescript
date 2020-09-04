@@ -8,17 +8,18 @@
   "bin": {
     "schema": "./lib/cli/schema.js"
   },
+  "files": [
+    "lib/*",
+    "resources/*",
+    "dev/*"
+  ],
   "scripts": {
-    "build": "tsc --build tsconfig-build.json",
+    "build": "rollup --config",
     "ci": "npm-run-all build lint 'test --coverage --forceExit --maxWorkers=4 --detectOpenHandles'",
     "lint": "eslint --ext js,ts,tsx config src",
     "lint:fix": "eslint --ext js,ts,tsx config src --fix",
     "test": "jest --verbose"
   },
-  "files": [
-    "lib/*",
-    "resources/*"
-  ],
   "dependencies": {
     "camelcase": "5.3.1",
     "classnames": "^2.2.6",
