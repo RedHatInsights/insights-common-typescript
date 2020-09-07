@@ -1,5 +1,5 @@
 const realAlertUtils = jest.requireActual('../AlertUtils');
-const alertUtils: any = jest.genMockFromModule('../AlertUtils');
+const alertUtils: any = jest.createMockFromModule('../AlertUtils');
 
 alertUtils.addNotification = jest.fn();
 

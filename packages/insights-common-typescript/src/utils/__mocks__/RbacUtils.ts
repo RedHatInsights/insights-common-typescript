@@ -1,4 +1,4 @@
-const rbac: any = jest.genMockFromModule('../RbacUtils');
+const rbac: any = jest.createMockFromModule('../RbacUtils');
 
 rbac.fetchRBAC = jest.fn(() => (Promise.resolve({
     canReadAll: true,

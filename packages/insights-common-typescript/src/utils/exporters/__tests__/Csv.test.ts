@@ -54,6 +54,7 @@ describe('src/utils/exporters/Csv', () => {
 
                         switch (index) {
                             case 0:
+                                // eslint-disable-next-line jest/no-conditional-expect
                                 expect(row).toEqual({
                                     Justice: 'an',
                                     'Object,and,stuff': 'with some',
@@ -61,6 +62,7 @@ describe('src/utils/exporters/Csv', () => {
                                 });
                                 break;
                             case 1:
+                                // eslint-disable-next-line jest/no-conditional-expect
                                 expect(row).toEqual({
                                     Justice: 'foo,baz',
                                     'Object,and,stuff': '',
@@ -68,6 +70,7 @@ describe('src/utils/exporters/Csv', () => {
                                 });
                                 break;
                             case 2:
+                                // eslint-disable-next-line jest/no-conditional-expect
                                 expect(row).toEqual({
                                     Justice: '"bar,ok"',
                                     'Object,and,stuff': 'with some',
