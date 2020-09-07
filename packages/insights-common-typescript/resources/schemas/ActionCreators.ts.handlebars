@@ -22,7 +22,7 @@ import * as schemas from './Types';
 {{~/each~}}
 {{#*inline "operation"}}
 {{#if summary}}/** {{summary}} */{{/if}}
-export const action{{className name}} = ({{>operation_arg .}}): Action => {
+export const action{{className name}} = ({{>operation_arg .}}): {{>action .}} => {
     const path = '{{@root.servers.[0].variables.basePath.default}}{{path}}'
     {{~#each parameters}}
     {{~#with (deref this @root)}}{{#switch in}}{{#case "path"}}

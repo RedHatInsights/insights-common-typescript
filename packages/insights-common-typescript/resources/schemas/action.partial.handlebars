@@ -1,0 +1,14 @@
+{{~#if responses ~}}
+    Action<
+    {{~#each responses ~}}
+        {{~#if content}}
+            {{~#first content~}}
+                {{~#if this.schema.[$ref]~}}
+                    schemas.{{schemaRefToTypeName this.schema.[$ref]}} | {{ else ~}}
+                    {{> schema this.schema namespace='schemas'}} | {{/if~}}
+            {{~/first~}}
+        {{~/if ~}}
+    {{~/each}}unknown>
+{{~ else ~}}
+Action<unknown>
+{{~/if ~}}

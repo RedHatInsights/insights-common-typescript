@@ -8,31 +8,34 @@ import { OpenAPI3 } from 'openapi3-typescript-codegen/dist/schema';
 import fetch from 'node-fetch';
 import isUrl from 'is-url';
 
-const program = new Command();
-
-program
-.description('Generates the actions needed by react-fetching-library to do the queries out of the openapi.json file')
-.option(
-    '-t, --template-path <template-path>',
-    'Path to load the templates (defaults to local templates)'
-)
-.requiredOption(
-    '-i, --input-file <openapijson-path>',
-    'URL or local path to the openapi.json file.'
-)
-.requiredOption(
-    '-o, --output <output-path>',
-    'Output path to put the generated files'
-);
-program.parse(process.argv);
-
-interface Options {
+export interface Options {
     templatePath?: string;
     inputFile: string;
     output: string;
 }
 
-const execute = async (options: Options) => {
+const getProgram = () => {
+    const program = new Command();
+
+    program
+    .description('Generates the actions needed by react-fetching-library to do the queries out of the openapi.json file')
+    .option(
+        '-t, --template-path <template-path>',
+        'Path to load the templates (defaults to local templates)'
+    )
+    .requiredOption(
+        '-i, --input-file <openapijson-path>',
+        'URL or local path to the openapi.json file.'
+    )
+    .requiredOption(
+        '-o, --output <output-path>',
+        'Output path to put the generated files'
+    );
+
+    return program;
+};
+
+export const execute = async (options: Options) => {
     const templatePath: string = options.templatePath ?? `${__dirname}/../../resources/schemas`;
 
     let inputType = 'file';
@@ -47,7 +50,7 @@ const execute = async (options: Options) => {
         }).then(res => res.text());
     }
 
-    jq.run('.', input, {
+    return jq.run('.', input, {
         sort: true,
         input: inputType
     }).then(output => {
@@ -67,4 +70,8 @@ const execute = async (options: Options) => {
     });
 };
 
-execute(program as unknown as Options);
+if (require.main === module) {
+    const program = getProgram();
+    program.parse(process.argv);
+    execute(program as unknown as Options);
+}
