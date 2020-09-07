@@ -19,8 +19,8 @@ describe('src/cli/schema', () => {
             inputFile: './src/cli/__tests__/policies-openapi.json',
             output: tempSchemaDir
         }).then(() => {
-            expect(log).toHaveBeenCalledWith('tmp/schemas/Types.ts generated')
-            expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated')
+            expect(log).toHaveBeenCalledWith('tmp/schemas/Types.ts generated');
+            expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated');
             expect(existsSync('./tmp/schemas/ActionCreators.ts')).toBeTruthy();
             expect(existsSync('./tmp/schemas/Types.ts')).toBeTruthy();
             rimRaf.sync(tempSchemaDir);
@@ -43,8 +43,8 @@ describe('src/cli/schema', () => {
             output: tempSchemaDir
         }).then(() => {
             (fetchMock as any).restore();
-            expect(log).toHaveBeenCalledWith('tmp/schemas/Types.ts generated')
-            expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated')
+            expect(log).toHaveBeenCalledWith('tmp/schemas/Types.ts generated');
+            expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated');
             expect(existsSync('./tmp/schemas/ActionCreators.ts')).toBeTruthy();
             expect(existsSync('./tmp/schemas/Types.ts')).toBeTruthy();
             rimRaf.sync(tempSchemaDir);
