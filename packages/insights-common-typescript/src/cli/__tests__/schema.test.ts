@@ -23,6 +23,8 @@ describe('src/cli/schema', () => {
             expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated');
             expect(existsSync('./tmp/schemas/ActionCreators.ts')).toBeTruthy();
             expect(existsSync('./tmp/schemas/Types.ts')).toBeTruthy();
+            expect(readFileSync(`${tempSchemaDir}/Types.ts`).toString()).toMatchSnapshot();
+            expect(readFileSync(`${tempSchemaDir}/ActionCreators.ts`).toString()).toMatchSnapshot();
             rimRaf.sync(tempSchemaDir);
         });
     });
@@ -31,7 +33,7 @@ describe('src/cli/schema', () => {
         rimRaf.sync(tempSchemaDir);
 
         (fetchMock as any).get('http://foobar.baz/my-openapi.json', {
-            body: readFileSync('./src/cli/__tests__/policies-openapi.json'),
+            body: readFileSync('./src/cli/__tests__/policies-openapi.json').toString(),
             status: 200
         });
 
@@ -47,6 +49,8 @@ describe('src/cli/schema', () => {
             expect(log).toHaveBeenCalledWith('tmp/schemas/ActionCreators.ts generated');
             expect(existsSync('./tmp/schemas/ActionCreators.ts')).toBeTruthy();
             expect(existsSync('./tmp/schemas/Types.ts')).toBeTruthy();
+            expect(readFileSync(`${tempSchemaDir}/Types.ts`).toString()).toMatchSnapshot();
+            expect(readFileSync(`${tempSchemaDir}/ActionCreators.ts`).toString()).toMatchSnapshot();
             rimRaf.sync(tempSchemaDir);
         });
     });
