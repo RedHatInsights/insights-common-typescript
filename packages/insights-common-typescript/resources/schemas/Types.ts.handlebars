@@ -8,14 +8,57 @@
 * Generated code, DO NOT modify directly.
 */
 /* eslint-disable @typescript-eslint/no-empty-interface */
+import * as z from 'zod';
 
 {{#each components.schemas}}
-{{#if (and? @root.generateEnums (eq? type 'string') enum)}}export enum {{{schemaRefToTypeName @key}}} {
+    {{#if (and? @root.generateEnums (eq? type 'string') enum)}}
+export const {{{schemaRefToTypeName @key}}}Enum = zodSchema{{{schemaRefToTypeName @key}}}();
+export enum {{{schemaRefToTypeName @key}}} {
 {{#each enum}}
-  {{.}} = '{{value this ''}}',
+    {{.}} = '{{value this ''}}',
 {{/each}}
 }
-{{else}}{{#if (or? (eq? type 'object') (eq? type undefined))}}export interface {{{schemaRefToTypeName @key}}} {{> schema}}
+
+    {{else}}
+export const {{{schemaRefToTypeName @key}}} = zodSchema{{{schemaRefToTypeName @key}}}();
+{{#if (or? (eq? type 'object') (eq? type undefined))}}export interface {{{schemaRefToTypeName @key}}} {{> schema}}
 {{else}}export type {{{schemaRefToTypeName @key}}} = {{> schema}};
-{{/if}}{{/if}}
+{{/if}}
+
+    {{/if}}
+{{/each}}
+
+{{#each components.schemas}}
+{{#if (and? @root.generateEnums (eq? type 'string') enum)}}
+function zodSchema{{{schemaRefToTypeName @key}}}() {
+    return z.nativeEnum({{{schemaRefToTypeName @key}}})
+}
+{{else}}
+
+function zodSchema{{schemaRefToTypeName @key}}() {
+    return
+{{~#if (or? properties additionalProperties)}}
+    {{#if (and? properties additionalProperties)}}
+ z.union([
+    {{/if}}
+    {{#if properties}}
+ z.object({
+     {{> zodschema}} })
+    {{~/if~}}
+    {{#if (and? properties additionalProperties)}}
+,
+    {{/if}}
+    {{~#if additionalProperties}}
+ z.record({{> zodschema additionalProperties namespace=../namespace }})
+    {{~/if~}}
+    {{#if (and? properties additionalProperties)}}
+        )]
+    {{/if}}
+{{~else}}
+ z.void()
+{{~/if~}}
+;
+}
+
+{{/if}}
 {{/each}}
