@@ -13,6 +13,7 @@ export class ActionBuilder {
     private readonly _url: string;
     private _queryParams?: QueryParamsType;
     private _data?: unknown;
+    private _config: any;
 
     public constructor(method: Method, url: string) {
         this._method = method;
@@ -29,13 +30,19 @@ export class ActionBuilder {
         return this;
     }
 
+    public config(config: any) {
+        this._config = config;
+        return this;
+    }
+
     public build(): Action {
         const endpoint = this.getUrl() + this.buildQueryString();
 
         return {
             method: this.getMethod(),
             endpoint,
-            body: this.getData()
+            body: this.getData(),
+            config: this._config
         };
     }
 

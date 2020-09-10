@@ -1,4 +1,4 @@
-import { createClient, RequestInterceptor } from 'react-fetching-library';
+import { createClient, RequestInterceptor, ResponseInterceptor } from 'react-fetching-library';
 import { InsightsType } from './Insights';
 
 const getRefreshAuthTokenInterceptor = (getInsights: () => InsightsType): RequestInterceptor => (_client) => (action) => {
@@ -6,8 +6,17 @@ const getRefreshAuthTokenInterceptor = (getInsights: () => InsightsType): Reques
     .then(() => action);
 };
 
-export const createFetchingClient = (getInsights: () => InsightsType) => createClient({
+interface FetchingClientOptions {
+    requestInterceptors?: Array<RequestInterceptor>;
+    responseInterceptors?: Array<ResponseInterceptor>;
+}
+
+export const createFetchingClient = (getInsights: () => InsightsType, options?: FetchingClientOptions) => createClient({
     requestInterceptors: [
-        getRefreshAuthTokenInterceptor(getInsights)
+        getRefreshAuthTokenInterceptor(getInsights),
+        ...(options?.requestInterceptors ?? [])
+    ],
+    responseInterceptors: [
+        ...(options?.responseInterceptors ?? [])
     ]
 });

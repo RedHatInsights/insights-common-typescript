@@ -7,6 +7,7 @@ import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript
 import { Action } from 'react-fetching-library';
 import * as schemas from './Types';
 
+// Operations request params
 {{#each paths as |operations path|~}}
     {{~#with operations.get}}{{>request_params method="GET" path=path name=(coalesce operationId (concat 'get' (className @path)))}}{{/with}}
     {{~#with operations.post}}{{>request_params method="POST" path=path name=(coalesce operationId (concat 'post' (className @path)))}}{{/with}}
@@ -14,6 +15,7 @@ import * as schemas from './Types';
     {{~#with operations.delete}}{{>request_params method="DELETE" path=path name=(coalesce operationId (concat 'delete' (className @path)))}}{{/with}}
 {{~/each}}
 
+// Operations
 {{#each paths as |operations path|}}
     {{~#with operations.get}}{{>operation method="GET" path=path name=(coalesce operationId (concat 'get' (className @path)))}}{{/with}}
     {{~#with operations.post}}{{>operation method="POST" path=path name=(coalesce operationId (concat 'post' (className @path)))}}{{/with}}
