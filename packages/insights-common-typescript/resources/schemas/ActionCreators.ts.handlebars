@@ -3,8 +3,9 @@
 */
 /* eslint-disable max-len */
 
-import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
+import { actionBuilder, ValidatedActionContent } from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
+import * as z from 'zod';
 import * as schemas from './Types';
 
 // Operations request params
@@ -13,6 +14,14 @@ import * as schemas from './Types';
     {{~#with operations.post}}{{>request_params method="POST" path=path name=(coalesce operationId (concat 'post' (className @path)))}}{{/with}}
     {{~#with operations.put}}{{>request_params method="PUT" path=path name=(coalesce operationId (concat 'put' (className @path)))}}{{/with}}
     {{~#with operations.delete}}{{>request_params method="DELETE" path=path name=(coalesce operationId (concat 'delete' (className @path)))}}{{/with}}
+{{~/each}}
+
+// Operations anonymous responses
+{{#each paths as |operations path|~}}
+    {{~#with operations.get}}{{>response_anonymous_params method="GET" path=path name=(coalesce operationId (concat 'get' (className @path)))}}{{/with}}
+    {{~#with operations.post}}{{>response_anonymous_params method="POST" path=path name=(coalesce operationId (concat 'post' (className @path)))}}{{/with}}
+    {{~#with operations.put}}{{>response_anonymous_params method="PUT" path=path name=(coalesce operationId (concat 'put' (className @path)))}}{{/with}}
+    {{~#with operations.delete}}{{>response_anonymous_params method="DELETE" path=path name=(coalesce operationId (concat 'delete' (className @path)))}}{{/with}}
 {{~/each}}
 
 // Operations

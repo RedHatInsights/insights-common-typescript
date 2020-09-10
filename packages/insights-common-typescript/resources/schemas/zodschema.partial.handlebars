@@ -3,23 +3,25 @@
   {{#with namespace}}{{this}}.{{/with}}zodSchema{{schemaRefToTypeName this.[$ref]}}()
 {{~else~}}
 {{~#if allOf~}}
-  {{#each allOf}}{{> zodschema namespace=../namespace}}{{#unless @last}} & {{/unless}}{{/each}}
+  z.union([{{#each allOf}}{{> zodschema namespace=../namespace}}{{#unless @last}}, {{/unless}}{{/each}}])
 {{~else~}}
 {{~#if oneOf~}}
-  {{#each oneOf}}{{> zodschema namespace=../namespace}}{{#unless @last}} | {{/unless}}{{/each}}
+  z.intersection({{#each oneOf}}{{> zodschema namespace=../namespace}}{{#unless @last}}, {{/unless}}{{/each}})
 {{~else~}}
 {{~#if anyOf~}}
-  {{#each anyOf}}{{> zodschema namespace=../namespace}}{{#unless @last}} | {{/unless}}{{/each}}
+  z.intersection({{#each anyOf}}{{> zodschema namespace=../namespace}}{{#unless @last}}, {{/unless}}{{/each}})
 {{~else~}}
 {{~#if enum~}}
-  {{#each enum~}}
-    {{#switch ../type}}
-        {{#case "string"}}'{{value this ''}}'{{/case~}}
-        {{else~}}
+z.enum([
+  {{~#each enum~}}
+    {{~#switch ../type}}
+        {{~#case "string"}} '{{value this ''}}'{{/case~}}
+        {{~else~}}
         {{value this ../type~}}
     {{/switch~}}
-    {{#unless @last}} | {{/unless}}
+    {{#unless @last}}, {{/unless}}
   {{~/each}}
+])
 {{~else~}}
 {{#switch type}}
 {{#case "array"}}z.array({{> zodschema items namespace=namespace}}){{/case~}}
@@ -28,6 +30,7 @@
 {{#case "string"}}z.string(){{/case~}}
 {{#case "boolean"}}z.boolean(){{/case~}}
 {{#case "null"}}z.null(){{/case~}}
+{{#case undefined}}z.unknown(){{/case~}}
 {{else}}
 {{#each properties}}
     {{@key}}: {{> zodschema namespace=../namespace}}{{#unless (in? ../required @key)}}.optional(){{/unless}},

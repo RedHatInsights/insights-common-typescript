@@ -30,12 +30,12 @@ export const {{{schemaRefToTypeName @key}}} = zodSchema{{{schemaRefToTypeName @k
 
 {{#each components.schemas}}
 {{#if (and? @root.generateEnums (eq? type 'string') enum)}}
-function zodSchema{{{schemaRefToTypeName @key}}}() {
+export function zodSchema{{{schemaRefToTypeName @key}}}() {
     return z.nativeEnum({{{schemaRefToTypeName @key}}})
 }
 {{else}}
 
-function zodSchema{{schemaRefToTypeName @key}}() {
+export function zodSchema{{schemaRefToTypeName @key}}() {
     return
 {{~#if (or? properties additionalProperties)}}
     {{#if (and? properties additionalProperties)}}
