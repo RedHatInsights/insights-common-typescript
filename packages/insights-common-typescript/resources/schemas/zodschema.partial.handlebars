@@ -31,10 +31,14 @@ z.enum([
 {{#case "boolean"}}z.boolean(){{/case~}}
 {{#case "null"}}z.null(){{/case~}}
 {{#case undefined}}z.unknown(){{/case~}}
-{{else}}
-{{#each properties}}
+{{#case "object"}}
+z.object({
+{{~#each properties}}
     {{@key}}: {{> zodschema namespace=../namespace}}{{#unless (in? ../required @key)}}.optional(){{/unless}},
-{{/each}}
+{{/each~}}
+})
+{{/case}}
+{{else}}
 {{/switch}}
 {{~/if~}}
 {{~/if~}}

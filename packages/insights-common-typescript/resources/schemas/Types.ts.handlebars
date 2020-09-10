@@ -8,16 +8,44 @@
 * Generated code, DO NOT modify directly.
 */
 /* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import * as z from 'zod';
 
 {{#each components.schemas}}
     {{#if (and? @root.generateEnums (eq? type 'string') enum)}}
-export const {{{schemaRefToTypeName @key}}}Enum = zodSchema{{{schemaRefToTypeName @key}}}();
-export enum {{{schemaRefToTypeName @key}}} {
-{{#each enum}}
-    {{.}} = '{{value this ''}}',
+export const {{{schemaRefToTypeName @key}}} = zodSchema{{{schemaRefToTypeName @key}}}();
+export type {{{schemaRefToTypeName @key}}} =
+{{~#each enum~}}
+    {{~#switch ../type}}
+        {{~#case "string"}} '{{value this ''}}'{{/case~}}
+        {{~else~}}
+        {{value this ../type~}}
+    {{/switch~}}
+    {{#unless @last}}| {{/unless}}
+{{~/each}}
+
+type {{{schemaRefToTypeName @key}}}Enum = {
+{{#each enum~}}
+    {{~#switch ../type}}
+        {{#case "string"}} '{{value this ''}}': '{{value this ''}}';{{/case~}}
+
+        {{else~}}
+        '{{value this ../type~}}': {{value this ../type~}};
+
+    {{/switch~}}
 {{/each}}
 }
+
+export const {{{schemaRefToTypeName @key}}}Enum: Readonly<{{{schemaRefToTypeName @key}}}Enum> = {
+{{#each enum~}}
+    {{~#switch ../type}}
+        {{~#case "string"}} '{{value this ''}}': '{{value this ''}}'{{/case~}}
+        {{~else~}}
+        {{value this ../type~}}: {{value this ../type~}}
+    {{/switch~}}
+    {{#unless @last}}, {{/unless}}
+{{/each}}
+};
 
     {{else}}
 export const {{{schemaRefToTypeName @key}}} = zodSchema{{{schemaRefToTypeName @key}}}();
@@ -31,7 +59,7 @@ export const {{{schemaRefToTypeName @key}}} = zodSchema{{{schemaRefToTypeName @k
 {{#each components.schemas}}
 {{#if (and? @root.generateEnums (eq? type 'string') enum)}}
 export function zodSchema{{{schemaRefToTypeName @key}}}() {
-    return z.nativeEnum({{{schemaRefToTypeName @key}}})
+    return z.enum({{{schemaRefToTypeName @key}}})
 }
 {{else}}
 
@@ -42,8 +70,7 @@ export function zodSchema{{schemaRefToTypeName @key}}() {
  z.union([
     {{/if}}
     {{#if properties}}
- z.object({
-     {{> zodschema}} })
+     {{> zodschema}}
     {{~/if~}}
     {{#if (and? properties additionalProperties)}}
 ,
