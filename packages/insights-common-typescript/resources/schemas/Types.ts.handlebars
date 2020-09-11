@@ -82,7 +82,7 @@ export function zodSchema{{schemaRefToTypeName @key}}() {
         )]
     {{/if}}
 {{~else}}
- z.void()
+{{#if type}} {{>zodschema}}{{~/if~}}
 {{~/if~}}
 ;
 }
