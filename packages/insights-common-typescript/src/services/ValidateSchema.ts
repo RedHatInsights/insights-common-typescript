@@ -22,6 +22,7 @@ export const validateSchema =
         const errors: Array<z.ZodError> = [];
         for (const rule of rules) {
             if (rule.status === response.status) {
+                console.log('running validation for rule', rule);
                 const result = rule.zod.safeParse(response.payload);
                 if (result.success) {
                     return {
@@ -32,6 +33,7 @@ export const validateSchema =
                     };
                 }
 
+                console.log('pushing error', result.error);
                 errors.push(result.error);
             }
         }

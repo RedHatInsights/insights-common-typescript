@@ -1,0 +1,630 @@
+{
+  "openapi" : "3.0.3",
+  "info" : {
+    "title" : "Generated API",
+    "version" : "1.0"
+  },
+  "paths" : {
+    "/api/notifications/v1.0/endpoints" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Endpoint"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Endpoint"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Endpoint"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/v1.0/endpoints/{id}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Endpoint"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Endpoint"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/v1.0/endpoints/{id}/enable" : {
+      "put" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/v1.0/endpoints/{id}/history" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/NotificationHistory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/v1.0/endpoints/{id}/history/{history_id}/details" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "history_id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/UUID"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Date" : {
+        "format" : "date",
+        "type" : "string"
+      },
+      "UUID" : {
+        "format" : "uuid",
+        "pattern" : "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+        "type" : "string"
+      },
+      "Attributes" : {
+        "type" : "object"
+      },
+      "HttpType" : {
+        "enum" : [ "GET", "POST" ],
+        "type" : "string"
+      },
+      "WebhookAttributes" : {
+        "required" : [ "method", "url" ],
+        "type" : "object",
+        "properties" : {
+          "disable_ssl_verification" : {
+            "type" : "boolean"
+          },
+          "method" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/HttpType"
+            }, {
+              "enum" : [ "GET", "POST" ],
+              "nullable" : false
+            } ]
+          },
+          "secret_token" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string",
+            "nullable" : false
+          }
+        }
+      },
+      "EmailAttributes" : {
+        "type" : "object"
+      },
+      "EndpointType" : {
+        "enum" : [ "webhook", "email" ],
+        "type" : "string"
+      },
+      "Endpoint" : {
+        "required" : [ "description", "name", "properties", "type" ],
+        "type" : "object",
+        "properties" : {
+          "created" : {
+            "$ref" : "#/components/schemas/Date"
+          },
+          "description" : {
+            "type" : "string",
+            "nullable" : false
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "name" : {
+            "type" : "string",
+            "nullable" : false
+          },
+          "properties" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Attributes"
+            }, {
+              "oneOf" : [ {
+                "$ref" : "#/components/schemas/WebhookAttributes"
+              }, {
+                "$ref" : "#/components/schemas/EmailAttributes"
+              } ],
+              "nullable" : false
+            } ]
+          },
+          "type" : {
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/EndpointType"
+            }, {
+              "enum" : [ "webhook", "email" ],
+              "nullable" : false
+            } ]
+          },
+          "updated" : {
+            "$ref" : "#/components/schemas/Date"
+          }
+        }
+      },
+      "SetString" : {
+        "uniqueItems" : true,
+        "type" : "array",
+        "items" : {
+          "type" : "string"
+        }
+      },
+      "NewCookie" : {
+        "type" : "object",
+        "properties" : {
+          "domain" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "path" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          },
+          "version" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "comment" : {
+            "type" : "string"
+          },
+          "expiry" : {
+            "$ref" : "#/components/schemas/Date"
+          },
+          "httpOnly" : {
+            "type" : "boolean"
+          },
+          "maxAge" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "secure" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "MapStringNewCookie" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "$ref" : "#/components/schemas/NewCookie"
+        }
+      },
+      "EntityTag" : {
+        "type" : "object",
+        "properties" : {
+          "value" : {
+            "type" : "string"
+          },
+          "weak" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "MultivaluedMapStringObject" : {
+        "type" : "object",
+        "additionalProperties" : { }
+      },
+      "Locale" : {
+        "type" : "object",
+        "properties" : {
+          "country" : {
+            "type" : "string"
+          },
+          "displayCountry" : {
+            "type" : "string"
+          },
+          "displayLanguage" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "displayScript" : {
+            "type" : "string"
+          },
+          "displayVariant" : {
+            "type" : "string"
+          },
+          "extensionKeys" : {
+            "$ref" : "#/components/schemas/SetCharacter"
+          },
+          "iSO3Country" : {
+            "type" : "string"
+          },
+          "iSO3Language" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "script" : {
+            "type" : "string"
+          },
+          "unicodeLocaleAttributes" : {
+            "$ref" : "#/components/schemas/SetString"
+          },
+          "unicodeLocaleKeys" : {
+            "$ref" : "#/components/schemas/SetString"
+          },
+          "variant" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "params" : {
+            "$ref" : "#/components/schemas/MapStringString"
+          },
+          "rel" : {
+            "type" : "string"
+          },
+          "rels" : {
+            "$ref" : "#/components/schemas/ListString"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "uri" : {
+            "$ref" : "#/components/schemas/URI"
+          },
+          "uriBuilder" : {
+            "$ref" : "#/components/schemas/UriBuilder"
+          }
+        }
+      },
+      "SetLink" : {
+        "uniqueItems" : true,
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Link"
+        }
+      },
+      "URI" : {
+        "format" : "uri",
+        "type" : "string"
+      },
+      "MediaType" : {
+        "type" : "object",
+        "properties" : {
+          "parameters" : {
+            "$ref" : "#/components/schemas/MapStringString"
+          },
+          "subtype" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "wildcardSubtype" : {
+            "type" : "boolean"
+          },
+          "wildcardType" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "StatusType" : {
+        "type" : "object",
+        "properties" : {
+          "family" : {
+            "$ref" : "#/components/schemas/Family"
+          },
+          "reasonPhrase" : {
+            "type" : "string"
+          },
+          "statusCode" : {
+            "format" : "int32",
+            "type" : "integer"
+          }
+        }
+      },
+      "MultivaluedMapStringString" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "string"
+        }
+      },
+      "Family" : {
+        "enum" : [ "CLIENT_ERROR", "INFORMATIONAL", "OTHER", "REDIRECTION", "SERVER_ERROR", "SUCCESSFUL" ],
+        "type" : "string"
+      },
+      "MapStringString" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "string"
+        }
+      },
+      "ListString" : {
+        "type" : "array",
+        "items" : {
+          "type" : "string"
+        }
+      },
+      "UriBuilder" : {
+        "type" : "object"
+      },
+      "SetCharacter" : {
+        "uniqueItems" : true,
+        "type" : "array",
+        "items" : {
+          "format" : "byte",
+          "type" : "string"
+        }
+      },
+      "Response" : {
+        "type" : "object",
+        "properties" : {
+          "allowedMethods" : {
+            "$ref" : "#/components/schemas/SetString"
+          },
+          "cookies" : {
+            "$ref" : "#/components/schemas/MapStringNewCookie"
+          },
+          "date" : {
+            "$ref" : "#/components/schemas/Date"
+          },
+          "entity" : {
+            "type" : "object"
+          },
+          "entityTag" : {
+            "$ref" : "#/components/schemas/EntityTag"
+          },
+          "headers" : {
+            "$ref" : "#/components/schemas/MultivaluedMapStringObject"
+          },
+          "language" : {
+            "$ref" : "#/components/schemas/Locale"
+          },
+          "lastModified" : {
+            "$ref" : "#/components/schemas/Date"
+          },
+          "length" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/SetLink"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/URI"
+          },
+          "mediaType" : {
+            "$ref" : "#/components/schemas/MediaType"
+          },
+          "metadata" : {
+            "$ref" : "#/components/schemas/MultivaluedMapStringObject"
+          },
+          "status" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "statusInfo" : {
+            "$ref" : "#/components/schemas/StatusType"
+          },
+          "stringHeaders" : {
+            "$ref" : "#/components/schemas/MultivaluedMapStringString"
+          }
+        }
+      },
+      "JsonObject" : {
+        "type" : "array"
+      },
+      "NotificationHistory" : {
+        "type" : "object",
+        "properties" : {
+          "created" : {
+            "$ref" : "#/components/schemas/Date"
+          },
+          "details" : {
+            "$ref" : "#/components/schemas/JsonObject"
+          },
+          "endpointId" : {
+            "$ref" : "#/components/schemas/UUID"
+          },
+          "id" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "invocationResult" : {
+            "type" : "boolean"
+          },
+          "invocationTime" : {
+            "format" : "int64",
+            "type" : "integer"
+          }
+        }
+      }
+    }
+  }
+}

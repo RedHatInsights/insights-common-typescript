@@ -32,7 +32,7 @@
 {{#case "null"}}null{{/case~}}
 {{else}}{
 {{#each properties}}
-  {{@key}}{{#unless (in? ../required @key)}}?{{/unless}}: {{> schema namespace=../namespace}};
+  {{@key}}{{#unless (in? ../required @key)}}?{{/unless}}: {{#unless (in? ../required @key)}}null | {{/unless}} {{> schema namespace=../namespace}};
 {{/each}}
 {{#with additionalProperties}}
   [key: string]: {{> schema namespace=../namespace}};

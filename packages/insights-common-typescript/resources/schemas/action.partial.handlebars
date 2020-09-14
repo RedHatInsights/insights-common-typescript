@@ -1,14 +1,5 @@
 {{~#if responses ~}}
-    Action<
-    {{~#each responses ~}}
-        {{~#if content.[application/json]}}
-            {{~#with content.[application/json]~}}
-                {{~#if this.schema.[$ref]~}}
-                    ValidatedActionContent<'{{schemaRefToTypeName this.schema.[$ref]}}', {{@key}}, schemas.{{schemaRefToTypeName this.schema.[$ref]}}> | {{ else ~}}
-                    ValidatedActionContent<'unnamed', {{@key}}, z.infer<typeof AnonymousZodSchema{{className ../../name}}{{@key}}>> | {{/if~}}
-            {{~/with~}}
-        {{~/if ~}}
-    {{~/each}}ValidatedActionContent<undefined, undefined, unknown>>
+    Action<Action{{className name}}Type>
 {{~ else ~}}
 Action<unknown>
 {{~/if ~}}

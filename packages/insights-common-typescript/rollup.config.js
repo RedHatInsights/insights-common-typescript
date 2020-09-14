@@ -61,7 +61,7 @@ const config = [
             }),
             compiler()
         ],
-        external: getDependencies()
+        external: [ ...getDependencies(), 'fs' ]
     }
 ];
 

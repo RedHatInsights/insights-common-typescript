@@ -5,7 +5,7 @@ import { QueryResponse } from 'react-fetching-library';
 // An alternative would be to have specific adapters for each request, pass the payload and status and let
 // them transform or just pass the errors as needed.
 const transformPayload = <FROM, TO>(payload: FROM | undefined, status: number | undefined, adapter: (from: FROM) => TO): TO | undefined => {
-    if ((status === 200 || status === 201) && payload) {
+    if (payload) {
         return adapter(payload);
     }
 

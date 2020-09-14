@@ -6,7 +6,9 @@ import { CLIEngine } from 'eslint';
 import { Codegen } from 'openapi3-typescript-codegen/dist/codegen';
 import { OpenAPI3 } from 'openapi3-typescript-codegen/dist/schema';
 import fetch from 'node-fetch';
+import prettier from 'prettier';
 import isUrl from 'is-url';
+import fs from 'fs';
 
 export interface Options {
     templatePath?: string;
@@ -61,6 +63,21 @@ export const execute = async (options: Options) => {
                 generateEnums: true
             }
         ).generate(JSON.parse(output as string) as OpenAPI3);
+    }).then(() => {
+        return Promise.resolve(fs.readdirSync(options.output))
+        .then(files => files.filter(f => f.endsWith('ts')))
+        .then(files => files.forEach(
+            f => {
+                const path = `${options.output}/${f}`;
+                const result = prettier.format(
+                    fs.readFileSync(path).toString(),
+                    {
+                        parser: 'typescript'
+                    }
+                );
+                fs.writeFileSync(path, result);
+            }
+        ));
     }).then(async () => {
         const eslint = new CLIEngine({
             fix: true
