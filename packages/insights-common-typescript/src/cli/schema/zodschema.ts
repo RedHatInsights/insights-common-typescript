@@ -17,10 +17,19 @@ class SchemaBase {
         this.buffer = buffer;
     }
 
-    protected properties(properties: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>) {
+    protected properties(properties: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>, required: Array<string>) {
         Object.entries(properties).forEach(([ key, schema ], index, array) => {
             this.append(`${key}: `);
             this.schema(schema);
+
+            if (!required.includes(key)) {
+                this.append('.optional()');
+                const realSchema = this.deRef(schema);
+                if (realSchema.nullable === undefined) {
+                    this.append('.nullable()');
+                }
+            }
+
             if (array.length !== index + 1) {
                 this.append(',\n');
             }
@@ -35,7 +44,7 @@ class SchemaBase {
 
             if (schema.properties) {
                 this.append('z.object({\n');
-                this.properties(schema.properties);
+                this.properties(schema.properties, (schema.required ?? []) as Array<string>);
                 this.append('})\n');
             }
 
@@ -75,7 +84,7 @@ class SchemaBase {
 
     protected schema(schema: OpenAPI3.Schema | OpenAPI3.Reference) {
         if (isReference(schema)) {
-            return this.append(`${this.functionName(this.refToName(schema.$ref))}()`);
+            this.append(`${this.functionName(this.refToName(schema))}()`);
         } else {
             if (schema.allOf) {
                 let open = 0;
@@ -129,23 +138,37 @@ class SchemaBase {
             } else {
                 switch (schema.type) {
                     case 'array':
-                        return this.array({ ...schema, type: 'array' });
+                        this.array({ ...schema, type: 'array' });
+                        break;
                     case 'number':
-                        return this.append('z.number()');
+                        this.append('z.number()');
+                        break;
                     case 'integer':
-                        return this.append('z.number().int()');
+                        this.append('z.number().int()');
+                        break;
                     case 'string':
-                        return this.append('z.string()');
+                        this.append('z.string()');
+                        break;
                     case 'boolean':
-                        return this.append('z.boolean()');
+                        this.append('z.boolean()');
+                        break;
                     case 'null':
-                        return this.append('z.null()');
+                        this.append('z.null()');
+                        break;
                     case undefined:
-                        return this.append('z.unknown()');
+                        this.append('z.unknown()');
+                        break;
                     case 'object':
-                        return this.object({ ...schema, type: 'object' });
+                        this.object({ ...schema, type: 'object' });
+                        break;
                 }
             }
+        }
+
+        const realSchema = this.deRef(schema);
+
+        if (realSchema.nullable === true) {
+            this.append('.nullable()');
         }
     }
 
@@ -155,19 +178,36 @@ class SchemaBase {
         }
     }
 
-    protected refToName(ref: string) {
-        const [ last ] = ref.split('/').reverse();
+    protected refToName(reference: OpenAPI3.Reference) {
+        const [ last ] = reference.$ref.split('/').reverse();
         return last;
     }
 
-    protected deRef(ref: string): OpenAPI3.Schema | OpenAPI3.Reference {
-        const schemas = this.openapi?.components?.schemas;
-        const schema = schemas && schemas[this.refToName(ref)];
-        if (!schema) {
-            throw new Error(`Unknown schema found: ${ref}`);
+    protected deRef<T>(ref: T | OpenAPI3.Reference): T {
+        if (isReference(ref)) {
+            const path = ref.$ref.split('/');
+            if (path.length < 2 && path[0] !== '#') {
+                throw new Error(`Invalid reference found ${ref.$ref}`);
+            }
+
+            let current;
+            for (const segment of path) {
+                if (segment === '#') {
+                    current = this.openapi;
+                } else {
+                    const next = current[segment];
+                    if (!current) {
+                        throw new Error(`Invalid reference found ${ref.$ref} when processing ${segment} in context: ${current}`);
+                    }
+
+                    current = next;
+                }
+            }
+
+            return current as T;
         }
 
-        return schema as OpenAPI3.Schema | OpenAPI3.Reference;
+        return ref;
     }
 
     protected functionName(name: string) {
@@ -181,7 +221,7 @@ class SchemaBase {
     // This function could be easy to break if we introduce any other unknown
     protected isUnknown(schema: OpenAPI3.Schema | OpenAPI3.Reference): boolean {
         if (isReference(schema)) {
-            return this.isUnknown(this.deRef(schema.$ref));
+            return this.isUnknown(this.deRef(schema));
         } else {
             if (schema.type === 'object') {
                 return !(schema.properties || schema.additionalProperties);
@@ -220,6 +260,7 @@ export class SchemaTypeBuilder extends SchemaBase {
     private functionTypes(schemas: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>) {
         for (const [ typeName, schema ] of Object.entries(schemas)) {
             this.append(`export function ${this.functionName(typeName)}() {\nreturn `);
+            // Making top-level schemas required unless `required` is defined
             this.schema(schema);
             this.append(';\n}\n\n');
         }
@@ -250,8 +291,10 @@ export class SchemaActionBuilder extends SchemaBase {
                             );
                         }
 
-                        this.anonymousType(pathKey, verb, currentPath);
+                        this.anonymousTypes(pathKey, verb, currentPath);
                         this.params(pathKey, verb, currentPath);
+                        this.actions(pathKey, verb, currentPath);
+                        this.append('\n');
                     }
                 }
             }
@@ -259,16 +302,17 @@ export class SchemaActionBuilder extends SchemaBase {
     }
 
     private filteredParameters(parameters: Array<OpenAPI3.Parameter | OpenAPI3.Reference>) {
-        return parameters.filter(p => p && (isReference(p) || p.in !== 'cookie'));
+        return parameters.map(p => this.deRef(p)).filter(p => p && p.in !== 'cookie');
     }
 
-    private anonymousType(path: string, verb: Verb, operation: OpenAPI3.Operation) {
+    private anonymousTypes(path: string, verb: Verb, operation: OpenAPI3.Operation) {
         if (operation.parameters) {
             this.filteredParameters(operation.parameters).forEach(p => {
-                if (!isReference(p) && p.schema && !isReference(p.schema)) {
+                if (p.schema && !isReference(p.schema)) {
+                    const isRequired = !!p.required || p.in === 'path';
                     const propName = this.anonymousParamTypeName(path, verb, p.name);
                     this.append(`const ${propName} = `);
-                    this.schema(p.schema);
+                    this.schema({ ...p.schema, required: isRequired });
                     this.append(';\n');
                     this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
                 }
@@ -276,7 +320,7 @@ export class SchemaActionBuilder extends SchemaBase {
         }
 
         if (operation.requestBody) {
-            const bodySchema = this.requestBodySchema(operation.requestBody);
+            const bodySchema = this.requestBodyOrResponseSchema(operation.requestBody);
             if (bodySchema) {
                 const propName = this.anonymousParamTypeName(path, verb, 'body');
                 this.append(`const ${propName} = `);
@@ -285,30 +329,40 @@ export class SchemaActionBuilder extends SchemaBase {
                 this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
             }
         }
+
+        if (operation.responses) {
+            for (const [ status, response ] of Object.entries(operation.responses)) {
+                const responseSchema = this.requestBodyOrResponseSchema(response);
+                if (responseSchema) {
+                    const propName = this.responseTypeName(path, verb, status, response);
+                    this.append(`const ${propName} = `);
+                    this.schema(responseSchema);
+                    this.append(';\n');
+                    this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
+                }
+            }
+        }
     }
 
     private params(path: string, verb: Verb, operation: OpenAPI3.Operation) {
         if ((operation.parameters && operation.parameters.length > 0) || operation.requestBody) {
-            this.append(`export interface ${this.paramsName(path, verb)} {\n`);
+            this.append(`export interface ${this.endpointName(path, verb)} {\n`);
             if (operation.parameters) {
                 this.filteredParameters(operation.parameters).forEach((p, index, array) => {
-                    if (isReference(p)) {
-                        throw new Error(`Not sure what to do with this reference ${verb} ${path} ${p.$ref}`);
-                    } else {
-                        this.append(`'${p.name}'${p.required ? '' : '?'}:`);
-                        if (p.schema) {
-                            if (isReference(p.schema)) {
-                                this.append(this.typeName(this.refToName(p.schema.$ref)));
-                            } else {
-                                this.append(this.anonymousParamTypeName(path, verb, p.name));
-                            }
+                    const isRequired = !!p.required || p.in === 'path';
+                    this.append(`'${this.paramName(p.name)}'${isRequired ? '' : '?'}:`);
+                    if (p.schema) {
+                        if (isReference(p.schema)) {
+                            this.append(this.typeName(this.refToName(p.schema)));
                         } else {
-                            this.append('unknown');
+                            this.append(this.anonymousParamTypeName(path, verb, p.name));
                         }
+                    } else {
+                        this.append('unknown');
+                    }
 
-                        if (array.length !== index + 1) {
-                            this.append(',\n');
-                        }
+                    if (operation.requestBody || array.length !== index + 1) {
+                        this.append(',\n');
                     }
                 });
             }
@@ -317,9 +371,13 @@ export class SchemaActionBuilder extends SchemaBase {
                 const typeName = this.requestBodySchemaTypeName(path, verb, operation.requestBody);
                 this.append('body');
                 if (isReference(operation.requestBody)) {
-                    this.append(``)
+                    this.append(`: ${typeName}`);
                 } else {
+                    if (!operation.requestBody.required) {
+                        this.append('?');
+                    }
 
+                    this.append(`: ${typeName}`);
                 }
             }
 
@@ -327,11 +385,87 @@ export class SchemaActionBuilder extends SchemaBase {
         }
     }
 
-    private requestBodySchema(requestBody: OpenAPI3.RequestBody | OpenAPI3.Reference): OpenAPI3.Schema | undefined {
-        if (!isReference(requestBody) && requestBody.content) {
-            const keys = Object.keys(requestBody.content);
+    private actions(path: string, verb: Verb, operation: OpenAPI3.Operation) {
+        if (operation.responses) {
+            const actionType = this.actionEndpointType(path, verb);
+            const payloadType = this.payloadEndpointType(path, verb);
+            this.append(`export type ${payloadType} = `);
+
+            const responsesEntries = Object.entries(operation.responses);
+            if (responsesEntries.length > 0) {
+                responsesEntries.forEach(([ status, response ]) => {
+                    const responseType = this.responseTypeName(path, verb, status, response);
+                    this.append(`ValidatedResponse<'${responseType}',${status}, ${responseType}>`);
+
+                    this.append('| ');
+                });
+            }
+
+            this.append('ValidatedResponse<\'unknown\', undefined, unknown>;\n');
+
+            this.append(`export type ${actionType} = Action<${payloadType}, ActionValidatable>;`);
+            if (operation.summary) {
+                this.append(`/** ${operation.summary} /\n`);
+            }
+
+            this.append(`export const ${this.functionEndpointType(path, verb)} = (`);
+            if ((operation.parameters && operation.parameters.length > 0) || operation.requestBody) {
+                this.append(`params: ${this.endpointName(path, verb)}`);
+            }
+
+            this.append(`): ${actionType} => {\n`);
+
+            // Path params
+            this.append(`const path = \'${this.absolutePath(path)}\'\n`);
+            if (operation.parameters) {
+                this.filteredParameters(operation.parameters).filter(p => p.in === 'path').forEach(param => {
+                    this.append(`.replace('{${param.name}}', params.${this.paramName(param.name)}.toString())\n`);
+                });
+            }
+
+            this.append(';\n');
+
+            // Query params
+            this.append('const query = {} as Record<string, any>;');
+            if (operation.parameters) {
+                this.filteredParameters(operation.parameters).filter(p => p.in === 'query').forEach(param => {
+                    this.append(`if (params.${this.paramName(param.name)}) {\n`);
+                    this.append(`query['{${param.name}}'] = params.${this.paramName(param.name)}.toString()\n`);
+                    this.append('}\n');
+                });
+            }
+
+            this.append(`return actionBuilder('${verb.toUpperCase()}', path)\n`);
+            this.append('.queryParams(query)\n');
+
+            if (operation.requestBody) {
+                this.append('.data(params.body)\n');
+            }
+
+            if (operation.responses) {
+                this.append('.config({\nrules:[\n');
+                const entries = Object.entries(operation.responses);
+                entries.forEach(([ status, response ], index, array) => {
+                    const responseType = this.responseTypeName(path, verb, status, response);
+                    this.append(`{ status: ${status}, zod: ${responseType} }\n`);
+                    if (array.length !== index + 1) {
+                        this.append(',\n');
+                    }
+                });
+                this.append(']})\n');
+            }
+
+            this.append('.build();\n');
+            this.append('}\n');
+        }
+    }
+
+    private requestBodyOrResponseSchema(
+        requestOrResponse: OpenAPI3.RequestBody | OpenAPI3.Response | OpenAPI3.Reference): OpenAPI3.Schema | undefined {
+        if (!isReference(requestOrResponse) && requestOrResponse.content) {
+            const keys = Object.keys(requestOrResponse.content);
             if (keys.length > 0) {
-                const firtSchema = requestBody.content[keys[0]];
+                const firtSchema = requestOrResponse.content[keys[0]].schema;
                 if (firtSchema && !isReference(firtSchema)) {
                     return firtSchema;
                 }
@@ -343,16 +477,16 @@ export class SchemaActionBuilder extends SchemaBase {
 
     private requestBodySchemaTypeName(path: string, verb: Verb, requestBody: OpenAPI3.RequestBody | OpenAPI3.Reference): string {
         if (isReference(requestBody)) {
-            return this.typeName(this.refToName(requestBody.$ref));
+            return this.typeName(this.refToName(requestBody));
         }
 
         if (requestBody.content) {
             const keys = Object.keys(requestBody.content);
             if (keys.length > 0) {
-                const firtSchema = requestBody.content[keys[0]];
+                const firtSchema = requestBody.content[keys[0]].schema;
                 if (firtSchema) {
                     if (isReference(firtSchema)) {
-                        return this.typeName(this.refToName(firtSchema.$ref));
+                        return this.typeName(this.refToName(firtSchema));
                     } else {
                         return this.anonymousParamTypeName(path, verb, 'body');
                     }
@@ -363,19 +497,64 @@ export class SchemaActionBuilder extends SchemaBase {
         throw new Error(`Could find requestBody type for ${verb} ${path}`);
     }
 
+    private responseTypeName(path: string, verb: Verb, status: string, response: OpenAPI3.Response | OpenAPI3.Reference): string {
+        if (isReference(response)) {
+            return this.typeName(this.refToName(response));
+        } else if (response.content) {
+            const keys = Object.keys(response.content);
+            if (keys.length > 0) {
+                const firtSchema = response.content[keys[0]].schema;
+                if (firtSchema && isReference(firtSchema)) {
+                    return this.typeName(this.refToName(firtSchema));
+                } else {
+                    return this.anonymousParamTypeName(path, verb, `Response${status}`);
+                }
+            }
+        }
+
+        throw new Error(`Undefined response type for: ${verb} ${path} ${status}`);
+    }
+
     private anonymousParamTypeName(path: string, verb: Verb, name: string) {
-        const paramName = this.paramsName(path, verb);
+        const paramName = this.endpointName(path, verb);
         const propertyName = camelcase(name, {
             pascalCase: true
         });
         return `${paramName}Param${propertyName}`;
     }
 
-    private paramsName(path: string, verb: Verb) {
+    private endpointName(path: string, verb: Verb) {
         const filteredPath = path
         .replace(/[/{}]/g, '_');
         return camelcase(`${verb}${filteredPath}`, {
             pascalCase: true
         });
+    }
+
+    private actionEndpointType(path: string, verb: Verb) {
+        return `Action${this.endpointName(path, verb)}`;
+    }
+
+    private payloadEndpointType(path: string, verb: Verb) {
+        return `${this.endpointName(path, verb)}Payload`;
+    }
+
+    private functionEndpointType(path: string, verb: Verb) {
+        return `action${this.endpointName(path, verb)}`;
+    }
+
+    private absolutePath(path: string) {
+        if (this.openapi.servers) {
+            const variables = this.openapi.servers[0].variables;
+            if (variables && variables.basePath) {
+                return `${variables.basePath}${path}`;
+            }
+        }
+
+        return path;
+    }
+
+    private paramName(name: string) {
+        return camelcase(name);
     }
 }

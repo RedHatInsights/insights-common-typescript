@@ -1,24 +1,28 @@
 import { QueryResponse, ResponseInterceptor } from 'react-fetching-library';
 import * as z from 'zod';
 
-export interface ValidatedActionContent<Name extends string | undefined, Status extends number | undefined, Type> {
-    type: Name;
+export interface ValidatedResponse<Type extends string, Status extends number | undefined, ValueType> {
+    type: Type,
     status: Status;
-    value: Type;
+    value: ValueType;
     errors: Array<z.ZodError>;
 }
 
-export interface ValidateRule<Name extends string | undefined, Status extends number | undefined> {
+export interface ValidateRule {
     zod: z.ZodTypeAny;
     type: string;
     status: number;
 }
 
+export interface ActionValidatable {
+    rules: Array<ValidateRule>;
+}
+
 export const validateSchema =
-    <Name extends string | undefined, Status extends number | undefined, Type extends any | unknown>(
-        rules: Array<ValidateRule<Name, Status>>,
+    <Status extends number | undefined, Type extends any | unknown>(
+        rules: Array<ValidateRule>,
         response: QueryResponse<unknown>
-    )  => {
+    ) => {
         const errors: Array<z.ZodError> = [];
         for (const rule of rules) {
             if (rule.status === response.status) {

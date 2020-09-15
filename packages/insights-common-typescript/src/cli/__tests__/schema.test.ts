@@ -67,7 +67,12 @@ describe('src/cli/schema', () => {
     it.only('test new', async () => {
         const prettify = true;
 
-        const arr = [ 'import * as z from \'zod\';\n\n' ];
+        const arr = [
+            'import * as z from \'zod\';\n',
+            'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
+            'import { Action } from \'react-fetching-library\';\n',
+            '/* eslint-disable @typescript-eslint/no-use-before-define */\n\n'
+        ];
         new SchemaTypeBuilder(notificationsOpenApi as any, arr);
         new SchemaActionBuilder(notificationsOpenApi as any, arr);
         const out = tempSchemaDir + '/zodschematest.ts';

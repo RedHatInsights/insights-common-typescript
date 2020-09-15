@@ -279,6 +279,9 @@
         "enum" : [ "webhook", "email" ],
         "type" : "string"
       },
+      "Null" : {
+        "type" : "object"
+      },
       "Endpoint" : {
         "required" : [ "description", "name", "properties", "type" ],
         "type" : "object",
@@ -321,7 +324,15 @@
             } ]
           },
           "updated" : {
-            "$ref" : "#/components/schemas/Date"
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/Date"
+            }, {
+              "oneOf" : [ {
+                "$ref" : "#/components/schemas/Null"
+              }, {
+                "$ref" : "#/components/schemas/Date"
+              } ]
+            } ]
           }
         }
       },
