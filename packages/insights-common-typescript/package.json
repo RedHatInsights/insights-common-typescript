@@ -27,8 +27,7 @@
     "is-url": "^1.2.4",
     "node-fetch": "^2.6.0",
     "node-jq": "^1.11.1",
-    "prettier": "^2.1.1",
-    "zod": "^1.11.5"
+    "prettier": "^2.1.1"
   },
   "peerDependencies": {
     "@patternfly/react-core": "^4.18.5",
@@ -53,7 +52,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.1.1",
-    "typestyle": "^2.0.4"
+    "typestyle": "^2.0.4",
+    "zod": "^1.11.5"
   },
   "publishConfig": {
     "access": "public"
