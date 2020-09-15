@@ -1,11 +1,11 @@
-import { QueryResponse, ResponseInterceptor } from 'react-fetching-library';
+import { Action, QueryResponse, ResponseInterceptor } from 'react-fetching-library';
 import * as z from 'zod';
 
 export interface ValidatedResponse<Type extends string, Status extends number | undefined, ValueType> {
     type: Type,
     status: Status;
     value: ValueType;
-    errors: Array<z.ZodError>;
+    errors: Record<number, z.ZodError>;
 }
 
 export interface ValidateRule {
@@ -18,15 +18,19 @@ export interface ActionValidatable {
     rules: Array<ValidateRule>;
 }
 
+type ActionWithRequiredConfig =
+    Required<Pick<Action<any, ActionValidatable>, 'config'>>
+    & Omit<Action<any, ActionValidatable>, 'config'>;
+
 export const validateSchema =
     <Status extends number | undefined, Type extends any | unknown>(
-        rules: Array<ValidateRule>,
+        action: ActionWithRequiredConfig,
         response: QueryResponse<unknown>
     ) => {
-        const errors: Array<z.ZodError> = [];
+        const errors: Record<number, z.ZodError> = {};
+        const rules = action.config.rules;
         for (const rule of rules) {
             if (rule.status === response.status) {
-                console.log('running validation for rule', rule);
                 const result = rule.zod.safeParse(response.payload);
                 if (result.success) {
                     return {
@@ -37,9 +41,13 @@ export const validateSchema =
                     };
                 }
 
-                console.log('pushing error', result.error);
-                errors.push(result.error);
+                errors[rule.status] = result.error;
             }
+        }
+
+        if (process.env.NODE_ENV !== 'production') {
+            const request = `${action.method.toUpperCase()}: ${action.endpoint} with body: ${action.body}`;
+            console.error(`All validations failed for request ${request}`);
         }
 
         return {
@@ -50,11 +58,9 @@ export const validateSchema =
         };
     };
 
-export const responseInterceptor: ResponseInterceptor<any, any> = _client => async (action, response) => {
+export const validateSchemaResponseInterceptor: ResponseInterceptor<any, any> = _client => async (action, response) => {
     if (action.config.rules) {
-        console.log('Running validation');
-        const r = validateSchema(action.config.rules, response);
-        console.log('result', r);
+        const r = validateSchema(action as ActionWithRequiredConfig, response);
         response.payload = r;
         return response;
     }

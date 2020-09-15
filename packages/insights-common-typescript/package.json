@@ -27,7 +27,6 @@
     "is-url": "^1.2.4",
     "node-fetch": "^2.6.0",
     "node-jq": "^1.11.1",
-    "openapi3-typescript-codegen": "^0.0.13",
     "prettier": "^2.1.1",
     "zod": "^1.11.5"
   },

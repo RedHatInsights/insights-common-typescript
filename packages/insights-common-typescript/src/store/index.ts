@@ -1,5 +1,5 @@
 import { Middleware } from 'redux';
-import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
+import { ReducerRegistry } from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import promiseMiddleware from 'redux-promise-middleware';
 import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
