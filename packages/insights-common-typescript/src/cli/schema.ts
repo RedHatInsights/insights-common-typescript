@@ -65,6 +65,9 @@ export const execute = async (options: Options) => {
     }).then(output => JSON.parse(output as string) as OpenAPI3)
     .then(openapi => {
         const buffer: Array<string> = [
+            '/**\n',
+            '* Generated code, DO NOT modify directly.\n',
+            '*/',
             'import * as z from \'zod\';\n',
             'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
             'import { Action } from \'react-fetching-library\';\n',
