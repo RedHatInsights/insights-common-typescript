@@ -1,739 +1,2755 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`src/cli/schema execute accepts urls 1`] = `
-"/**
-* Generated code, DO NOT modify directly.
-*/
-/* eslint-disable @typescript-eslint/no-empty-interface */
+exports[`src/cli/schema for ./src/cli/__tests__/notifications-openapi.json execute accepts urls 1`] = `
+"import * as z from 'zod';
+import {
+    actionBuilder,
+    ValidatedResponse,
+    ActionValidatable
+} from '@redhat-cloud-services/insights-common-typescript';
+import { Action } from 'react-fetching-library';
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
-export interface Fact {
-  id?: number;
-  name?: string;
-  type?: FactType;
+export const Attributes = zodSchemaAttributes();
+export type Attributes = z.infer<typeof Attributes>;
+
+export const Date = zodSchemaDate();
+export type Date = z.infer<typeof Date>;
+
+export const EmailAttributes = zodSchemaEmailAttributes();
+export type EmailAttributes = z.infer<typeof EmailAttributes>;
+
+export const Endpoint = zodSchemaEndpoint();
+export type Endpoint = z.infer<typeof Endpoint>;
+
+export const EndpointType = zodSchemaEndpointType();
+export type EndpointType = z.infer<typeof EndpointType>;
+
+export const HttpType = zodSchemaHttpType();
+export type HttpType = z.infer<typeof HttpType>;
+
+export const JsonObject = zodSchemaJsonObject();
+export type JsonObject = z.infer<typeof JsonObject>;
+
+export const NotificationHistory = zodSchemaNotificationHistory();
+export type NotificationHistory = z.infer<typeof NotificationHistory>;
+
+export const UUID = zodSchemaUUID();
+export type UUID = z.infer<typeof UUID>;
+
+export const WebhookAttributes = zodSchemaWebhookAttributes();
+export type WebhookAttributes = z.infer<typeof WebhookAttributes>;
+
+export function zodSchemaAttributes() {
+    return z.unknown();
 }
 
-export enum FactType {
-  BOOLEAN = 'BOOLEAN',
-  INT = 'INT',
-  LIST = 'LIST',
-  STRING = 'STRING',
+export function zodSchemaDate() {
+    return z.string();
 }
 
-export interface HistoryItem {
-  ctime?: number;
-  hostName?: string;
-  id?: string;
+export function zodSchemaEmailAttributes() {
+    return z.unknown();
 }
 
-export type List = Array<{
-}>;
-
-export type ListHistoryItem = Array<HistoryItem>;
-
-export type ListPolicy = Array<Policy>;
-
-export type ListUUID = Array<string>;
-
-export interface MapStringString {
-  [key: string]: string;
+export function zodSchemaEndpoint() {
+    return z.object({
+        created: zodSchemaDate().optional().nullable(),
+        description: z.string(),
+        enabled: z.boolean().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        properties: z.union([
+            zodSchemaWebhookAttributes(),
+            zodSchemaEmailAttributes()
+        ]),
+        type: z.intersection(zodSchemaEndpointType(), z.enum([ 'webhook', 'email' ])),
+        updated: zodSchemaDate().optional().nullable()
+    });
 }
 
-export interface Meta {
-  count?: number;
+export function zodSchemaEndpointType() {
+    return z.enum([ 'webhook', 'email' ]);
 }
 
-export interface PagedResponseOfHistoryItem {
-  data?: ListHistoryItem;
-  links?: MapStringString;
-  meta?: Meta;
+export function zodSchemaHttpType() {
+    return z.enum([ 'GET', 'POST' ]);
 }
 
-export interface PagedResponseOfPolicy {
-  data?: ListPolicy;
-  links?: MapStringString;
-  meta?: Meta;
+export function zodSchemaJsonObject() {
+    return z.array(z.any());
 }
 
-export interface Policy {
-  actions?: string;
-  conditions: string;
-  ctime?: string;
-  description?: string;
-  id?: Uuid;
-  isEnabled?: boolean;
-  lastTriggered?: number;
-  mtime?: string;
-  name: string;
+export function zodSchemaNotificationHistory() {
+    return z.object({
+        created: zodSchemaDate().optional().nullable(),
+        details: zodSchemaJsonObject().optional().nullable(),
+        endpointId: zodSchemaUUID().optional().nullable(),
+        id: z.number().int().optional().nullable(),
+        invocationResult: z.boolean().optional().nullable(),
+        invocationTime: z.number().int().optional().nullable()
+    });
 }
 
-export type Uuid = string;
+export function zodSchemaUUID() {
+    return z.string();
+}
 
+export function zodSchemaWebhookAttributes() {
+    return z.object({
+        disable_ssl_verification: z.boolean().optional().nullable(),
+        method: z.intersection(zodSchemaHttpType(), z.enum([ 'GET', 'POST' ])),
+        secret_token: z.string().optional().nullable(),
+        url: z.string()
+    });
+}
+
+// get /api/notifications/v1.0/endpoints
+const GetApiNotificationsV10EndpointsParamResponse200 = z.array(
+    zodSchemaEndpoint()
+);
+type GetApiNotificationsV10EndpointsParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsParamResponse200
+>;
+export type GetApiNotificationsV10EndpointsPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10Endpoints = Action<
+  GetApiNotificationsV10EndpointsPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10Endpoints = (): ActionGetApiNotificationsV10Endpoints => {
+    const path = '/api/notifications/v1.0/endpoints';
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: GetApiNotificationsV10EndpointsParamResponse200 }
+        ]
+    })
+    .build();
+};
+
+// post /api/notifications/v1.0/endpoints
+const Endpoint = z.unknown();
+type Endpoint = z.infer<typeof Endpoint>;
+export interface PostApiNotificationsV10Endpoints {
+  body?: Endpoint;
+}
+
+export type PostApiNotificationsV10EndpointsPayload =
+  | ValidatedResponse<'Endpoint', 200, Endpoint>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostApiNotificationsV10Endpoints = Action<
+  PostApiNotificationsV10EndpointsPayload,
+  ActionValidatable
+>;
+export const actionPostApiNotificationsV10Endpoints = (
+    params: PostApiNotificationsV10Endpoints
+): ActionPostApiNotificationsV10Endpoints => {
+    const path = '/api/notifications/v1.0/endpoints';
+    const query = {} as Record<string, any>;
+    return actionBuilder('POST', path)
+    .queryParams(query)
+    .data(params.body)
+    .config({
+        rules: [{ status: 200, zod: Endpoint }]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}
+export interface GetApiNotificationsV10EndpointsId {
+  id: UUID;
+}
+
+export type GetApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<'Endpoint', 200, Endpoint>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsId = Action<
+  GetApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsId = (
+    params: GetApiNotificationsV10EndpointsId
+): ActionGetApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: Endpoint }]
+    })
+    .build();
+};
+
+// put /api/notifications/v1.0/endpoints/{id}
+const PutApiNotificationsV10EndpointsIdParamResponse200 = z.string();
+type PutApiNotificationsV10EndpointsIdParamResponse200 = z.infer<
+  typeof PutApiNotificationsV10EndpointsIdParamResponse200
+>;
+export interface PutApiNotificationsV10EndpointsId {
+  id: UUID;
+  body?: Endpoint;
+}
+
+export type PutApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<
+      'PutApiNotificationsV10EndpointsIdParamResponse200',
+      200,
+      PutApiNotificationsV10EndpointsIdParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutApiNotificationsV10EndpointsId = Action<
+  PutApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionPutApiNotificationsV10EndpointsId = (
+    params: PutApiNotificationsV10EndpointsId
+): ActionPutApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('PUT', path)
+    .queryParams(query)
+    .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: PutApiNotificationsV10EndpointsIdParamResponse200 }
+        ]
+    })
+    .build();
+};
+
+// delete /api/notifications/v1.0/endpoints/{id}
+const DeleteApiNotificationsV10EndpointsIdParamResponse200 = z.string();
+type DeleteApiNotificationsV10EndpointsIdParamResponse200 = z.infer<
+  typeof DeleteApiNotificationsV10EndpointsIdParamResponse200
+>;
+export interface DeleteApiNotificationsV10EndpointsId {
+  id: UUID;
+}
+
+export type DeleteApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<
+      'DeleteApiNotificationsV10EndpointsIdParamResponse200',
+      200,
+      DeleteApiNotificationsV10EndpointsIdParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeleteApiNotificationsV10EndpointsId = Action<
+  DeleteApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionDeleteApiNotificationsV10EndpointsId = (
+    params: DeleteApiNotificationsV10EndpointsId
+): ActionDeleteApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('DELETE', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: DeleteApiNotificationsV10EndpointsIdParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// put /api/notifications/v1.0/endpoints/{id}/enable
+const PutApiNotificationsV10EndpointsIdEnableParamResponse200 = z.string();
+type PutApiNotificationsV10EndpointsIdEnableParamResponse200 = z.infer<
+  typeof PutApiNotificationsV10EndpointsIdEnableParamResponse200
+>;
+export interface PutApiNotificationsV10EndpointsIdEnable {
+  id: UUID;
+}
+
+export type PutApiNotificationsV10EndpointsIdEnablePayload =
+  | ValidatedResponse<
+      'PutApiNotificationsV10EndpointsIdEnableParamResponse200',
+      200,
+      PutApiNotificationsV10EndpointsIdEnableParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutApiNotificationsV10EndpointsIdEnable = Action<
+  PutApiNotificationsV10EndpointsIdEnablePayload,
+  ActionValidatable
+>;
+export const actionPutApiNotificationsV10EndpointsIdEnable = (
+    params: PutApiNotificationsV10EndpointsIdEnable
+): ActionPutApiNotificationsV10EndpointsIdEnable => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/enable'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('PUT', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: PutApiNotificationsV10EndpointsIdEnableParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// delete /api/notifications/v1.0/endpoints/{id}/enable
+const DeleteApiNotificationsV10EndpointsIdEnableParamResponse200 = z.string();
+type DeleteApiNotificationsV10EndpointsIdEnableParamResponse200 = z.infer<
+  typeof DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+>;
+export interface DeleteApiNotificationsV10EndpointsIdEnable {
+  id: UUID;
+}
+
+export type DeleteApiNotificationsV10EndpointsIdEnablePayload =
+  | ValidatedResponse<
+      'DeleteApiNotificationsV10EndpointsIdEnableParamResponse200',
+      200,
+      DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeleteApiNotificationsV10EndpointsIdEnable = Action<
+  DeleteApiNotificationsV10EndpointsIdEnablePayload,
+  ActionValidatable
+>;
+export const actionDeleteApiNotificationsV10EndpointsIdEnable = (
+    params: DeleteApiNotificationsV10EndpointsIdEnable
+): ActionDeleteApiNotificationsV10EndpointsIdEnable => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/enable'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('DELETE', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}/history
+const GetApiNotificationsV10EndpointsIdHistoryParamResponse200 = z.array(
+    zodSchemaNotificationHistory()
+);
+type GetApiNotificationsV10EndpointsIdHistoryParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+>;
+export interface GetApiNotificationsV10EndpointsIdHistory {
+  id: UUID;
+}
+
+export type GetApiNotificationsV10EndpointsIdHistoryPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsIdHistoryParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsIdHistory = Action<
+  GetApiNotificationsV10EndpointsIdHistoryPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsIdHistory = (
+    params: GetApiNotificationsV10EndpointsIdHistory
+): ActionGetApiNotificationsV10EndpointsIdHistory => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/history'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}/history/{history_id}/details
+const GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId = z
+.number()
+.int();
+type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId
+>;
+const GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200 = z.string();
+type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+>;
+export interface GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails {
+  historyId: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId;
+  id: UUID;
+}
+
+export type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails = Action<
+  GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails = (
+    params: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails
+): ActionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/history/{history_id}/details'
+    .replace('{history_id}', params.historyId.toString())
+    .replace('{id}', params.id.toString());
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+            }
+        ]
+    })
+    .build();
+};
 "
 `;
 
-exports[`src/cli/schema execute accepts urls 2`] = `
-"/**
-* Generated code, DO NOT modify directly.
-*/
-/* eslint-disable max-len */
-
-import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
+exports[`src/cli/schema for ./src/cli/__tests__/notifications-openapi.json execute input file accepts path 1`] = `
+"import * as z from 'zod';
+import {
+    actionBuilder,
+    ValidatedResponse,
+    ActionValidatable
+} from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
-import * as schemas from './Types';
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
-export interface UseGetPoliciesParams {
-    filterOpDescription?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterOpName?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterDescription?: string;
-    filterIsEnabled?: 'true' | 'false';
-    filterName?: string;
-    limit?: number;
-    offset?: number;
-    sortColumn?: 'name' | 'description' | 'is_enabled' | 'mtime';
-    sortDirection?: 'asc' | 'desc';
+export const Attributes = zodSchemaAttributes();
+export type Attributes = z.infer<typeof Attributes>;
+
+export const Date = zodSchemaDate();
+export type Date = z.infer<typeof Date>;
+
+export const EmailAttributes = zodSchemaEmailAttributes();
+export type EmailAttributes = z.infer<typeof EmailAttributes>;
+
+export const Endpoint = zodSchemaEndpoint();
+export type Endpoint = z.infer<typeof Endpoint>;
+
+export const EndpointType = zodSchemaEndpointType();
+export type EndpointType = z.infer<typeof EndpointType>;
+
+export const HttpType = zodSchemaHttpType();
+export type HttpType = z.infer<typeof HttpType>;
+
+export const JsonObject = zodSchemaJsonObject();
+export type JsonObject = z.infer<typeof JsonObject>;
+
+export const NotificationHistory = zodSchemaNotificationHistory();
+export type NotificationHistory = z.infer<typeof NotificationHistory>;
+
+export const UUID = zodSchemaUUID();
+export type UUID = z.infer<typeof UUID>;
+
+export const WebhookAttributes = zodSchemaWebhookAttributes();
+export type WebhookAttributes = z.infer<typeof WebhookAttributes>;
+
+export function zodSchemaAttributes() {
+    return z.unknown();
 }
 
-export interface UsePostPoliciesParams {
-    body?: schemas.Policy;
-    alsoStore?: boolean;
+export function zodSchemaDate() {
+    return z.string();
 }
 
-export interface UseGetPoliciesIdsParams {
-    filterOpDescription?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterOpName?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterDescription?: string;
-    filterIsEnabled?: 'true' | 'false';
-    filterName?: string;
+export function zodSchemaEmailAttributes() {
+    return z.unknown();
 }
 
-export interface UseDeletePoliciesIdsParams {
-    body?: schemas.ListUUID;
+export function zodSchemaEndpoint() {
+    return z.object({
+        created: zodSchemaDate().optional().nullable(),
+        description: z.string(),
+        enabled: z.boolean().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        name: z.string(),
+        properties: z.union([
+            zodSchemaWebhookAttributes(),
+            zodSchemaEmailAttributes()
+        ]),
+        type: z.intersection(zodSchemaEndpointType(), z.enum([ 'webhook', 'email' ])),
+        updated: zodSchemaDate().optional().nullable()
+    });
 }
 
-export interface UsePostPoliciesIdsEnabledParams {
-    body?: schemas.ListUUID;
-    enabled?: boolean;
+export function zodSchemaEndpointType() {
+    return z.enum([ 'webhook', 'email' ]);
 }
 
-export interface UsePostPoliciesValidateParams {
-    body?: schemas.Policy;
+export function zodSchemaHttpType() {
+    return z.enum([ 'GET', 'POST' ]);
 }
 
-export interface UsePostPoliciesValidateNameParams {
-    body?: string;
-    id?: schemas.Uuid;
+export function zodSchemaJsonObject() {
+    return z.array(z.any());
 }
 
-export interface UseGetPoliciesByIdParams {
-    id: schemas.Uuid;
+export function zodSchemaNotificationHistory() {
+    return z.object({
+        created: zodSchemaDate().optional().nullable(),
+        details: zodSchemaJsonObject().optional().nullable(),
+        endpointId: zodSchemaUUID().optional().nullable(),
+        id: z.number().int().optional().nullable(),
+        invocationResult: z.boolean().optional().nullable(),
+        invocationTime: z.number().int().optional().nullable()
+    });
 }
 
-export interface UseDeletePoliciesByIdParams {
-    id: schemas.Uuid;
+export function zodSchemaUUID() {
+    return z.string();
 }
 
-export interface UsePostPoliciesByIdEnabledParams {
-    id: schemas.Uuid;
-    enabled?: boolean;
+export function zodSchemaWebhookAttributes() {
+    return z.object({
+        disable_ssl_verification: z.boolean().optional().nullable(),
+        method: z.intersection(zodSchemaHttpType(), z.enum([ 'GET', 'POST' ])),
+        secret_token: z.string().optional().nullable(),
+        url: z.string()
+    });
 }
 
-export interface UseGetPoliciesByIdHistoryTriggerParams {
-    id: schemas.Uuid;
-    filterOpId?: 'equal' | 'not_equal' | 'like';
-    filterOpName?: 'equal' | 'like' | 'not_equal';
-    filterId?: string;
-    filterName?: string;
-    limit?: number;
-    offset?: number;
-    sortColumn?: 'hostName' | 'id' | 'ctime';
-    sortDirection?: 'asc' | 'desc';
+// get /api/notifications/v1.0/endpoints
+const GetApiNotificationsV10EndpointsParamResponse200 = z.array(
+    zodSchemaEndpoint()
+);
+type GetApiNotificationsV10EndpointsParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsParamResponse200
+>;
+export type GetApiNotificationsV10EndpointsPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10Endpoints = Action<
+  GetApiNotificationsV10EndpointsPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10Endpoints = (): ActionGetApiNotificationsV10Endpoints => {
+    const path = '/api/notifications/v1.0/endpoints';
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: GetApiNotificationsV10EndpointsParamResponse200 }
+        ]
+    })
+    .build();
+};
+
+// post /api/notifications/v1.0/endpoints
+const Endpoint = z.unknown();
+type Endpoint = z.infer<typeof Endpoint>;
+export interface PostApiNotificationsV10Endpoints {
+  body?: Endpoint;
 }
 
-export interface UsePutPoliciesByPolicyIdParams {
-    body?: schemas.Policy;
-    policyId: schemas.Uuid;
-    dry?: boolean;
+export type PostApiNotificationsV10EndpointsPayload =
+  | ValidatedResponse<'Endpoint', 200, Endpoint>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostApiNotificationsV10Endpoints = Action<
+  PostApiNotificationsV10EndpointsPayload,
+  ActionValidatable
+>;
+export const actionPostApiNotificationsV10Endpoints = (
+    params: PostApiNotificationsV10Endpoints
+): ActionPostApiNotificationsV10Endpoints => {
+    const path = '/api/notifications/v1.0/endpoints';
+    const query = {} as Record<string, any>;
+    return actionBuilder('POST', path)
+    .queryParams(query)
+    .data(params.body)
+    .config({
+        rules: [{ status: 200, zod: Endpoint }]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}
+export interface GetApiNotificationsV10EndpointsId {
+  id: UUID;
 }
+
+export type GetApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<'Endpoint', 200, Endpoint>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsId = Action<
+  GetApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsId = (
+    params: GetApiNotificationsV10EndpointsId
+): ActionGetApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: Endpoint }]
+    })
+    .build();
+};
+
+// put /api/notifications/v1.0/endpoints/{id}
+const PutApiNotificationsV10EndpointsIdParamResponse200 = z.string();
+type PutApiNotificationsV10EndpointsIdParamResponse200 = z.infer<
+  typeof PutApiNotificationsV10EndpointsIdParamResponse200
+>;
+export interface PutApiNotificationsV10EndpointsId {
+  id: UUID;
+  body?: Endpoint;
+}
+
+export type PutApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<
+      'PutApiNotificationsV10EndpointsIdParamResponse200',
+      200,
+      PutApiNotificationsV10EndpointsIdParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutApiNotificationsV10EndpointsId = Action<
+  PutApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionPutApiNotificationsV10EndpointsId = (
+    params: PutApiNotificationsV10EndpointsId
+): ActionPutApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('PUT', path)
+    .queryParams(query)
+    .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: PutApiNotificationsV10EndpointsIdParamResponse200 }
+        ]
+    })
+    .build();
+};
+
+// delete /api/notifications/v1.0/endpoints/{id}
+const DeleteApiNotificationsV10EndpointsIdParamResponse200 = z.string();
+type DeleteApiNotificationsV10EndpointsIdParamResponse200 = z.infer<
+  typeof DeleteApiNotificationsV10EndpointsIdParamResponse200
+>;
+export interface DeleteApiNotificationsV10EndpointsId {
+  id: UUID;
+}
+
+export type DeleteApiNotificationsV10EndpointsIdPayload =
+  | ValidatedResponse<
+      'DeleteApiNotificationsV10EndpointsIdParamResponse200',
+      200,
+      DeleteApiNotificationsV10EndpointsIdParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeleteApiNotificationsV10EndpointsId = Action<
+  DeleteApiNotificationsV10EndpointsIdPayload,
+  ActionValidatable
+>;
+export const actionDeleteApiNotificationsV10EndpointsId = (
+    params: DeleteApiNotificationsV10EndpointsId
+): ActionDeleteApiNotificationsV10EndpointsId => {
+    const path = '/api/notifications/v1.0/endpoints/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('DELETE', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: DeleteApiNotificationsV10EndpointsIdParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// put /api/notifications/v1.0/endpoints/{id}/enable
+const PutApiNotificationsV10EndpointsIdEnableParamResponse200 = z.string();
+type PutApiNotificationsV10EndpointsIdEnableParamResponse200 = z.infer<
+  typeof PutApiNotificationsV10EndpointsIdEnableParamResponse200
+>;
+export interface PutApiNotificationsV10EndpointsIdEnable {
+  id: UUID;
+}
+
+export type PutApiNotificationsV10EndpointsIdEnablePayload =
+  | ValidatedResponse<
+      'PutApiNotificationsV10EndpointsIdEnableParamResponse200',
+      200,
+      PutApiNotificationsV10EndpointsIdEnableParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutApiNotificationsV10EndpointsIdEnable = Action<
+  PutApiNotificationsV10EndpointsIdEnablePayload,
+  ActionValidatable
+>;
+export const actionPutApiNotificationsV10EndpointsIdEnable = (
+    params: PutApiNotificationsV10EndpointsIdEnable
+): ActionPutApiNotificationsV10EndpointsIdEnable => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/enable'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('PUT', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: PutApiNotificationsV10EndpointsIdEnableParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// delete /api/notifications/v1.0/endpoints/{id}/enable
+const DeleteApiNotificationsV10EndpointsIdEnableParamResponse200 = z.string();
+type DeleteApiNotificationsV10EndpointsIdEnableParamResponse200 = z.infer<
+  typeof DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+>;
+export interface DeleteApiNotificationsV10EndpointsIdEnable {
+  id: UUID;
+}
+
+export type DeleteApiNotificationsV10EndpointsIdEnablePayload =
+  | ValidatedResponse<
+      'DeleteApiNotificationsV10EndpointsIdEnableParamResponse200',
+      200,
+      DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeleteApiNotificationsV10EndpointsIdEnable = Action<
+  DeleteApiNotificationsV10EndpointsIdEnablePayload,
+  ActionValidatable
+>;
+export const actionDeleteApiNotificationsV10EndpointsIdEnable = (
+    params: DeleteApiNotificationsV10EndpointsIdEnable
+): ActionDeleteApiNotificationsV10EndpointsIdEnable => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/enable'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('DELETE', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: DeleteApiNotificationsV10EndpointsIdEnableParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}/history
+const GetApiNotificationsV10EndpointsIdHistoryParamResponse200 = z.array(
+    zodSchemaNotificationHistory()
+);
+type GetApiNotificationsV10EndpointsIdHistoryParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+>;
+export interface GetApiNotificationsV10EndpointsIdHistory {
+  id: UUID;
+}
+
+export type GetApiNotificationsV10EndpointsIdHistoryPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsIdHistoryParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsIdHistory = Action<
+  GetApiNotificationsV10EndpointsIdHistoryPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsIdHistory = (
+    params: GetApiNotificationsV10EndpointsIdHistory
+): ActionGetApiNotificationsV10EndpointsIdHistory => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/history'.replace(
+        '{id}',
+        params.id.toString()
+    );
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: GetApiNotificationsV10EndpointsIdHistoryParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+
+// get /api/notifications/v1.0/endpoints/{id}/history/{history_id}/details
+const GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId = z
+.number()
+.int();
+type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId
+>;
+const GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200 = z.string();
+type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200 = z.infer<
+  typeof GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+>;
+export interface GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails {
+  historyId: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamHistoryId;
+  id: UUID;
+}
+
+export type GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsPayload =
+  | ValidatedResponse<
+      'GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200',
+      200,
+      GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails = Action<
+  GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsPayload,
+  ActionValidatable
+>;
+export const actionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails = (
+    params: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails
+): ActionGetApiNotificationsV10EndpointsIdHistoryHistoryIdDetails => {
+    const path = '/api/notifications/v1.0/endpoints/{id}/history/{history_id}/details'
+    .replace('{history_id}', params.historyId.toString())
+    .replace('{id}', params.id.toString());
+    const query = {} as Record<string, any>;
+    return actionBuilder('GET', path)
+    .queryParams(query)
+    .config({
+        rules: [
+            {
+                status: 200,
+                zod: GetApiNotificationsV10EndpointsIdHistoryHistoryIdDetailsParamResponse200
+            }
+        ]
+    })
+    .build();
+};
+"
+`;
+
+exports[`src/cli/schema for ./src/cli/__tests__/policies-openapi.json execute accepts urls 1`] = `
+"import * as z from 'zod';
+import {
+    actionBuilder,
+    ValidatedResponse,
+    ActionValidatable
+} from '@redhat-cloud-services/insights-common-typescript';
+import { Action } from 'react-fetching-library';
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
+export const Fact = zodSchemaFact();
+export type Fact = z.infer<typeof Fact>;
+
+export const FactType = zodSchemaFactType();
+export type FactType = z.infer<typeof FactType>;
+
+export const HistoryItem = zodSchemaHistoryItem();
+export type HistoryItem = z.infer<typeof HistoryItem>;
+
+export const List = zodSchemaList();
+export type List = z.infer<typeof List>;
+
+export const ListHistoryItem = zodSchemaListHistoryItem();
+export type ListHistoryItem = z.infer<typeof ListHistoryItem>;
+
+export const ListPolicy = zodSchemaListPolicy();
+export type ListPolicy = z.infer<typeof ListPolicy>;
+
+export const ListUUID = zodSchemaListUUID();
+export type ListUUID = z.infer<typeof ListUUID>;
+
+export const MapStringString = zodSchemaMapStringString();
+export type MapStringString = z.infer<typeof MapStringString>;
+
+export const Meta = zodSchemaMeta();
+export type Meta = z.infer<typeof Meta>;
+
+export const PagedResponseOfHistoryItem = zodSchemaPagedResponseOfHistoryItem();
+export type PagedResponseOfHistoryItem = z.infer<
+  typeof PagedResponseOfHistoryItem
+>;
+
+export const PagedResponseOfPolicy = zodSchemaPagedResponseOfPolicy();
+export type PagedResponseOfPolicy = z.infer<typeof PagedResponseOfPolicy>;
+
+export const Policy = zodSchemaPolicy();
+export type Policy = z.infer<typeof Policy>;
+
+export const UUID = zodSchemaUUID();
+export type UUID = z.infer<typeof UUID>;
+
+export function zodSchemaFact() {
+    return z.object({
+        id: z.number().int().optional().nullable(),
+        name: z.string().optional().nullable(),
+        type: zodSchemaFactType().optional().nullable()
+    });
+}
+
+export function zodSchemaFactType() {
+    return z.enum([ 'BOOLEAN', 'INT', 'LIST', 'STRING' ]);
+}
+
+export function zodSchemaHistoryItem() {
+    return z.object({
+        ctime: z.number().int().optional().nullable(),
+        hostName: z.string().optional().nullable(),
+        id: z.string().optional().nullable()
+    });
+}
+
+export function zodSchemaList() {
+    return z.array(z.any());
+}
+
+export function zodSchemaListHistoryItem() {
+    return z.array(zodSchemaHistoryItem());
+}
+
+export function zodSchemaListPolicy() {
+    return z.array(zodSchemaPolicy());
+}
+
+export function zodSchemaListUUID() {
+    return z.array(z.string());
+}
+
+export function zodSchemaMapStringString() {
+    return z.record(z.string());
+}
+
+export function zodSchemaMeta() {
+    return z.object({
+        count: z.number().int().optional().nullable()
+    });
+}
+
+export function zodSchemaPagedResponseOfHistoryItem() {
+    return z.object({
+        data: zodSchemaListHistoryItem().optional().nullable(),
+        links: zodSchemaMapStringString().optional().nullable(),
+        meta: zodSchemaMeta().optional().nullable()
+    });
+}
+
+export function zodSchemaPagedResponseOfPolicy() {
+    return z.object({
+        data: zodSchemaListPolicy().optional().nullable(),
+        links: zodSchemaMapStringString().optional().nullable(),
+        meta: zodSchemaMeta().optional().nullable()
+    });
+}
+
+export function zodSchemaPolicy() {
+    return z.object({
+        actions: z.string().optional().nullable(),
+        conditions: z.string(),
+        ctime: z.string().optional().nullable(),
+        description: z.string().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        isEnabled: z.boolean().optional().nullable(),
+        lastTriggered: z.number().int().optional().nullable(),
+        mtime: z.string().optional().nullable(),
+        name: z.string()
+    });
+}
+
+export function zodSchemaUUID() {
+    return z.string();
+}
+
+// get /
+const Unknown = z.unknown();
+type Unknown = z.infer<typeof Unknown>;
+export type GetPayload =
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGet = Action<GetPayload, ActionValidatable>;
 
 /** Just a filler to have a defined return code for the base path */
-export const actionGet = (): Action<unknown> => {
+export const actionGet = (): ActionGet => {
     const path = '/api/policies/v1.0/';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 404, zod: Unknown }]
+    })
     .build();
 };
+
+// get /facts
+const GetFactsParamResponse200 = z.array(zodSchemaFact());
+type GetFactsParamResponse200 = z.infer<typeof GetFactsParamResponse200>;
+export type GetFactsPayload =
+  | ValidatedResponse<'GetFactsParamResponse200', 200, GetFactsParamResponse200>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetFacts = Action<GetFactsPayload, ActionValidatable>;
 
 /** Retrieve a list of fact (keys) along with their data types */
-export const actionGetFacts = (): Action<Array<schemas.Fact> | unknown> => {
+export const actionGetFacts = (): ActionGetFacts => {
     const path = '/api/policies/v1.0/facts';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: GetFactsParamResponse200 }]
+    })
     .build();
 };
+
+// get /policies
+const GetPoliciesParamFilterOpDescription = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesParamFilterOpDescription = z.infer<
+  typeof GetPoliciesParamFilterOpDescription
+>;
+const GetPoliciesParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesParamFilterOpName = z.infer<
+  typeof GetPoliciesParamFilterOpName
+>;
+const GetPoliciesParamFilterDescription = z.string();
+type GetPoliciesParamFilterDescription = z.infer<
+  typeof GetPoliciesParamFilterDescription
+>;
+const GetPoliciesParamFilterIsEnabled = z.enum([ 'true', 'false' ]);
+type GetPoliciesParamFilterIsEnabled = z.infer<
+  typeof GetPoliciesParamFilterIsEnabled
+>;
+const GetPoliciesParamFilterName = z.string();
+type GetPoliciesParamFilterName = z.infer<typeof GetPoliciesParamFilterName>;
+const GetPoliciesParamLimit = z.number().int();
+type GetPoliciesParamLimit = z.infer<typeof GetPoliciesParamLimit>;
+const GetPoliciesParamOffset = z.number().int();
+type GetPoliciesParamOffset = z.infer<typeof GetPoliciesParamOffset>;
+const GetPoliciesParamSortColumn = z.enum([
+    'name',
+    'description',
+    'is_enabled',
+    'mtime'
+]);
+type GetPoliciesParamSortColumn = z.infer<typeof GetPoliciesParamSortColumn>;
+const GetPoliciesParamSortDirection = z.enum([ 'asc', 'desc' ]);
+type GetPoliciesParamSortDirection = z.infer<
+  typeof GetPoliciesParamSortDirection
+>;
+export interface GetPolicies {
+  'filter:op[description]'?: GetPoliciesParamFilterOpDescription;
+  'filter:op[name]'?: GetPoliciesParamFilterOpName;
+  'filter[description]'?: GetPoliciesParamFilterDescription;
+  'filter[isEnabled]'?: GetPoliciesParamFilterIsEnabled;
+  'filter[name]'?: GetPoliciesParamFilterName;
+  limit?: GetPoliciesParamLimit;
+  offset?: GetPoliciesParamOffset;
+  sortColumn?: GetPoliciesParamSortColumn;
+  sortDirection?: GetPoliciesParamSortDirection;
+}
+
+export type GetPoliciesPayload =
+  | ValidatedResponse<'PagedResponseOfPolicy', 200, PagedResponseOfPolicy>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 
 /** Return all policies for a given account */
-export const actionGetPolicies = (params: UseGetPoliciesParams): Action<schemas.PagedResponseOfPolicy | unknown> => {
+export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
-
     const query = {} as Record<string, any>;
-    query['filter:op[description]'] = params.filterOpDescription;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[description]'] = params.filterDescription;
-    query['filter[is_enabled]'] = params.filterIsEnabled;
-    query['filter[name]'] = params.filterName;
-    query.limit = params.limit;
-    query.offset = params.offset;
-    query.sortColumn = params.sortColumn;
-    query.sortDirection = params.sortDirection;
+    if (params['filter:op[description]']) {
+        query['{filter:op[description]}'] = params[
+        'filter:op[description]'
+        ].toString();
+    }
+
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[description]']) {
+        query['{filter[description]}'] = params['filter[description]'].toString();
+    }
+
+    if (params['filter[isEnabled]']) {
+        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
+
+    if (params.limit) {
+        query['{limit}'] = params.limit.toString();
+    }
+
+    if (params.offset) {
+        query['{offset}'] = params.offset.toString();
+    }
+
+    if (params.sortColumn) {
+        query['{sortColumn}'] = params.sortColumn.toString();
+    }
+
+    if (params.sortDirection) {
+        query['{sortDirection}'] = params.sortDirection.toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: PagedResponseOfPolicy },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies
+const PostPoliciesParamAlsoStore = z.boolean();
+type PostPoliciesParamAlsoStore = z.infer<typeof PostPoliciesParamAlsoStore>;
+const PostPoliciesParamResponse400 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PostPoliciesParamResponse400 = z.infer<
+  typeof PostPoliciesParamResponse400
+>;
+const PostPoliciesParamResponse409 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PostPoliciesParamResponse409 = z.infer<
+  typeof PostPoliciesParamResponse409
+>;
+export interface PostPolicies {
+  alsoStore?: PostPoliciesParamAlsoStore;
+  body?: Policy;
+}
+
+export type PostPoliciesPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Policy', 201, Policy>
+  | ValidatedResponse<
+      'PostPoliciesParamResponse400',
+      400,
+      PostPoliciesParamResponse400
+    >
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<
+      'PostPoliciesParamResponse409',
+      409,
+      PostPoliciesParamResponse409
+    >
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPolicies = Action<PostPoliciesPayload, ActionValidatable>;
 
 /** Validate (and possibly persist) a passed policy for the given account */
-export const actionPostPolicies = (params: UsePostPoliciesParams): Action<schemas.Policy | {
-  msg?: string;
-} | {
-  msg?: string;
-} | unknown> => {
+export const actionPostPolicies = (
+    params: PostPolicies
+): ActionPostPolicies => {
     const path = '/api/policies/v1.0/policies';
-
     const query = {} as Record<string, any>;
-    query.alsoStore = params.alsoStore;
+    if (params.alsoStore) {
+        query['{alsoStore}'] = params.alsoStore.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 201, zod: Policy },
+            { status: 400, zod: PostPoliciesParamResponse400 },
+            { status: 403, zod: Unknown },
+            { status: 409, zod: PostPoliciesParamResponse409 },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// get /policies/ids
+const GetPoliciesIdsParamFilterOpDescription = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesIdsParamFilterOpDescription = z.infer<
+  typeof GetPoliciesIdsParamFilterOpDescription
+>;
+const GetPoliciesIdsParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesIdsParamFilterOpName = z.infer<
+  typeof GetPoliciesIdsParamFilterOpName
+>;
+const GetPoliciesIdsParamFilterDescription = z.string();
+type GetPoliciesIdsParamFilterDescription = z.infer<
+  typeof GetPoliciesIdsParamFilterDescription
+>;
+const GetPoliciesIdsParamFilterIsEnabled = z.enum([ 'true', 'false' ]);
+type GetPoliciesIdsParamFilterIsEnabled = z.infer<
+  typeof GetPoliciesIdsParamFilterIsEnabled
+>;
+const GetPoliciesIdsParamFilterName = z.string();
+type GetPoliciesIdsParamFilterName = z.infer<
+  typeof GetPoliciesIdsParamFilterName
+>;
+export interface GetPoliciesIds {
+  'filter:op[description]'?: GetPoliciesIdsParamFilterOpDescription;
+  'filter:op[name]'?: GetPoliciesIdsParamFilterOpName;
+  'filter[description]'?: GetPoliciesIdsParamFilterDescription;
+  'filter[isEnabled]'?: GetPoliciesIdsParamFilterIsEnabled;
+  'filter[name]'?: GetPoliciesIdsParamFilterName;
+}
+
+export type GetPoliciesIdsPayload =
+  | ValidatedResponse<'List', 200, List>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesIds = Action<
+  GetPoliciesIdsPayload,
+  ActionValidatable
+>;
 
 /** Return all policy ids for a given account after applying the filters */
-export const actionGetPoliciesIds = (params: UseGetPoliciesIdsParams): Action<schemas.List | unknown> => {
+export const actionGetPoliciesIds = (
+    params: GetPoliciesIds
+): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
-
     const query = {} as Record<string, any>;
-    query['filter:op[description]'] = params.filterOpDescription;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[description]'] = params.filterDescription;
-    query['filter[is_enabled]'] = params.filterIsEnabled;
-    query['filter[name]'] = params.filterName;
+    if (params['filter:op[description]']) {
+        query['{filter:op[description]}'] = params[
+        'filter:op[description]'
+        ].toString();
+    }
+
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[description]']) {
+        query['{filter[description]}'] = params['filter[description]'].toString();
+    }
+
+    if (params['filter[isEnabled]']) {
+        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: List },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// delete /policies/ids
+const DeletePoliciesIdsParamResponse200 = z.array(zodSchemaUUID());
+type DeletePoliciesIdsParamResponse200 = z.infer<
+  typeof DeletePoliciesIdsParamResponse200
+>;
+export interface DeletePoliciesIds {
+  body?: ListUUID;
+}
+
+export type DeletePoliciesIdsPayload =
+  | ValidatedResponse<
+      'DeletePoliciesIdsParamResponse200',
+      200,
+      DeletePoliciesIdsParamResponse200
+    >
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeletePoliciesIds = Action<
+  DeletePoliciesIdsPayload,
+  ActionValidatable
+>;
 
 /** Delete policies for a customer by the ids passed in the body. Result will be a list of deleted UUIDs */
-export const actionDeletePoliciesIds = (params: UseDeletePoliciesIdsParams): Action<Array<schemas.Uuid> | unknown> => {
+export const actionDeletePoliciesIds = (
+    params: DeletePoliciesIds
+): ActionDeletePoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('DELETE', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: DeletePoliciesIdsParamResponse200 },
+            { status: 403, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/ids/enabled
+const PostPoliciesIdsEnabledParamEnabled = z.boolean();
+type PostPoliciesIdsEnabledParamEnabled = z.infer<
+  typeof PostPoliciesIdsEnabledParamEnabled
+>;
+export interface PostPoliciesIdsEnabled {
+  enabled?: PostPoliciesIdsEnabledParamEnabled;
+  body?: ListUUID;
+}
+
+export type PostPoliciesIdsEnabledPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesIdsEnabled = Action<
+  PostPoliciesIdsEnabledPayload,
+  ActionValidatable
+>;
 
 /** Enable/disable policies identified by list of uuid in body */
-export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledParams): Action<unknown> => {
+export const actionPostPoliciesIdsEnabled = (
+    params: PostPoliciesIdsEnabled
+): ActionPostPoliciesIdsEnabled => {
     const path = '/api/policies/v1.0/policies/ids/enabled';
-
     const query = {} as Record<string, any>;
-    query.enabled = params.enabled;
+    if (params.enabled) {
+        query['{enabled}'] = params.enabled.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/validate
+export interface PostPoliciesValidate {
+  body?: Policy;
+}
+
+export type PostPoliciesValidatePayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesValidate = Action<
+  PostPoliciesValidatePayload,
+  ActionValidatable
+>;
 
 /** Validates a Policy condition */
-export const actionPostPoliciesValidate = (params: UsePostPoliciesValidateParams): Action<unknown> => {
+export const actionPostPoliciesValidate = (
+    params: PostPoliciesValidate
+): ActionPostPoliciesValidate => {
     const path = '/api/policies/v1.0/policies/validate';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/validate-name
+const PostPoliciesValidateNameParamBody = z.string();
+type PostPoliciesValidateNameParamBody = z.infer<
+  typeof PostPoliciesValidateNameParamBody
+>;
+export interface PostPoliciesValidateName {
+  id?: UUID;
+  body?: PostPoliciesValidateNameParamBody;
+}
+
+export type PostPoliciesValidateNamePayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 409, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesValidateName = Action<
+  PostPoliciesValidateNamePayload,
+  ActionValidatable
+>;
 
 /** Validates the Policy.name and verifies if it is unique. */
-export const actionPostPoliciesValidateName = (params: UsePostPoliciesValidateNameParams): Action<unknown> => {
+export const actionPostPoliciesValidateName = (
+    params: PostPoliciesValidateName
+): ActionPostPoliciesValidateName => {
     const path = '/api/policies/v1.0/policies/validate-name';
-
     const query = {} as Record<string, any>;
-    query.id = params.id;
+    if (params.id) {
+        query['{id}'] = params.id.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 409, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// get /policies/{id}
+export interface GetPoliciesId {
+  id: UUID;
+}
+
+export type GetPoliciesIdPayload =
+  | ValidatedResponse<'Policy', 200, Policy>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesId = Action<
+  GetPoliciesIdPayload,
+  ActionValidatable
+>;
 
 /** Retrieve a single policy for a customer by its id */
-export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action<schemas.Policy | unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id.toString());
-
+export const actionGetPoliciesId = (
+    params: GetPoliciesId
+): ActionGetPoliciesId => {
+    const path = '/api/policies/v1.0/policies/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Policy },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// delete /policies/{id}
+export interface DeletePoliciesId {
+  id: UUID;
+}
+
+export type DeletePoliciesIdPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeletePoliciesId = Action<
+  DeletePoliciesIdPayload,
+  ActionValidatable
+>;
 
 /** Delete a single policy for a customer by its id */
-export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): Action<unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id.toString());
-
+export const actionDeletePoliciesId = (
+    params: DeletePoliciesId
+): ActionDeletePoliciesId => {
+    const path = '/api/policies/v1.0/policies/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
     return actionBuilder('DELETE', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// post /policies/{id}/enabled
+const PostPoliciesIdEnabledParamEnabled = z.boolean();
+type PostPoliciesIdEnabledParamEnabled = z.infer<
+  typeof PostPoliciesIdEnabledParamEnabled
+>;
+export interface PostPoliciesIdEnabled {
+  id: UUID;
+  enabled?: PostPoliciesIdEnabledParamEnabled;
+}
+
+export type PostPoliciesIdEnabledPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesIdEnabled = Action<
+  PostPoliciesIdEnabledPayload,
+  ActionValidatable
+>;
+
 /** Enable/disable a policy */
-export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabledParams): Action<unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}/enabled'
-    .replace('{id}', params.id.toString());
-
+export const actionPostPoliciesIdEnabled = (
+    params: PostPoliciesIdEnabled
+): ActionPostPoliciesIdEnabled => {
+    const path = '/api/policies/v1.0/policies/{id}/enabled'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
-    query.enabled = params.enabled;
+    if (params.enabled) {
+        query['{enabled}'] = params.enabled.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// get /policies/{id}/history/trigger
+const GetPoliciesIdHistoryTriggerParamFilterOpId = z.enum([
+    'equal',
+    'not_equal',
+    'like'
+]);
+type GetPoliciesIdHistoryTriggerParamFilterOpId = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterOpId
+>;
+const GetPoliciesIdHistoryTriggerParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'not_equal'
+]);
+type GetPoliciesIdHistoryTriggerParamFilterOpName = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterOpName
+>;
+const GetPoliciesIdHistoryTriggerParamFilterId = z.string();
+type GetPoliciesIdHistoryTriggerParamFilterId = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterId
+>;
+const GetPoliciesIdHistoryTriggerParamFilterName = z.string();
+type GetPoliciesIdHistoryTriggerParamFilterName = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterName
+>;
+const GetPoliciesIdHistoryTriggerParamLimit = z.number().int();
+type GetPoliciesIdHistoryTriggerParamLimit = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamLimit
+>;
+const GetPoliciesIdHistoryTriggerParamOffset = z.number().int();
+type GetPoliciesIdHistoryTriggerParamOffset = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamOffset
+>;
+const GetPoliciesIdHistoryTriggerParamSortColumn = z.enum([
+    'hostName',
+    'id',
+    'ctime'
+]);
+type GetPoliciesIdHistoryTriggerParamSortColumn = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamSortColumn
+>;
+const GetPoliciesIdHistoryTriggerParamSortDirection = z.enum([ 'asc', 'desc' ]);
+type GetPoliciesIdHistoryTriggerParamSortDirection = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamSortDirection
+>;
+export interface GetPoliciesIdHistoryTrigger {
+  id: UUID;
+  'filter:op[id]'?: GetPoliciesIdHistoryTriggerParamFilterOpId;
+  'filter:op[name]'?: GetPoliciesIdHistoryTriggerParamFilterOpName;
+  'filter[id]'?: GetPoliciesIdHistoryTriggerParamFilterId;
+  'filter[name]'?: GetPoliciesIdHistoryTriggerParamFilterName;
+  limit?: GetPoliciesIdHistoryTriggerParamLimit;
+  offset?: GetPoliciesIdHistoryTriggerParamOffset;
+  sortColumn?: GetPoliciesIdHistoryTriggerParamSortColumn;
+  sortDirection?: GetPoliciesIdHistoryTriggerParamSortDirection;
+}
+
+export type GetPoliciesIdHistoryTriggerPayload =
+  | ValidatedResponse<
+      'PagedResponseOfHistoryItem',
+      200,
+      PagedResponseOfHistoryItem
+    >
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesIdHistoryTrigger = Action<
+  GetPoliciesIdHistoryTriggerPayload,
+  ActionValidatable
+>;
+
 /** Retrieve the trigger history of a single policy */
-export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action<schemas.PagedResponseOfHistoryItem | unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}/history/trigger'
-    .replace('{id}', params.id.toString());
-
+export const actionGetPoliciesIdHistoryTrigger = (
+    params: GetPoliciesIdHistoryTrigger
+): ActionGetPoliciesIdHistoryTrigger => {
+    const path = '/api/policies/v1.0/policies/{id}/history/trigger'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
+    if (params['filter:op[id]']) {
+        query['{filter:op[id]}'] = params['filter:op[id]'].toString();
+    }
 
-    query['filter:op[id]'] = params.filterOpId;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[id]'] = params.filterId;
-    query['filter[name]'] = params.filterName;
-    query.limit = params.limit;
-    query.offset = params.offset;
-    query.sortColumn = params.sortColumn;
-    query.sortDirection = params.sortDirection;
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[id]']) {
+        query['{filter[id]}'] = params['filter[id]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
+
+    if (params.limit) {
+        query['{limit}'] = params.limit.toString();
+    }
+
+    if (params.offset) {
+        query['{offset}'] = params.offset.toString();
+    }
+
+    if (params.sortColumn) {
+        query['{sortColumn}'] = params.sortColumn.toString();
+    }
+
+    if (params.sortDirection) {
+        query['{sortDirection}'] = params.sortDirection.toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: PagedResponseOfHistoryItem },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// put /policies/{policyId}
+const PutPoliciesPolicyIdParamDry = z.boolean();
+type PutPoliciesPolicyIdParamDry = z.infer<typeof PutPoliciesPolicyIdParamDry>;
+const PutPoliciesPolicyIdParamResponse409 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PutPoliciesPolicyIdParamResponse409 = z.infer<
+  typeof PutPoliciesPolicyIdParamResponse409
+>;
+export interface PutPoliciesPolicyId {
+  policyId: UUID;
+  dry?: PutPoliciesPolicyIdParamDry;
+  body?: Policy;
+}
+
+export type PutPoliciesPolicyIdPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<
+      'PutPoliciesPolicyIdParamResponse409',
+      409,
+      PutPoliciesPolicyIdParamResponse409
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutPoliciesPolicyId = Action<
+  PutPoliciesPolicyIdPayload,
+  ActionValidatable
+>;
+
 /** Update a single policy for a customer by its id */
-export const actionPutPoliciesByPolicyId = (params: UsePutPoliciesByPolicyIdParams): Action<{
-  msg?: string;
-} | unknown> => {
-    const path = '/api/policies/v1.0/policies/{policyId}'
-    .replace('{policyId}', params.policyId.toString());
-
+export const actionPutPoliciesPolicyId = (
+    params: PutPoliciesPolicyId
+): ActionPutPoliciesPolicyId => {
+    const path = '/api/policies/v1.0/policies/{policyId}'.replace(
+        '{policyId}',
+        params.policyId.toString()
+    );
     const query = {} as Record<string, any>;
-
-    query.dry = params.dry;
+    if (params.dry) {
+        query['{dry}'] = params.dry.toString();
+    }
 
     return actionBuilder('PUT', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 409, zod: PutPoliciesPolicyIdParamResponse409 }
+        ]
+    })
     .build();
 };
 
-export const actionGetStatus = (): Action<unknown> => {
+// get /status
+export type GetStatusPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetStatus = Action<GetStatusPayload, ActionValidatable>;
+export const actionGetStatus = (): ActionGetStatus => {
     const path = '/api/policies/v1.0/status';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: Unknown }]
+    })
     .build();
 };
-
 "
 `;
 
-exports[`src/cli/schema execute input file accepts path 1`] = `
-"/**
-* Generated code, DO NOT modify directly.
-*/
-/* eslint-disable @typescript-eslint/no-empty-interface */
-
-export interface Fact {
-  id?: number;
-  name?: string;
-  type?: FactType;
-}
-
-export enum FactType {
-  BOOLEAN = 'BOOLEAN',
-  INT = 'INT',
-  LIST = 'LIST',
-  STRING = 'STRING',
-}
-
-export interface HistoryItem {
-  ctime?: number;
-  hostName?: string;
-  id?: string;
-}
-
-export type List = Array<{
-}>;
-
-export type ListHistoryItem = Array<HistoryItem>;
-
-export type ListPolicy = Array<Policy>;
-
-export type ListUUID = Array<string>;
-
-export interface MapStringString {
-  [key: string]: string;
-}
-
-export interface Meta {
-  count?: number;
-}
-
-export interface PagedResponseOfHistoryItem {
-  data?: ListHistoryItem;
-  links?: MapStringString;
-  meta?: Meta;
-}
-
-export interface PagedResponseOfPolicy {
-  data?: ListPolicy;
-  links?: MapStringString;
-  meta?: Meta;
-}
-
-export interface Policy {
-  actions?: string;
-  conditions: string;
-  ctime?: string;
-  description?: string;
-  id?: Uuid;
-  isEnabled?: boolean;
-  lastTriggered?: number;
-  mtime?: string;
-  name: string;
-}
-
-export type Uuid = string;
-
-"
-`;
-
-exports[`src/cli/schema execute input file accepts path 2`] = `
-"/**
-* Generated code, DO NOT modify directly.
-*/
-/* eslint-disable max-len */
-
-import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
+exports[`src/cli/schema for ./src/cli/__tests__/policies-openapi.json execute input file accepts path 1`] = `
+"import * as z from 'zod';
+import {
+    actionBuilder,
+    ValidatedResponse,
+    ActionValidatable
+} from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
-import * as schemas from './Types';
+/* eslint-disable @typescript-eslint/no-use-before-define */
 
-export interface UseGetPoliciesParams {
-    filterOpDescription?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterOpName?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterDescription?: string;
-    filterIsEnabled?: 'true' | 'false';
-    filterName?: string;
-    limit?: number;
-    offset?: number;
-    sortColumn?: 'name' | 'description' | 'is_enabled' | 'mtime';
-    sortDirection?: 'asc' | 'desc';
+export const Fact = zodSchemaFact();
+export type Fact = z.infer<typeof Fact>;
+
+export const FactType = zodSchemaFactType();
+export type FactType = z.infer<typeof FactType>;
+
+export const HistoryItem = zodSchemaHistoryItem();
+export type HistoryItem = z.infer<typeof HistoryItem>;
+
+export const List = zodSchemaList();
+export type List = z.infer<typeof List>;
+
+export const ListHistoryItem = zodSchemaListHistoryItem();
+export type ListHistoryItem = z.infer<typeof ListHistoryItem>;
+
+export const ListPolicy = zodSchemaListPolicy();
+export type ListPolicy = z.infer<typeof ListPolicy>;
+
+export const ListUUID = zodSchemaListUUID();
+export type ListUUID = z.infer<typeof ListUUID>;
+
+export const MapStringString = zodSchemaMapStringString();
+export type MapStringString = z.infer<typeof MapStringString>;
+
+export const Meta = zodSchemaMeta();
+export type Meta = z.infer<typeof Meta>;
+
+export const PagedResponseOfHistoryItem = zodSchemaPagedResponseOfHistoryItem();
+export type PagedResponseOfHistoryItem = z.infer<
+  typeof PagedResponseOfHistoryItem
+>;
+
+export const PagedResponseOfPolicy = zodSchemaPagedResponseOfPolicy();
+export type PagedResponseOfPolicy = z.infer<typeof PagedResponseOfPolicy>;
+
+export const Policy = zodSchemaPolicy();
+export type Policy = z.infer<typeof Policy>;
+
+export const UUID = zodSchemaUUID();
+export type UUID = z.infer<typeof UUID>;
+
+export function zodSchemaFact() {
+    return z.object({
+        id: z.number().int().optional().nullable(),
+        name: z.string().optional().nullable(),
+        type: zodSchemaFactType().optional().nullable()
+    });
 }
 
-export interface UsePostPoliciesParams {
-    body?: schemas.Policy;
-    alsoStore?: boolean;
+export function zodSchemaFactType() {
+    return z.enum([ 'BOOLEAN', 'INT', 'LIST', 'STRING' ]);
 }
 
-export interface UseGetPoliciesIdsParams {
-    filterOpDescription?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterOpName?: 'equal' | 'like' | 'ilike' | 'not_equal';
-    filterDescription?: string;
-    filterIsEnabled?: 'true' | 'false';
-    filterName?: string;
+export function zodSchemaHistoryItem() {
+    return z.object({
+        ctime: z.number().int().optional().nullable(),
+        hostName: z.string().optional().nullable(),
+        id: z.string().optional().nullable()
+    });
 }
 
-export interface UseDeletePoliciesIdsParams {
-    body?: schemas.ListUUID;
+export function zodSchemaList() {
+    return z.array(z.any());
 }
 
-export interface UsePostPoliciesIdsEnabledParams {
-    body?: schemas.ListUUID;
-    enabled?: boolean;
+export function zodSchemaListHistoryItem() {
+    return z.array(zodSchemaHistoryItem());
 }
 
-export interface UsePostPoliciesValidateParams {
-    body?: schemas.Policy;
+export function zodSchemaListPolicy() {
+    return z.array(zodSchemaPolicy());
 }
 
-export interface UsePostPoliciesValidateNameParams {
-    body?: string;
-    id?: schemas.Uuid;
+export function zodSchemaListUUID() {
+    return z.array(z.string());
 }
 
-export interface UseGetPoliciesByIdParams {
-    id: schemas.Uuid;
+export function zodSchemaMapStringString() {
+    return z.record(z.string());
 }
 
-export interface UseDeletePoliciesByIdParams {
-    id: schemas.Uuid;
+export function zodSchemaMeta() {
+    return z.object({
+        count: z.number().int().optional().nullable()
+    });
 }
 
-export interface UsePostPoliciesByIdEnabledParams {
-    id: schemas.Uuid;
-    enabled?: boolean;
+export function zodSchemaPagedResponseOfHistoryItem() {
+    return z.object({
+        data: zodSchemaListHistoryItem().optional().nullable(),
+        links: zodSchemaMapStringString().optional().nullable(),
+        meta: zodSchemaMeta().optional().nullable()
+    });
 }
 
-export interface UseGetPoliciesByIdHistoryTriggerParams {
-    id: schemas.Uuid;
-    filterOpId?: 'equal' | 'not_equal' | 'like';
-    filterOpName?: 'equal' | 'like' | 'not_equal';
-    filterId?: string;
-    filterName?: string;
-    limit?: number;
-    offset?: number;
-    sortColumn?: 'hostName' | 'id' | 'ctime';
-    sortDirection?: 'asc' | 'desc';
+export function zodSchemaPagedResponseOfPolicy() {
+    return z.object({
+        data: zodSchemaListPolicy().optional().nullable(),
+        links: zodSchemaMapStringString().optional().nullable(),
+        meta: zodSchemaMeta().optional().nullable()
+    });
 }
 
-export interface UsePutPoliciesByPolicyIdParams {
-    body?: schemas.Policy;
-    policyId: schemas.Uuid;
-    dry?: boolean;
+export function zodSchemaPolicy() {
+    return z.object({
+        actions: z.string().optional().nullable(),
+        conditions: z.string(),
+        ctime: z.string().optional().nullable(),
+        description: z.string().optional().nullable(),
+        id: zodSchemaUUID().optional().nullable(),
+        isEnabled: z.boolean().optional().nullable(),
+        lastTriggered: z.number().int().optional().nullable(),
+        mtime: z.string().optional().nullable(),
+        name: z.string()
+    });
 }
+
+export function zodSchemaUUID() {
+    return z.string();
+}
+
+// get /
+const Unknown = z.unknown();
+type Unknown = z.infer<typeof Unknown>;
+export type GetPayload =
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGet = Action<GetPayload, ActionValidatable>;
 
 /** Just a filler to have a defined return code for the base path */
-export const actionGet = (): Action<unknown> => {
+export const actionGet = (): ActionGet => {
     const path = '/api/policies/v1.0/';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 404, zod: Unknown }]
+    })
     .build();
 };
+
+// get /facts
+const GetFactsParamResponse200 = z.array(zodSchemaFact());
+type GetFactsParamResponse200 = z.infer<typeof GetFactsParamResponse200>;
+export type GetFactsPayload =
+  | ValidatedResponse<'GetFactsParamResponse200', 200, GetFactsParamResponse200>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetFacts = Action<GetFactsPayload, ActionValidatable>;
 
 /** Retrieve a list of fact (keys) along with their data types */
-export const actionGetFacts = (): Action<Array<schemas.Fact> | unknown> => {
+export const actionGetFacts = (): ActionGetFacts => {
     const path = '/api/policies/v1.0/facts';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: GetFactsParamResponse200 }]
+    })
     .build();
 };
+
+// get /policies
+const GetPoliciesParamFilterOpDescription = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesParamFilterOpDescription = z.infer<
+  typeof GetPoliciesParamFilterOpDescription
+>;
+const GetPoliciesParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesParamFilterOpName = z.infer<
+  typeof GetPoliciesParamFilterOpName
+>;
+const GetPoliciesParamFilterDescription = z.string();
+type GetPoliciesParamFilterDescription = z.infer<
+  typeof GetPoliciesParamFilterDescription
+>;
+const GetPoliciesParamFilterIsEnabled = z.enum([ 'true', 'false' ]);
+type GetPoliciesParamFilterIsEnabled = z.infer<
+  typeof GetPoliciesParamFilterIsEnabled
+>;
+const GetPoliciesParamFilterName = z.string();
+type GetPoliciesParamFilterName = z.infer<typeof GetPoliciesParamFilterName>;
+const GetPoliciesParamLimit = z.number().int();
+type GetPoliciesParamLimit = z.infer<typeof GetPoliciesParamLimit>;
+const GetPoliciesParamOffset = z.number().int();
+type GetPoliciesParamOffset = z.infer<typeof GetPoliciesParamOffset>;
+const GetPoliciesParamSortColumn = z.enum([
+    'name',
+    'description',
+    'is_enabled',
+    'mtime'
+]);
+type GetPoliciesParamSortColumn = z.infer<typeof GetPoliciesParamSortColumn>;
+const GetPoliciesParamSortDirection = z.enum([ 'asc', 'desc' ]);
+type GetPoliciesParamSortDirection = z.infer<
+  typeof GetPoliciesParamSortDirection
+>;
+export interface GetPolicies {
+  'filter:op[description]'?: GetPoliciesParamFilterOpDescription;
+  'filter:op[name]'?: GetPoliciesParamFilterOpName;
+  'filter[description]'?: GetPoliciesParamFilterDescription;
+  'filter[isEnabled]'?: GetPoliciesParamFilterIsEnabled;
+  'filter[name]'?: GetPoliciesParamFilterName;
+  limit?: GetPoliciesParamLimit;
+  offset?: GetPoliciesParamOffset;
+  sortColumn?: GetPoliciesParamSortColumn;
+  sortDirection?: GetPoliciesParamSortDirection;
+}
+
+export type GetPoliciesPayload =
+  | ValidatedResponse<'PagedResponseOfPolicy', 200, PagedResponseOfPolicy>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 
 /** Return all policies for a given account */
-export const actionGetPolicies = (params: UseGetPoliciesParams): Action<schemas.PagedResponseOfPolicy | unknown> => {
+export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
-
     const query = {} as Record<string, any>;
-    query['filter:op[description]'] = params.filterOpDescription;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[description]'] = params.filterDescription;
-    query['filter[is_enabled]'] = params.filterIsEnabled;
-    query['filter[name]'] = params.filterName;
-    query.limit = params.limit;
-    query.offset = params.offset;
-    query.sortColumn = params.sortColumn;
-    query.sortDirection = params.sortDirection;
+    if (params['filter:op[description]']) {
+        query['{filter:op[description]}'] = params[
+        'filter:op[description]'
+        ].toString();
+    }
+
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[description]']) {
+        query['{filter[description]}'] = params['filter[description]'].toString();
+    }
+
+    if (params['filter[isEnabled]']) {
+        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
+
+    if (params.limit) {
+        query['{limit}'] = params.limit.toString();
+    }
+
+    if (params.offset) {
+        query['{offset}'] = params.offset.toString();
+    }
+
+    if (params.sortColumn) {
+        query['{sortColumn}'] = params.sortColumn.toString();
+    }
+
+    if (params.sortDirection) {
+        query['{sortDirection}'] = params.sortDirection.toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: PagedResponseOfPolicy },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies
+const PostPoliciesParamAlsoStore = z.boolean();
+type PostPoliciesParamAlsoStore = z.infer<typeof PostPoliciesParamAlsoStore>;
+const PostPoliciesParamResponse400 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PostPoliciesParamResponse400 = z.infer<
+  typeof PostPoliciesParamResponse400
+>;
+const PostPoliciesParamResponse409 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PostPoliciesParamResponse409 = z.infer<
+  typeof PostPoliciesParamResponse409
+>;
+export interface PostPolicies {
+  alsoStore?: PostPoliciesParamAlsoStore;
+  body?: Policy;
+}
+
+export type PostPoliciesPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Policy', 201, Policy>
+  | ValidatedResponse<
+      'PostPoliciesParamResponse400',
+      400,
+      PostPoliciesParamResponse400
+    >
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<
+      'PostPoliciesParamResponse409',
+      409,
+      PostPoliciesParamResponse409
+    >
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPolicies = Action<PostPoliciesPayload, ActionValidatable>;
 
 /** Validate (and possibly persist) a passed policy for the given account */
-export const actionPostPolicies = (params: UsePostPoliciesParams): Action<schemas.Policy | {
-  msg?: string;
-} | {
-  msg?: string;
-} | unknown> => {
+export const actionPostPolicies = (
+    params: PostPolicies
+): ActionPostPolicies => {
     const path = '/api/policies/v1.0/policies';
-
     const query = {} as Record<string, any>;
-    query.alsoStore = params.alsoStore;
+    if (params.alsoStore) {
+        query['{alsoStore}'] = params.alsoStore.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 201, zod: Policy },
+            { status: 400, zod: PostPoliciesParamResponse400 },
+            { status: 403, zod: Unknown },
+            { status: 409, zod: PostPoliciesParamResponse409 },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// get /policies/ids
+const GetPoliciesIdsParamFilterOpDescription = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesIdsParamFilterOpDescription = z.infer<
+  typeof GetPoliciesIdsParamFilterOpDescription
+>;
+const GetPoliciesIdsParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'ilike',
+    'not_equal'
+]);
+type GetPoliciesIdsParamFilterOpName = z.infer<
+  typeof GetPoliciesIdsParamFilterOpName
+>;
+const GetPoliciesIdsParamFilterDescription = z.string();
+type GetPoliciesIdsParamFilterDescription = z.infer<
+  typeof GetPoliciesIdsParamFilterDescription
+>;
+const GetPoliciesIdsParamFilterIsEnabled = z.enum([ 'true', 'false' ]);
+type GetPoliciesIdsParamFilterIsEnabled = z.infer<
+  typeof GetPoliciesIdsParamFilterIsEnabled
+>;
+const GetPoliciesIdsParamFilterName = z.string();
+type GetPoliciesIdsParamFilterName = z.infer<
+  typeof GetPoliciesIdsParamFilterName
+>;
+export interface GetPoliciesIds {
+  'filter:op[description]'?: GetPoliciesIdsParamFilterOpDescription;
+  'filter:op[name]'?: GetPoliciesIdsParamFilterOpName;
+  'filter[description]'?: GetPoliciesIdsParamFilterDescription;
+  'filter[isEnabled]'?: GetPoliciesIdsParamFilterIsEnabled;
+  'filter[name]'?: GetPoliciesIdsParamFilterName;
+}
+
+export type GetPoliciesIdsPayload =
+  | ValidatedResponse<'List', 200, List>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesIds = Action<
+  GetPoliciesIdsPayload,
+  ActionValidatable
+>;
 
 /** Return all policy ids for a given account after applying the filters */
-export const actionGetPoliciesIds = (params: UseGetPoliciesIdsParams): Action<schemas.List | unknown> => {
+export const actionGetPoliciesIds = (
+    params: GetPoliciesIds
+): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
-
     const query = {} as Record<string, any>;
-    query['filter:op[description]'] = params.filterOpDescription;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[description]'] = params.filterDescription;
-    query['filter[is_enabled]'] = params.filterIsEnabled;
-    query['filter[name]'] = params.filterName;
+    if (params['filter:op[description]']) {
+        query['{filter:op[description]}'] = params[
+        'filter:op[description]'
+        ].toString();
+    }
+
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[description]']) {
+        query['{filter[description]}'] = params['filter[description]'].toString();
+    }
+
+    if (params['filter[isEnabled]']) {
+        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: List },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// delete /policies/ids
+const DeletePoliciesIdsParamResponse200 = z.array(zodSchemaUUID());
+type DeletePoliciesIdsParamResponse200 = z.infer<
+  typeof DeletePoliciesIdsParamResponse200
+>;
+export interface DeletePoliciesIds {
+  body?: ListUUID;
+}
+
+export type DeletePoliciesIdsPayload =
+  | ValidatedResponse<
+      'DeletePoliciesIdsParamResponse200',
+      200,
+      DeletePoliciesIdsParamResponse200
+    >
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeletePoliciesIds = Action<
+  DeletePoliciesIdsPayload,
+  ActionValidatable
+>;
 
 /** Delete policies for a customer by the ids passed in the body. Result will be a list of deleted UUIDs */
-export const actionDeletePoliciesIds = (params: UseDeletePoliciesIdsParams): Action<Array<schemas.Uuid> | unknown> => {
+export const actionDeletePoliciesIds = (
+    params: DeletePoliciesIds
+): ActionDeletePoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('DELETE', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: DeletePoliciesIdsParamResponse200 },
+            { status: 403, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/ids/enabled
+const PostPoliciesIdsEnabledParamEnabled = z.boolean();
+type PostPoliciesIdsEnabledParamEnabled = z.infer<
+  typeof PostPoliciesIdsEnabledParamEnabled
+>;
+export interface PostPoliciesIdsEnabled {
+  enabled?: PostPoliciesIdsEnabledParamEnabled;
+  body?: ListUUID;
+}
+
+export type PostPoliciesIdsEnabledPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesIdsEnabled = Action<
+  PostPoliciesIdsEnabledPayload,
+  ActionValidatable
+>;
 
 /** Enable/disable policies identified by list of uuid in body */
-export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledParams): Action<unknown> => {
+export const actionPostPoliciesIdsEnabled = (
+    params: PostPoliciesIdsEnabled
+): ActionPostPoliciesIdsEnabled => {
     const path = '/api/policies/v1.0/policies/ids/enabled';
-
     const query = {} as Record<string, any>;
-    query.enabled = params.enabled;
+    if (params.enabled) {
+        query['{enabled}'] = params.enabled.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/validate
+export interface PostPoliciesValidate {
+  body?: Policy;
+}
+
+export type PostPoliciesValidatePayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesValidate = Action<
+  PostPoliciesValidatePayload,
+  ActionValidatable
+>;
 
 /** Validates a Policy condition */
-export const actionPostPoliciesValidate = (params: UsePostPoliciesValidateParams): Action<unknown> => {
+export const actionPostPoliciesValidate = (
+    params: PostPoliciesValidate
+): ActionPostPoliciesValidate => {
     const path = '/api/policies/v1.0/policies/validate';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// post /policies/validate-name
+const PostPoliciesValidateNameParamBody = z.string();
+type PostPoliciesValidateNameParamBody = z.infer<
+  typeof PostPoliciesValidateNameParamBody
+>;
+export interface PostPoliciesValidateName {
+  id?: UUID;
+  body?: PostPoliciesValidateNameParamBody;
+}
+
+export type PostPoliciesValidateNamePayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 409, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesValidateName = Action<
+  PostPoliciesValidateNamePayload,
+  ActionValidatable
+>;
 
 /** Validates the Policy.name and verifies if it is unique. */
-export const actionPostPoliciesValidateName = (params: UsePostPoliciesValidateNameParams): Action<unknown> => {
+export const actionPostPoliciesValidateName = (
+    params: PostPoliciesValidateName
+): ActionPostPoliciesValidateName => {
     const path = '/api/policies/v1.0/policies/validate-name';
-
     const query = {} as Record<string, any>;
-    query.id = params.id;
+    if (params.id) {
+        query['{id}'] = params.id.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 409, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// get /policies/{id}
+export interface GetPoliciesId {
+  id: UUID;
+}
+
+export type GetPoliciesIdPayload =
+  | ValidatedResponse<'Policy', 200, Policy>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesId = Action<
+  GetPoliciesIdPayload,
+  ActionValidatable
+>;
 
 /** Retrieve a single policy for a customer by its id */
-export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action<schemas.Policy | unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id.toString());
-
+export const actionGetPoliciesId = (
+    params: GetPoliciesId
+): ActionGetPoliciesId => {
+    const path = '/api/policies/v1.0/policies/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Policy },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
+
+// delete /policies/{id}
+export interface DeletePoliciesId {
+  id: UUID;
+}
+
+export type DeletePoliciesIdPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionDeletePoliciesId = Action<
+  DeletePoliciesIdPayload,
+  ActionValidatable
+>;
 
 /** Delete a single policy for a customer by its id */
-export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): Action<unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id.toString());
-
+export const actionDeletePoliciesId = (
+    params: DeletePoliciesId
+): ActionDeletePoliciesId => {
+    const path = '/api/policies/v1.0/policies/{id}'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
     return actionBuilder('DELETE', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// post /policies/{id}/enabled
+const PostPoliciesIdEnabledParamEnabled = z.boolean();
+type PostPoliciesIdEnabledParamEnabled = z.infer<
+  typeof PostPoliciesIdEnabledParamEnabled
+>;
+export interface PostPoliciesIdEnabled {
+  id: UUID;
+  enabled?: PostPoliciesIdEnabledParamEnabled;
+}
+
+export type PostPoliciesIdEnabledPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPostPoliciesIdEnabled = Action<
+  PostPoliciesIdEnabledPayload,
+  ActionValidatable
+>;
+
 /** Enable/disable a policy */
-export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabledParams): Action<unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}/enabled'
-    .replace('{id}', params.id.toString());
-
+export const actionPostPoliciesIdEnabled = (
+    params: PostPoliciesIdEnabled
+): ActionPostPoliciesIdEnabled => {
+    const path = '/api/policies/v1.0/policies/{id}/enabled'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
-
-    query.enabled = params.enabled;
+    if (params.enabled) {
+        query['{enabled}'] = params.enabled.toString();
+    }
 
     return actionBuilder('POST', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// get /policies/{id}/history/trigger
+const GetPoliciesIdHistoryTriggerParamFilterOpId = z.enum([
+    'equal',
+    'not_equal',
+    'like'
+]);
+type GetPoliciesIdHistoryTriggerParamFilterOpId = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterOpId
+>;
+const GetPoliciesIdHistoryTriggerParamFilterOpName = z.enum([
+    'equal',
+    'like',
+    'not_equal'
+]);
+type GetPoliciesIdHistoryTriggerParamFilterOpName = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterOpName
+>;
+const GetPoliciesIdHistoryTriggerParamFilterId = z.string();
+type GetPoliciesIdHistoryTriggerParamFilterId = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterId
+>;
+const GetPoliciesIdHistoryTriggerParamFilterName = z.string();
+type GetPoliciesIdHistoryTriggerParamFilterName = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamFilterName
+>;
+const GetPoliciesIdHistoryTriggerParamLimit = z.number().int();
+type GetPoliciesIdHistoryTriggerParamLimit = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamLimit
+>;
+const GetPoliciesIdHistoryTriggerParamOffset = z.number().int();
+type GetPoliciesIdHistoryTriggerParamOffset = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamOffset
+>;
+const GetPoliciesIdHistoryTriggerParamSortColumn = z.enum([
+    'hostName',
+    'id',
+    'ctime'
+]);
+type GetPoliciesIdHistoryTriggerParamSortColumn = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamSortColumn
+>;
+const GetPoliciesIdHistoryTriggerParamSortDirection = z.enum([ 'asc', 'desc' ]);
+type GetPoliciesIdHistoryTriggerParamSortDirection = z.infer<
+  typeof GetPoliciesIdHistoryTriggerParamSortDirection
+>;
+export interface GetPoliciesIdHistoryTrigger {
+  id: UUID;
+  'filter:op[id]'?: GetPoliciesIdHistoryTriggerParamFilterOpId;
+  'filter:op[name]'?: GetPoliciesIdHistoryTriggerParamFilterOpName;
+  'filter[id]'?: GetPoliciesIdHistoryTriggerParamFilterId;
+  'filter[name]'?: GetPoliciesIdHistoryTriggerParamFilterName;
+  limit?: GetPoliciesIdHistoryTriggerParamLimit;
+  offset?: GetPoliciesIdHistoryTriggerParamOffset;
+  sortColumn?: GetPoliciesIdHistoryTriggerParamSortColumn;
+  sortDirection?: GetPoliciesIdHistoryTriggerParamSortDirection;
+}
+
+export type GetPoliciesIdHistoryTriggerPayload =
+  | ValidatedResponse<
+      'PagedResponseOfHistoryItem',
+      200,
+      PagedResponseOfHistoryItem
+    >
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<'Unknown', 500, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetPoliciesIdHistoryTrigger = Action<
+  GetPoliciesIdHistoryTriggerPayload,
+  ActionValidatable
+>;
+
 /** Retrieve the trigger history of a single policy */
-export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action<schemas.PagedResponseOfHistoryItem | unknown> => {
-    const path = '/api/policies/v1.0/policies/{id}/history/trigger'
-    .replace('{id}', params.id.toString());
-
+export const actionGetPoliciesIdHistoryTrigger = (
+    params: GetPoliciesIdHistoryTrigger
+): ActionGetPoliciesIdHistoryTrigger => {
+    const path = '/api/policies/v1.0/policies/{id}/history/trigger'.replace(
+        '{id}',
+        params.id.toString()
+    );
     const query = {} as Record<string, any>;
+    if (params['filter:op[id]']) {
+        query['{filter:op[id]}'] = params['filter:op[id]'].toString();
+    }
 
-    query['filter:op[id]'] = params.filterOpId;
-    query['filter:op[name]'] = params.filterOpName;
-    query['filter[id]'] = params.filterId;
-    query['filter[name]'] = params.filterName;
-    query.limit = params.limit;
-    query.offset = params.offset;
-    query.sortColumn = params.sortColumn;
-    query.sortDirection = params.sortDirection;
+    if (params['filter:op[name]']) {
+        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    }
+
+    if (params['filter[id]']) {
+        query['{filter[id]}'] = params['filter[id]'].toString();
+    }
+
+    if (params['filter[name]']) {
+        query['{filter[name]}'] = params['filter[name]'].toString();
+    }
+
+    if (params.limit) {
+        query['{limit}'] = params.limit.toString();
+    }
+
+    if (params.offset) {
+        query['{offset}'] = params.offset.toString();
+    }
+
+    if (params.sortColumn) {
+        query['{sortColumn}'] = params.sortColumn.toString();
+    }
+
+    if (params.sortDirection) {
+        query['{sortDirection}'] = params.sortDirection.toString();
+    }
 
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [
+            { status: 200, zod: PagedResponseOfHistoryItem },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 500, zod: Unknown }
+        ]
+    })
     .build();
 };
 
+// put /policies/{policyId}
+const PutPoliciesPolicyIdParamDry = z.boolean();
+type PutPoliciesPolicyIdParamDry = z.infer<typeof PutPoliciesPolicyIdParamDry>;
+const PutPoliciesPolicyIdParamResponse409 = z.object({
+    msg: z.string().optional().nullable()
+});
+type PutPoliciesPolicyIdParamResponse409 = z.infer<
+  typeof PutPoliciesPolicyIdParamResponse409
+>;
+export interface PutPoliciesPolicyId {
+  policyId: UUID;
+  dry?: PutPoliciesPolicyIdParamDry;
+  body?: Policy;
+}
+
+export type PutPoliciesPolicyIdPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'Unknown', 400, Unknown>
+  | ValidatedResponse<'Unknown', 403, Unknown>
+  | ValidatedResponse<'Unknown', 404, Unknown>
+  | ValidatedResponse<
+      'PutPoliciesPolicyIdParamResponse409',
+      409,
+      PutPoliciesPolicyIdParamResponse409
+    >
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionPutPoliciesPolicyId = Action<
+  PutPoliciesPolicyIdPayload,
+  ActionValidatable
+>;
+
 /** Update a single policy for a customer by its id */
-export const actionPutPoliciesByPolicyId = (params: UsePutPoliciesByPolicyIdParams): Action<{
-  msg?: string;
-} | unknown> => {
-    const path = '/api/policies/v1.0/policies/{policyId}'
-    .replace('{policyId}', params.policyId.toString());
-
+export const actionPutPoliciesPolicyId = (
+    params: PutPoliciesPolicyId
+): ActionPutPoliciesPolicyId => {
+    const path = '/api/policies/v1.0/policies/{policyId}'.replace(
+        '{policyId}',
+        params.policyId.toString()
+    );
     const query = {} as Record<string, any>;
-
-    query.dry = params.dry;
+    if (params.dry) {
+        query['{dry}'] = params.dry.toString();
+    }
 
     return actionBuilder('PUT', path)
     .queryParams(query)
     .data(params.body)
+    .config({
+        rules: [
+            { status: 200, zod: Unknown },
+            { status: 400, zod: Unknown },
+            { status: 403, zod: Unknown },
+            { status: 404, zod: Unknown },
+            { status: 409, zod: PutPoliciesPolicyIdParamResponse409 }
+        ]
+    })
     .build();
 };
 
-export const actionGetStatus = (): Action<unknown> => {
+// get /status
+export type GetStatusPayload =
+  | ValidatedResponse<'Unknown', 200, Unknown>
+  | ValidatedResponse<'unknown', undefined, unknown>;
+export type ActionGetStatus = Action<GetStatusPayload, ActionValidatable>;
+export const actionGetStatus = (): ActionGetStatus => {
     const path = '/api/policies/v1.0/status';
-
     const query = {} as Record<string, any>;
-
     return actionBuilder('GET', path)
     .queryParams(query)
+    .config({
+        rules: [{ status: 200, zod: Unknown }]
+    })
     .build();
 };
-
 "
 `;
