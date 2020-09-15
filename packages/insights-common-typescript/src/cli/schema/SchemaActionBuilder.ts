@@ -3,6 +3,7 @@ import { SchemaBase } from './SchemaBase';
 import { OpenAPI3, Buffer, isReference, Verb } from './Types';
 
 const Verbs: Array<Verb> = [ 'get', 'post', 'put', 'delete' ];
+const UNKNOWN_TYPE_NAME = 'Unknown';
 
 export class SchemaActionBuilder extends SchemaBase {
 
@@ -76,10 +77,12 @@ export class SchemaActionBuilder extends SchemaBase {
                     this.schema(responseSchema);
                     this.append(';\n');
                     this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
-                } else if (!this.unknownTypeFound) {
+                } else {
                     const propName = this.responseTypeName(path, verb, status, response);
-                    this.append(`const ${propName} = z.unknown();\ntype ${propName} = z.infer<typeof ${propName}>;\n`);
-                    this.unknownTypeFound = true;
+                    if (this.unknownTypeFound && propName === UNKNOWN_TYPE_NAME) {
+                        this.append(`const ${propName} = z.unknown();\ntype ${propName} = z.infer<typeof ${propName}>;\n`);
+                        this.unknownTypeFound = true;
+                    }
                 }
             }
         }
@@ -253,7 +256,7 @@ export class SchemaActionBuilder extends SchemaBase {
             }
         }
 
-        return 'Unknown';
+        return UNKNOWN_TYPE_NAME;
     }
 
     private anonymousParamTypeName(path: string, verb: Verb, name: string) {
