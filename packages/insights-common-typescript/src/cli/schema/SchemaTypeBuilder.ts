@@ -28,7 +28,6 @@ export class SchemaTypeBuilder extends SchemaBase {
     private functionTypes(schemas: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>) {
         for (const [ typeName, schema ] of Object.entries(schemas)) {
             this.append(`export function ${this.functionName(typeName)}() {\nreturn `);
-            // Making top-level schemas required unless `required` is defined
             this.schema(schema);
             this.append(';\n}\n\n');
         }
