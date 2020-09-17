@@ -67,7 +67,7 @@ export const execute = async (options: Options) => {
         const buffer: Array<string> = [
             '/**\n',
             '* Generated code, DO NOT modify directly.\n',
-            '*/',
+            '*/\n',
             'import * as z from \'zod\';\n',
             'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
             'import { Action } from \'react-fetching-library\';\n',

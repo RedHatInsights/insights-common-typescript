@@ -22,6 +22,17 @@ type ActionWithRequiredConfig =
     Required<Pick<Action<any, ActionValidatable>, 'config'>>
     & Omit<Action<any, ActionValidatable>, 'config'>;
 
+export const validatedResponse = <
+    Name extends string,
+    Status extends number | undefined,
+    Value
+    >(name: Name, status: Status, value: Value, errors: Record<number, z.ZodError>): ValidatedResponse<Name, Status, Value> => ({
+        type: name,
+        status,
+        value,
+        errors
+    });
+
 export const validateSchema =
     <Status extends number | undefined, Type extends any | unknown>(
         action: ActionWithRequiredConfig,
@@ -33,12 +44,12 @@ export const validateSchema =
             if (rule.status === response.status) {
                 const result = rule.zod.safeParse(response.payload);
                 if (result.success) {
-                    return {
-                        type: rule.type,
-                        status: rule.status,
-                        value: result.data,
+                    return validatedResponse(
+                        rule.type,
+                        rule.status,
+                        result.data,
                         errors
-                    };
+                    );
                 }
 
                 errors[rule.status] = result.error;
@@ -50,12 +61,12 @@ export const validateSchema =
             console.error(`All validations failed for request ${request}`);
         }
 
-        return {
-            type: undefined,
-            status: undefined,
-            value: response.payload,
+        return validatedResponse(
+            'undefined',
+            undefined,
+            response.payload,
             errors
-        };
+        );
     };
 
 export const validateSchemaResponseInterceptor: ResponseInterceptor<any, any> = _client => async (action, response) => {
