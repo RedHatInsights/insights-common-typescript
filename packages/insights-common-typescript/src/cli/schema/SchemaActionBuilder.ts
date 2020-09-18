@@ -174,7 +174,7 @@ export class SchemaActionBuilder extends SchemaBase {
             if (operation.parameters) {
                 this.filteredParameters(operation.parameters).filter(p => p.in === 'query').forEach(param => {
                     this.append(`if (params['${this.paramName(param.name)}']) {\n`);
-                    this.append(`query['{${param.name}}'] = params['${this.paramName(param.name)}'].toString();\n`);
+                    this.append(`query['${param.name}'] = params['${this.paramName(param.name)}'].toString();\n`);
                     this.append('}\n\n');
                 });
             }
@@ -301,6 +301,6 @@ export class SchemaActionBuilder extends SchemaBase {
     }
 
     private paramName(name: string) {
-        return camelcase(name);
+        return camelcase(name.replace(/[:\[\]]/g, '_'));
     }
 }

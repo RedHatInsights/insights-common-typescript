@@ -22,6 +22,11 @@ type ActionWithRequiredConfig =
     Required<Pick<Action<any, ActionValidatable>, 'config'>>
     & Omit<Action<any, ActionValidatable>, 'config'>;
 
+export const validationResponseTransformer = <
+    I extends any[],
+    M extends ValidatedResponse<string, number | undefined, unknown>
+>(x: (...args: I) => M) => x;
+
 export const validatedResponse = <
     Name extends string,
     Status extends number | undefined,
@@ -57,8 +62,8 @@ export const validateSchema =
         }
 
         if (process.env.NODE_ENV !== 'production') {
-            const request = `${action.method.toUpperCase()}: ${action.endpoint} with body: ${action.body}`;
-            console.error(`All validations failed for request ${request}`);
+            const request = `${action.method.toUpperCase()}: ${action.endpoint}`;
+            console.error(`All validations failed for request ${request}`, 'with body', action.body);
         }
 
         return validatedResponse(
