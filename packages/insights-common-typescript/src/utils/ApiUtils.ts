@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { QueryResponse } from 'react-fetching-library';
 
-// This will swallow payloads different than 200 or 201 for the methods using this transform.
-// An alternative would be to have specific adapters for each request, pass the payload and status and let
-// them transform or just pass the errors as needed.
-const transformPayload = <FROM, TO>(payload: FROM | undefined, status: number | undefined, adapter: (from: FROM) => TO): TO | undefined => {
+const transformPayload = <FROM, TO>(payload: FROM | undefined, status: number | undefined, adapter: (from: FROM, status) => TO): TO | undefined => {
     if (payload) {
-        return adapter(payload);
+        return adapter(payload, status);
     }
 
     return payload as any;

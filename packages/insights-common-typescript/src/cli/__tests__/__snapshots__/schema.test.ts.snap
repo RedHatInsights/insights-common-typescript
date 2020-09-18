@@ -1147,11 +1147,11 @@ type GetPoliciesParamSortDirection = z.infer<
   typeof GetPoliciesParamSortDirection
 >;
 export interface GetPolicies {
-  'filter:op[description]'?: GetPoliciesParamFilterOpDescription;
-  'filter:op[name]'?: GetPoliciesParamFilterOpName;
-  'filter[description]'?: GetPoliciesParamFilterDescription;
-  'filter[isEnabled]'?: GetPoliciesParamFilterIsEnabled;
-  'filter[name]'?: GetPoliciesParamFilterName;
+  filterOpDescription?: GetPoliciesParamFilterOpDescription;
+  filterOpName?: GetPoliciesParamFilterOpName;
+  filterDescription?: GetPoliciesParamFilterDescription;
+  filterIsEnabled?: GetPoliciesParamFilterIsEnabled;
+  filterName?: GetPoliciesParamFilterName;
   limit?: GetPoliciesParamLimit;
   offset?: GetPoliciesParamOffset;
   sortColumn?: GetPoliciesParamSortColumn;
@@ -1170,42 +1170,40 @@ export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params['filter:op[description]']) {
-        query['{filter:op[description]}'] = params[
-        'filter:op[description]'
-        ].toString();
+    if (params.filterOpDescription) {
+        query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[description]']) {
-        query['{filter[description]}'] = params['filter[description]'].toString();
+    if (params.filterDescription) {
+        query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params['filter[isEnabled]']) {
-        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    if (params.filterIsEnabled) {
+        query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     if (params.limit) {
-        query['{limit}'] = params.limit.toString();
+        query.limit = params.limit.toString();
     }
 
     if (params.offset) {
-        query['{offset}'] = params.offset.toString();
+        query.offset = params.offset.toString();
     }
 
     if (params.sortColumn) {
-        query['{sortColumn}'] = params.sortColumn.toString();
+        query.sortColumn = params.sortColumn.toString();
     }
 
     if (params.sortDirection) {
-        query['{sortDirection}'] = params.sortDirection.toString();
+        query.sortDirection = params.sortDirection.toString();
     }
 
     return actionBuilder('GET', path)
@@ -1270,7 +1268,7 @@ export const actionPostPolicies = (
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
     if (params.alsoStore) {
-        query['{alsoStore}'] = params.alsoStore.toString();
+        query.alsoStore = params.alsoStore.toString();
     }
 
     return actionBuilder('POST', path)
@@ -1329,11 +1327,11 @@ type GetPoliciesIdsParamFilterName = z.infer<
   typeof GetPoliciesIdsParamFilterName
 >;
 export interface GetPoliciesIds {
-  'filter:op[description]'?: GetPoliciesIdsParamFilterOpDescription;
-  'filter:op[name]'?: GetPoliciesIdsParamFilterOpName;
-  'filter[description]'?: GetPoliciesIdsParamFilterDescription;
-  'filter[isEnabled]'?: GetPoliciesIdsParamFilterIsEnabled;
-  'filter[name]'?: GetPoliciesIdsParamFilterName;
+  filterOpDescription?: GetPoliciesIdsParamFilterOpDescription;
+  filterOpName?: GetPoliciesIdsParamFilterOpName;
+  filterDescription?: GetPoliciesIdsParamFilterDescription;
+  filterIsEnabled?: GetPoliciesIdsParamFilterIsEnabled;
+  filterName?: GetPoliciesIdsParamFilterName;
 }
 
 export type GetPoliciesIdsPayload =
@@ -1353,26 +1351,24 @@ export const actionGetPoliciesIds = (
 ): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
     const query = {} as Record<string, any>;
-    if (params['filter:op[description]']) {
-        query['{filter:op[description]}'] = params[
-        'filter:op[description]'
-        ].toString();
+    if (params.filterOpDescription) {
+        query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[description]']) {
-        query['{filter[description]}'] = params['filter[description]'].toString();
+    if (params.filterDescription) {
+        query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params['filter[isEnabled]']) {
-        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    if (params.filterIsEnabled) {
+        query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     return actionBuilder('GET', path)
@@ -1458,7 +1454,7 @@ export const actionPostPoliciesIdsEnabled = (
     const path = '/api/policies/v1.0/policies/ids/enabled';
     const query = {} as Record<string, any>;
     if (params.enabled) {
-        query['{enabled}'] = params.enabled.toString();
+        query.enabled = params.enabled.toString();
     }
 
     return actionBuilder('POST', path)
@@ -1536,7 +1532,7 @@ export const actionPostPoliciesValidateName = (
     const path = '/api/policies/v1.0/policies/validate-name';
     const query = {} as Record<string, any>;
     if (params.id) {
-        query['{id}'] = params.id.toString();
+        query.id = params.id.toString();
     }
 
     return actionBuilder('POST', path)
@@ -1657,7 +1653,7 @@ export const actionPostPoliciesByIdEnabled = (
     );
     const query = {} as Record<string, any>;
     if (params.enabled) {
-        query['{enabled}'] = params.enabled.toString();
+        query.enabled = params.enabled.toString();
     }
 
     return actionBuilder('POST', path)
@@ -1720,10 +1716,10 @@ type GetPoliciesByIdHistoryTriggerParamSortDirection = z.infer<
 >;
 export interface GetPoliciesByIdHistoryTrigger {
   id: UUID;
-  'filter:op[id]'?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
-  'filter:op[name]'?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
-  'filter[id]'?: GetPoliciesByIdHistoryTriggerParamFilterId;
-  'filter[name]'?: GetPoliciesByIdHistoryTriggerParamFilterName;
+  filterOpId?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
+  filterOpName?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
+  filterId?: GetPoliciesByIdHistoryTriggerParamFilterId;
+  filterName?: GetPoliciesByIdHistoryTriggerParamFilterName;
   limit?: GetPoliciesByIdHistoryTriggerParamLimit;
   offset?: GetPoliciesByIdHistoryTriggerParamOffset;
   sortColumn?: GetPoliciesByIdHistoryTriggerParamSortColumn;
@@ -1755,36 +1751,36 @@ export const actionGetPoliciesByIdHistoryTrigger = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params['filter:op[id]']) {
-        query['{filter:op[id]}'] = params['filter:op[id]'].toString();
+    if (params.filterOpId) {
+        query['filter:op[id]'] = params.filterOpId.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[id]']) {
-        query['{filter[id]}'] = params['filter[id]'].toString();
+    if (params.filterId) {
+        query['filter[id]'] = params.filterId.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     if (params.limit) {
-        query['{limit}'] = params.limit.toString();
+        query.limit = params.limit.toString();
     }
 
     if (params.offset) {
-        query['{offset}'] = params.offset.toString();
+        query.offset = params.offset.toString();
     }
 
     if (params.sortColumn) {
-        query['{sortColumn}'] = params.sortColumn.toString();
+        query.sortColumn = params.sortColumn.toString();
     }
 
     if (params.sortDirection) {
-        query['{sortDirection}'] = params.sortDirection.toString();
+        query.sortDirection = params.sortDirection.toString();
     }
 
     return actionBuilder('GET', path)
@@ -1848,7 +1844,7 @@ export const actionPutPoliciesByPolicyId = (
     );
     const query = {} as Record<string, any>;
     if (params.dry) {
-        query['{dry}'] = params.dry.toString();
+        query.dry = params.dry.toString();
     }
 
     return actionBuilder('PUT', path)
@@ -2113,11 +2109,11 @@ type GetPoliciesParamSortDirection = z.infer<
   typeof GetPoliciesParamSortDirection
 >;
 export interface GetPolicies {
-  'filter:op[description]'?: GetPoliciesParamFilterOpDescription;
-  'filter:op[name]'?: GetPoliciesParamFilterOpName;
-  'filter[description]'?: GetPoliciesParamFilterDescription;
-  'filter[isEnabled]'?: GetPoliciesParamFilterIsEnabled;
-  'filter[name]'?: GetPoliciesParamFilterName;
+  filterOpDescription?: GetPoliciesParamFilterOpDescription;
+  filterOpName?: GetPoliciesParamFilterOpName;
+  filterDescription?: GetPoliciesParamFilterDescription;
+  filterIsEnabled?: GetPoliciesParamFilterIsEnabled;
+  filterName?: GetPoliciesParamFilterName;
   limit?: GetPoliciesParamLimit;
   offset?: GetPoliciesParamOffset;
   sortColumn?: GetPoliciesParamSortColumn;
@@ -2136,42 +2132,40 @@ export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params['filter:op[description]']) {
-        query['{filter:op[description]}'] = params[
-        'filter:op[description]'
-        ].toString();
+    if (params.filterOpDescription) {
+        query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[description]']) {
-        query['{filter[description]}'] = params['filter[description]'].toString();
+    if (params.filterDescription) {
+        query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params['filter[isEnabled]']) {
-        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    if (params.filterIsEnabled) {
+        query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     if (params.limit) {
-        query['{limit}'] = params.limit.toString();
+        query.limit = params.limit.toString();
     }
 
     if (params.offset) {
-        query['{offset}'] = params.offset.toString();
+        query.offset = params.offset.toString();
     }
 
     if (params.sortColumn) {
-        query['{sortColumn}'] = params.sortColumn.toString();
+        query.sortColumn = params.sortColumn.toString();
     }
 
     if (params.sortDirection) {
-        query['{sortDirection}'] = params.sortDirection.toString();
+        query.sortDirection = params.sortDirection.toString();
     }
 
     return actionBuilder('GET', path)
@@ -2236,7 +2230,7 @@ export const actionPostPolicies = (
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
     if (params.alsoStore) {
-        query['{alsoStore}'] = params.alsoStore.toString();
+        query.alsoStore = params.alsoStore.toString();
     }
 
     return actionBuilder('POST', path)
@@ -2295,11 +2289,11 @@ type GetPoliciesIdsParamFilterName = z.infer<
   typeof GetPoliciesIdsParamFilterName
 >;
 export interface GetPoliciesIds {
-  'filter:op[description]'?: GetPoliciesIdsParamFilterOpDescription;
-  'filter:op[name]'?: GetPoliciesIdsParamFilterOpName;
-  'filter[description]'?: GetPoliciesIdsParamFilterDescription;
-  'filter[isEnabled]'?: GetPoliciesIdsParamFilterIsEnabled;
-  'filter[name]'?: GetPoliciesIdsParamFilterName;
+  filterOpDescription?: GetPoliciesIdsParamFilterOpDescription;
+  filterOpName?: GetPoliciesIdsParamFilterOpName;
+  filterDescription?: GetPoliciesIdsParamFilterDescription;
+  filterIsEnabled?: GetPoliciesIdsParamFilterIsEnabled;
+  filterName?: GetPoliciesIdsParamFilterName;
 }
 
 export type GetPoliciesIdsPayload =
@@ -2319,26 +2313,24 @@ export const actionGetPoliciesIds = (
 ): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
     const query = {} as Record<string, any>;
-    if (params['filter:op[description]']) {
-        query['{filter:op[description]}'] = params[
-        'filter:op[description]'
-        ].toString();
+    if (params.filterOpDescription) {
+        query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[description]']) {
-        query['{filter[description]}'] = params['filter[description]'].toString();
+    if (params.filterDescription) {
+        query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params['filter[isEnabled]']) {
-        query['{filter[is_enabled]}'] = params['filter[isEnabled]'].toString();
+    if (params.filterIsEnabled) {
+        query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     return actionBuilder('GET', path)
@@ -2424,7 +2416,7 @@ export const actionPostPoliciesIdsEnabled = (
     const path = '/api/policies/v1.0/policies/ids/enabled';
     const query = {} as Record<string, any>;
     if (params.enabled) {
-        query['{enabled}'] = params.enabled.toString();
+        query.enabled = params.enabled.toString();
     }
 
     return actionBuilder('POST', path)
@@ -2502,7 +2494,7 @@ export const actionPostPoliciesValidateName = (
     const path = '/api/policies/v1.0/policies/validate-name';
     const query = {} as Record<string, any>;
     if (params.id) {
-        query['{id}'] = params.id.toString();
+        query.id = params.id.toString();
     }
 
     return actionBuilder('POST', path)
@@ -2623,7 +2615,7 @@ export const actionPostPoliciesByIdEnabled = (
     );
     const query = {} as Record<string, any>;
     if (params.enabled) {
-        query['{enabled}'] = params.enabled.toString();
+        query.enabled = params.enabled.toString();
     }
 
     return actionBuilder('POST', path)
@@ -2686,10 +2678,10 @@ type GetPoliciesByIdHistoryTriggerParamSortDirection = z.infer<
 >;
 export interface GetPoliciesByIdHistoryTrigger {
   id: UUID;
-  'filter:op[id]'?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
-  'filter:op[name]'?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
-  'filter[id]'?: GetPoliciesByIdHistoryTriggerParamFilterId;
-  'filter[name]'?: GetPoliciesByIdHistoryTriggerParamFilterName;
+  filterOpId?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
+  filterOpName?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
+  filterId?: GetPoliciesByIdHistoryTriggerParamFilterId;
+  filterName?: GetPoliciesByIdHistoryTriggerParamFilterName;
   limit?: GetPoliciesByIdHistoryTriggerParamLimit;
   offset?: GetPoliciesByIdHistoryTriggerParamOffset;
   sortColumn?: GetPoliciesByIdHistoryTriggerParamSortColumn;
@@ -2721,36 +2713,36 @@ export const actionGetPoliciesByIdHistoryTrigger = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params['filter:op[id]']) {
-        query['{filter:op[id]}'] = params['filter:op[id]'].toString();
+    if (params.filterOpId) {
+        query['filter:op[id]'] = params.filterOpId.toString();
     }
 
-    if (params['filter:op[name]']) {
-        query['{filter:op[name]}'] = params['filter:op[name]'].toString();
+    if (params.filterOpName) {
+        query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params['filter[id]']) {
-        query['{filter[id]}'] = params['filter[id]'].toString();
+    if (params.filterId) {
+        query['filter[id]'] = params.filterId.toString();
     }
 
-    if (params['filter[name]']) {
-        query['{filter[name]}'] = params['filter[name]'].toString();
+    if (params.filterName) {
+        query['filter[name]'] = params.filterName.toString();
     }
 
     if (params.limit) {
-        query['{limit}'] = params.limit.toString();
+        query.limit = params.limit.toString();
     }
 
     if (params.offset) {
-        query['{offset}'] = params.offset.toString();
+        query.offset = params.offset.toString();
     }
 
     if (params.sortColumn) {
-        query['{sortColumn}'] = params.sortColumn.toString();
+        query.sortColumn = params.sortColumn.toString();
     }
 
     if (params.sortDirection) {
-        query['{sortDirection}'] = params.sortDirection.toString();
+        query.sortDirection = params.sortDirection.toString();
     }
 
     return actionBuilder('GET', path)
@@ -2814,7 +2806,7 @@ export const actionPutPoliciesByPolicyId = (
     );
     const query = {} as Record<string, any>;
     if (params.dry) {
-        query['{dry}'] = params.dry.toString();
+        query.dry = params.dry.toString();
     }
 
     return actionBuilder('PUT', path)
