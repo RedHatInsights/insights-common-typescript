@@ -23,9 +23,9 @@ type ActionWithRequiredConfig =
     & Omit<Action<any, ActionValidatable>, 'config'>;
 
 export const validationResponseTransformer = <
-    I extends any[],
+    I extends any,
     M extends ValidatedResponse<string, number | undefined, unknown>
->(x: (...args: I) => M) => x;
+>(x: (response: I) => M) => x;
 
 export const validatedResponse = <
     Name extends string,
@@ -37,6 +37,36 @@ export const validatedResponse = <
         value,
         errors
     });
+
+let suppressErrorCount = 0;
+
+/**
+ * Used for knowingly suppress errors while testing.
+ */
+export const suppressValidateError = (times?: number) => {
+    if (process.env.NODE_ENV !== 'test') {
+        console.error('suppressValidateError should only be used for testing');
+    }
+
+    suppressErrorCount += times ?? 1;
+};
+
+const logError = (action: ActionWithRequiredConfig, response: QueryResponse<unknown>) => {
+    if (process.env.NODE_ENV !== 'production') {
+        if (suppressErrorCount > 0) {
+            suppressErrorCount--;
+            return;
+        }
+
+        const request = `${action.method.toUpperCase()}: ${action.endpoint}`;
+        console.error(
+            `All validations failed for request ${request}`,
+            'with body', action.body,
+            ', response status:', response.status,
+            'and body:', response.payload
+        );
+    }
+};
 
 export const validateSchema =
     <Status extends number | undefined, Type extends any | unknown>(
@@ -61,10 +91,7 @@ export const validateSchema =
             }
         }
 
-        if (process.env.NODE_ENV !== 'production') {
-            const request = `${action.method.toUpperCase()}: ${action.endpoint}`;
-            console.error(`All validations failed for request ${request}`, 'with body', action.body);
-        }
+        logError(action, response);
 
         return validatedResponse(
             'undefined',

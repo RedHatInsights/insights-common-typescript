@@ -173,7 +173,7 @@ export class SchemaActionBuilder extends SchemaBase {
             this.append('const query = {} as Record<string, any>;\n');
             if (operation.parameters) {
                 this.filteredParameters(operation.parameters).filter(p => p.in === 'query').forEach(param => {
-                    this.append(`if (params['${this.paramName(param.name)}']) {\n`);
+                    this.append(`if (params['${this.paramName(param.name)}'] !== undefined) {\n`);
                     this.append(`query['${param.name}'] = params['${this.paramName(param.name)}'].toString();\n`);
                     this.append('}\n\n');
                 });
