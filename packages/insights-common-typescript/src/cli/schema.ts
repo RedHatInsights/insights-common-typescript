@@ -14,6 +14,7 @@ export interface Options {
     inputFile: string;
     output: string;
     skipPostProcess?: boolean;
+    skipActionGenerator?: boolean;
 }
 
 const getProgram = () => {
@@ -24,6 +25,11 @@ const getProgram = () => {
     .option(
         '-s, --skip-post-process',
         'Skips the postprocess (prettier and linter)',
+        false
+    )
+    .option(
+        '-sa, --skip-action-generator',
+        'Skips the actions generators used for react-fetching-library',
         false
     )
     .requiredOption(
@@ -70,15 +76,18 @@ export const execute = async (options: Options) => {
             '*/\n',
             'import * as z from \'zod\';\n',
             'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
-            'import { Action } from \'react-fetching-library\';\n',
+            options.skipActionGenerator ? '' : 'import { Action } from \'react-fetching-library\';\n' ,
             '/* eslint-disable @typescript-eslint/no-use-before-define */\n\n'
         ];
 
         const typeBuilder = new SchemaTypeBuilder(openapi, buffer);
-        const actionBuilder = new SchemaActionBuilder(openapi, buffer);
-
         typeBuilder.build();
-        actionBuilder.build();
+
+        if (!options.skipActionGenerator) {
+            const actionBuilder = new SchemaActionBuilder(openapi, buffer);
+            actionBuilder.build();
+        }
+
         return buffer.join('');
     }).then(content => {
         if (options.skipPostProcess) {
