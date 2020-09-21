@@ -1170,39 +1170,39 @@ export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params.filterOpDescription) {
+    if (params.filterOpDescription !== undefined) {
         query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterDescription) {
+    if (params.filterDescription !== undefined) {
         query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params.filterIsEnabled) {
+    if (params.filterIsEnabled !== undefined) {
         query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
-    if (params.limit) {
+    if (params.limit !== undefined) {
         query.limit = params.limit.toString();
     }
 
-    if (params.offset) {
+    if (params.offset !== undefined) {
         query.offset = params.offset.toString();
     }
 
-    if (params.sortColumn) {
+    if (params.sortColumn !== undefined) {
         query.sortColumn = params.sortColumn.toString();
     }
 
-    if (params.sortDirection) {
+    if (params.sortDirection !== undefined) {
         query.sortDirection = params.sortDirection.toString();
     }
 
@@ -1267,7 +1267,7 @@ export const actionPostPolicies = (
 ): ActionPostPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params.alsoStore) {
+    if (params.alsoStore !== undefined) {
         query.alsoStore = params.alsoStore.toString();
     }
 
@@ -1351,23 +1351,23 @@ export const actionGetPoliciesIds = (
 ): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
     const query = {} as Record<string, any>;
-    if (params.filterOpDescription) {
+    if (params.filterOpDescription !== undefined) {
         query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterDescription) {
+    if (params.filterDescription !== undefined) {
         query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params.filterIsEnabled) {
+    if (params.filterIsEnabled !== undefined) {
         query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
@@ -1453,7 +1453,7 @@ export const actionPostPoliciesIdsEnabled = (
 ): ActionPostPoliciesIdsEnabled => {
     const path = '/api/policies/v1.0/policies/ids/enabled';
     const query = {} as Record<string, any>;
-    if (params.enabled) {
+    if (params.enabled !== undefined) {
         query.enabled = params.enabled.toString();
     }
 
@@ -1531,7 +1531,7 @@ export const actionPostPoliciesValidateName = (
 ): ActionPostPoliciesValidateName => {
     const path = '/api/policies/v1.0/policies/validate-name';
     const query = {} as Record<string, any>;
-    if (params.id) {
+    if (params.id !== undefined) {
         query.id = params.id.toString();
     }
 
@@ -1652,7 +1652,7 @@ export const actionPostPoliciesByIdEnabled = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.enabled) {
+    if (params.enabled !== undefined) {
         query.enabled = params.enabled.toString();
     }
 
@@ -1751,35 +1751,35 @@ export const actionGetPoliciesByIdHistoryTrigger = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.filterOpId) {
+    if (params.filterOpId !== undefined) {
         query['filter:op[id]'] = params.filterOpId.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterId) {
+    if (params.filterId !== undefined) {
         query['filter[id]'] = params.filterId.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
-    if (params.limit) {
+    if (params.limit !== undefined) {
         query.limit = params.limit.toString();
     }
 
-    if (params.offset) {
+    if (params.offset !== undefined) {
         query.offset = params.offset.toString();
     }
 
-    if (params.sortColumn) {
+    if (params.sortColumn !== undefined) {
         query.sortColumn = params.sortColumn.toString();
     }
 
-    if (params.sortDirection) {
+    if (params.sortDirection !== undefined) {
         query.sortDirection = params.sortDirection.toString();
     }
 
@@ -1843,7 +1843,7 @@ export const actionPutPoliciesByPolicyId = (
         params.policyId.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.dry) {
+    if (params.dry !== undefined) {
         query.dry = params.dry.toString();
     }
 
@@ -2132,39 +2132,39 @@ export type ActionGetPolicies = Action<GetPoliciesPayload, ActionValidatable>;
 export const actionGetPolicies = (params: GetPolicies): ActionGetPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params.filterOpDescription) {
+    if (params.filterOpDescription !== undefined) {
         query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterDescription) {
+    if (params.filterDescription !== undefined) {
         query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params.filterIsEnabled) {
+    if (params.filterIsEnabled !== undefined) {
         query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
-    if (params.limit) {
+    if (params.limit !== undefined) {
         query.limit = params.limit.toString();
     }
 
-    if (params.offset) {
+    if (params.offset !== undefined) {
         query.offset = params.offset.toString();
     }
 
-    if (params.sortColumn) {
+    if (params.sortColumn !== undefined) {
         query.sortColumn = params.sortColumn.toString();
     }
 
-    if (params.sortDirection) {
+    if (params.sortDirection !== undefined) {
         query.sortDirection = params.sortDirection.toString();
     }
 
@@ -2229,7 +2229,7 @@ export const actionPostPolicies = (
 ): ActionPostPolicies => {
     const path = '/api/policies/v1.0/policies';
     const query = {} as Record<string, any>;
-    if (params.alsoStore) {
+    if (params.alsoStore !== undefined) {
         query.alsoStore = params.alsoStore.toString();
     }
 
@@ -2313,23 +2313,23 @@ export const actionGetPoliciesIds = (
 ): ActionGetPoliciesIds => {
     const path = '/api/policies/v1.0/policies/ids';
     const query = {} as Record<string, any>;
-    if (params.filterOpDescription) {
+    if (params.filterOpDescription !== undefined) {
         query['filter:op[description]'] = params.filterOpDescription.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterDescription) {
+    if (params.filterDescription !== undefined) {
         query['filter[description]'] = params.filterDescription.toString();
     }
 
-    if (params.filterIsEnabled) {
+    if (params.filterIsEnabled !== undefined) {
         query['filter[is_enabled]'] = params.filterIsEnabled.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
@@ -2415,7 +2415,7 @@ export const actionPostPoliciesIdsEnabled = (
 ): ActionPostPoliciesIdsEnabled => {
     const path = '/api/policies/v1.0/policies/ids/enabled';
     const query = {} as Record<string, any>;
-    if (params.enabled) {
+    if (params.enabled !== undefined) {
         query.enabled = params.enabled.toString();
     }
 
@@ -2493,7 +2493,7 @@ export const actionPostPoliciesValidateName = (
 ): ActionPostPoliciesValidateName => {
     const path = '/api/policies/v1.0/policies/validate-name';
     const query = {} as Record<string, any>;
-    if (params.id) {
+    if (params.id !== undefined) {
         query.id = params.id.toString();
     }
 
@@ -2614,7 +2614,7 @@ export const actionPostPoliciesByIdEnabled = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.enabled) {
+    if (params.enabled !== undefined) {
         query.enabled = params.enabled.toString();
     }
 
@@ -2713,35 +2713,35 @@ export const actionGetPoliciesByIdHistoryTrigger = (
         params.id.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.filterOpId) {
+    if (params.filterOpId !== undefined) {
         query['filter:op[id]'] = params.filterOpId.toString();
     }
 
-    if (params.filterOpName) {
+    if (params.filterOpName !== undefined) {
         query['filter:op[name]'] = params.filterOpName.toString();
     }
 
-    if (params.filterId) {
+    if (params.filterId !== undefined) {
         query['filter[id]'] = params.filterId.toString();
     }
 
-    if (params.filterName) {
+    if (params.filterName !== undefined) {
         query['filter[name]'] = params.filterName.toString();
     }
 
-    if (params.limit) {
+    if (params.limit !== undefined) {
         query.limit = params.limit.toString();
     }
 
-    if (params.offset) {
+    if (params.offset !== undefined) {
         query.offset = params.offset.toString();
     }
 
-    if (params.sortColumn) {
+    if (params.sortColumn !== undefined) {
         query.sortColumn = params.sortColumn.toString();
     }
 
-    if (params.sortDirection) {
+    if (params.sortDirection !== undefined) {
         query.sortDirection = params.sortDirection.toString();
     }
 
@@ -2805,7 +2805,7 @@ export const actionPutPoliciesByPolicyId = (
         params.policyId.toString()
     );
     const query = {} as Record<string, any>;
-    if (params.dry) {
+    if (params.dry !== undefined) {
         query.dry = params.dry.toString();
     }
 
