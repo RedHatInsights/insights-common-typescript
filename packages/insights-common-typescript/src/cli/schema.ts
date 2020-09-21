@@ -76,7 +76,7 @@ export const execute = async (options: Options) => {
             '*/\n',
             'import * as z from \'zod\';\n',
             'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
-            options.skipActionGenerator ? '' : 'import { Action } from \'react-fetching-library\';\n' ,
+            options.skipActionGenerator ? '' : 'import { Action } from \'react-fetching-library\';\n',
             '/* eslint-disable @typescript-eslint/no-use-before-define */\n\n'
         ];
 
