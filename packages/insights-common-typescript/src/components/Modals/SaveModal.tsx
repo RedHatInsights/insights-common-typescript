@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionModal, ActionModalProps } from './ActionModal';
 import { ButtonVariant } from '@patternfly/react-core';
 
-type InheritedProps = 'isOpen' | 'title' | 'content'  | 'onClose' | 'error' | 'actionButtonDisabled';
+type InheritedProps = 'isOpen' | 'title' | 'content'  | 'onClose' | 'error' | 'actionButtonDisabled' | 'variant';
 
 export interface SaveModalProps extends Pick<ActionModalProps, InheritedProps> {
     isSaving: boolean;
@@ -22,5 +22,6 @@ export const SaveModal: React.FunctionComponent<SaveModalProps> = (props) => {
         actionButtonVariant={ ButtonVariant.primary }
         error={ props.error }
         actionButtonDisabled={ props.actionButtonDisabled }
+        variant={ props.variant }
     />;
 };

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionModal, ActionModalProps } from './ActionModal';
 import { ButtonVariant } from '@patternfly/react-core';
 
-type InheritedProps = 'isOpen' | 'title' | 'content'  | 'onClose' | 'error';
+type InheritedProps = 'isOpen' | 'title' | 'content'  | 'onClose' | 'error' | 'variant';
 
 export interface DeleteModalProps extends Pick<ActionModalProps, InheritedProps> {
     isDeleting: boolean;
@@ -20,5 +20,6 @@ export const DeleteModal: React.FunctionComponent<DeleteModalProps> = (props) =>
         actionButtonTitle="Delete"
         actionButtonVariant={ ButtonVariant.danger }
         error={ props.error }
+        variant={ props.variant }
     />;
 };
