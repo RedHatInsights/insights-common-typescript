@@ -53,7 +53,6 @@ const config = [
             }
         ],
         plugins: [
-            wildcardExternal([ 'openapi3-typescript-codegen/**' ]),
             typescript({
                 sourceMap: false,
                 declaration: false,

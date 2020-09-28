@@ -1,5 +1,6 @@
-import { APIDescriptor, Buffer, Type } from './Types';
 import {
+    APIDescriptor,
+    Type,
     isType,
     Schema,
     SchemaArray,
@@ -7,8 +8,10 @@ import {
     SchemaOrType,
     SchemaType,
     SchemaWithTypeName
-} from './types/Schemas';
-import { assertNever } from '../../utils';
+} from './types/ApiDescriptor';
+import { assertNever } from '../../utils/Assert';
+
+export type Buffer = Array<string>;
 
 export class SchemaBase {
     protected readonly api: APIDescriptor;
@@ -66,7 +69,7 @@ export class SchemaBase {
         this.append(')\n');
     }
 
-    protected schema(schema: SchemaOrType) {
+    protected schema(schema: SchemaOrType, doNotUseModifiers?: boolean) {
         if (isType(schema)) {
             // Todo: Check if we can use the type instead of the function name
             this.append(`${this.functionName(schema)}()`);
@@ -158,12 +161,14 @@ export class SchemaBase {
             }
         }
 
-        if (schema.isOptional) {
-            this.append('.optional()');
-        }
+        if (!doNotUseModifiers) {
+            if (schema.isOptional) {
+                this.append('.optional()');
+            }
 
-        if (schema.isNullable) {
-            this.append('.nullable()');
+            if (schema.isNullable) {
+                this.append('.nullable()');
+            }
         }
     }
 

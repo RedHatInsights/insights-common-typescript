@@ -1,5 +1,19 @@
-import { StringMap } from './Helpers';
-import { Type } from '../Types';
+export type StringMap<T> = Record<string, T>;
+
+export interface APIDescriptor {
+    basePath: string;
+    components: Components;
+    paths: Array<Path>;
+}
+
+export interface Components {
+    schemas?: StringMap<SchemaWithTypeName>;
+}
+
+export interface Type<T> extends TypeModifiers {
+    typeName: string;
+    referred: T;
+}
 
 export type SchemaOrType = Schema | Type<Schema>;
 export type Schema = SchemaUnknown | SchemaEnum | SchemaObject | SchemaArray | SchemaAllOf
@@ -93,4 +107,51 @@ export interface SchemaBoolean extends SchemaBase {
 
 export interface SchemaNull extends SchemaBase {
     type: SchemaType.NULL;
+}
+
+export enum Verb {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    DELETE = 'DELETE'
+}
+
+export enum ParamType {
+    QUERY =  'query',
+    COOKIE = 'cookie',
+    HEADER = 'header',
+    PATH = 'path'
+}
+
+export interface Path {
+    path: string;
+    operations: Array<Operation>;
+}
+
+export interface Operation {
+    id: string;
+    path: string;
+    verb: Verb;
+    description?: string;
+    parameters: Array<Parameter>;
+    requestBody?: RequestBody;
+    responses: Array<Response>;
+
+}
+
+export interface Parameter {
+    type: ParamType;
+    name: string;
+    schema: SchemaOrType;
+}
+
+export type ParameterOrType = Parameter | Type<Parameter>;
+
+export interface RequestBody {
+    schema: SchemaOrType;
+}
+
+export interface Response {
+    status: string;
+    schema: SchemaOrType;
 }

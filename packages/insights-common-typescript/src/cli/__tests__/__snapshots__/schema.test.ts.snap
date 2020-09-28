@@ -1151,15 +1151,15 @@ type GetPoliciesParamSortDirection = z.infer<
   typeof GetPoliciesParamSortDirection
 >;
 export interface GetPolicies {
-  filterOpDescription: GetPoliciesParamFilterOpDescription;
-  filterOpName: GetPoliciesParamFilterOpName;
-  filterDescription: GetPoliciesParamFilterDescription;
-  filterIsEnabled: GetPoliciesParamFilterIsEnabled;
-  filterName: GetPoliciesParamFilterName;
-  limit: GetPoliciesParamLimit;
-  offset: GetPoliciesParamOffset;
-  sortColumn: GetPoliciesParamSortColumn;
-  sortDirection: GetPoliciesParamSortDirection;
+  filterOpDescription?: GetPoliciesParamFilterOpDescription;
+  filterOpName?: GetPoliciesParamFilterOpName;
+  filterDescription?: GetPoliciesParamFilterDescription;
+  filterIsEnabled?: GetPoliciesParamFilterIsEnabled;
+  filterName?: GetPoliciesParamFilterName;
+  limit?: GetPoliciesParamLimit;
+  offset?: GetPoliciesParamOffset;
+  sortColumn?: GetPoliciesParamSortColumn;
+  sortDirection?: GetPoliciesParamSortDirection;
 }
 
 export type GetPoliciesPayload =
@@ -1242,7 +1242,7 @@ type PostPoliciesParamResponse409 = z.infer<
   typeof PostPoliciesParamResponse409
 >;
 export interface PostPolicies {
-  alsoStore: PostPoliciesParamAlsoStore;
+  alsoStore?: PostPoliciesParamAlsoStore;
   body: Policy;
 }
 
@@ -1329,11 +1329,11 @@ type GetPoliciesIdsParamFilterName = z.infer<
   typeof GetPoliciesIdsParamFilterName
 >;
 export interface GetPoliciesIds {
-  filterOpDescription: GetPoliciesIdsParamFilterOpDescription;
-  filterOpName: GetPoliciesIdsParamFilterOpName;
-  filterDescription: GetPoliciesIdsParamFilterDescription;
-  filterIsEnabled: GetPoliciesIdsParamFilterIsEnabled;
-  filterName: GetPoliciesIdsParamFilterName;
+  filterOpDescription?: GetPoliciesIdsParamFilterOpDescription;
+  filterOpName?: GetPoliciesIdsParamFilterOpName;
+  filterDescription?: GetPoliciesIdsParamFilterDescription;
+  filterIsEnabled?: GetPoliciesIdsParamFilterIsEnabled;
+  filterName?: GetPoliciesIdsParamFilterName;
 }
 
 export type GetPoliciesIdsPayload =
@@ -1434,7 +1434,7 @@ type PostPoliciesIdsEnabledParamEnabled = z.infer<
   typeof PostPoliciesIdsEnabledParamEnabled
 >;
 export interface PostPoliciesIdsEnabled {
-  enabled: PostPoliciesIdsEnabledParamEnabled;
+  enabled?: PostPoliciesIdsEnabledParamEnabled;
   body: ListUUID;
 }
 
@@ -1507,7 +1507,7 @@ type PostPoliciesValidateNameParamBody = z.infer<
   typeof PostPoliciesValidateNameParamBody
 >;
 export interface PostPoliciesValidateName {
-  id: UUID;
+  id?: UUID;
   body: PostPoliciesValidateNameParamBody;
 }
 
@@ -1624,7 +1624,7 @@ type PostPoliciesByIdEnabledParamEnabled = z.infer<
 >;
 export interface PostPoliciesByIdEnabled {
   id: UUID;
-  enabled: PostPoliciesByIdEnabledParamEnabled;
+  enabled?: PostPoliciesByIdEnabledParamEnabled;
 }
 
 export type PostPoliciesByIdEnabledPayload =
@@ -1710,14 +1710,14 @@ type GetPoliciesByIdHistoryTriggerParamSortDirection = z.infer<
 >;
 export interface GetPoliciesByIdHistoryTrigger {
   id: UUID;
-  filterOpId: GetPoliciesByIdHistoryTriggerParamFilterOpId;
-  filterOpName: GetPoliciesByIdHistoryTriggerParamFilterOpName;
-  filterId: GetPoliciesByIdHistoryTriggerParamFilterId;
-  filterName: GetPoliciesByIdHistoryTriggerParamFilterName;
-  limit: GetPoliciesByIdHistoryTriggerParamLimit;
-  offset: GetPoliciesByIdHistoryTriggerParamOffset;
-  sortColumn: GetPoliciesByIdHistoryTriggerParamSortColumn;
-  sortDirection: GetPoliciesByIdHistoryTriggerParamSortDirection;
+  filterOpId?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
+  filterOpName?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
+  filterId?: GetPoliciesByIdHistoryTriggerParamFilterId;
+  filterName?: GetPoliciesByIdHistoryTriggerParamFilterName;
+  limit?: GetPoliciesByIdHistoryTriggerParamLimit;
+  offset?: GetPoliciesByIdHistoryTriggerParamOffset;
+  sortColumn?: GetPoliciesByIdHistoryTriggerParamSortColumn;
+  sortDirection?: GetPoliciesByIdHistoryTriggerParamSortDirection;
 }
 
 export type GetPoliciesByIdHistoryTriggerPayload =
@@ -1807,7 +1807,7 @@ type PutPoliciesByPolicyIdParamResponse409 = z.infer<
 >;
 export interface PutPoliciesByPolicyId {
   policyId: UUID;
-  dry: PutPoliciesByPolicyIdParamDry;
+  dry?: PutPoliciesByPolicyIdParamDry;
   body: Policy;
 }
 
@@ -2104,15 +2104,15 @@ type GetPoliciesParamSortDirection = z.infer<
   typeof GetPoliciesParamSortDirection
 >;
 export interface GetPolicies {
-  filterOpDescription: GetPoliciesParamFilterOpDescription;
-  filterOpName: GetPoliciesParamFilterOpName;
-  filterDescription: GetPoliciesParamFilterDescription;
-  filterIsEnabled: GetPoliciesParamFilterIsEnabled;
-  filterName: GetPoliciesParamFilterName;
-  limit: GetPoliciesParamLimit;
-  offset: GetPoliciesParamOffset;
-  sortColumn: GetPoliciesParamSortColumn;
-  sortDirection: GetPoliciesParamSortDirection;
+  filterOpDescription?: GetPoliciesParamFilterOpDescription;
+  filterOpName?: GetPoliciesParamFilterOpName;
+  filterDescription?: GetPoliciesParamFilterDescription;
+  filterIsEnabled?: GetPoliciesParamFilterIsEnabled;
+  filterName?: GetPoliciesParamFilterName;
+  limit?: GetPoliciesParamLimit;
+  offset?: GetPoliciesParamOffset;
+  sortColumn?: GetPoliciesParamSortColumn;
+  sortDirection?: GetPoliciesParamSortDirection;
 }
 
 export type GetPoliciesPayload =
@@ -2195,7 +2195,7 @@ type PostPoliciesParamResponse409 = z.infer<
   typeof PostPoliciesParamResponse409
 >;
 export interface PostPolicies {
-  alsoStore: PostPoliciesParamAlsoStore;
+  alsoStore?: PostPoliciesParamAlsoStore;
   body: Policy;
 }
 
@@ -2282,11 +2282,11 @@ type GetPoliciesIdsParamFilterName = z.infer<
   typeof GetPoliciesIdsParamFilterName
 >;
 export interface GetPoliciesIds {
-  filterOpDescription: GetPoliciesIdsParamFilterOpDescription;
-  filterOpName: GetPoliciesIdsParamFilterOpName;
-  filterDescription: GetPoliciesIdsParamFilterDescription;
-  filterIsEnabled: GetPoliciesIdsParamFilterIsEnabled;
-  filterName: GetPoliciesIdsParamFilterName;
+  filterOpDescription?: GetPoliciesIdsParamFilterOpDescription;
+  filterOpName?: GetPoliciesIdsParamFilterOpName;
+  filterDescription?: GetPoliciesIdsParamFilterDescription;
+  filterIsEnabled?: GetPoliciesIdsParamFilterIsEnabled;
+  filterName?: GetPoliciesIdsParamFilterName;
 }
 
 export type GetPoliciesIdsPayload =
@@ -2387,7 +2387,7 @@ type PostPoliciesIdsEnabledParamEnabled = z.infer<
   typeof PostPoliciesIdsEnabledParamEnabled
 >;
 export interface PostPoliciesIdsEnabled {
-  enabled: PostPoliciesIdsEnabledParamEnabled;
+  enabled?: PostPoliciesIdsEnabledParamEnabled;
   body: ListUUID;
 }
 
@@ -2460,7 +2460,7 @@ type PostPoliciesValidateNameParamBody = z.infer<
   typeof PostPoliciesValidateNameParamBody
 >;
 export interface PostPoliciesValidateName {
-  id: UUID;
+  id?: UUID;
   body: PostPoliciesValidateNameParamBody;
 }
 
@@ -2577,7 +2577,7 @@ type PostPoliciesByIdEnabledParamEnabled = z.infer<
 >;
 export interface PostPoliciesByIdEnabled {
   id: UUID;
-  enabled: PostPoliciesByIdEnabledParamEnabled;
+  enabled?: PostPoliciesByIdEnabledParamEnabled;
 }
 
 export type PostPoliciesByIdEnabledPayload =
@@ -2663,14 +2663,14 @@ type GetPoliciesByIdHistoryTriggerParamSortDirection = z.infer<
 >;
 export interface GetPoliciesByIdHistoryTrigger {
   id: UUID;
-  filterOpId: GetPoliciesByIdHistoryTriggerParamFilterOpId;
-  filterOpName: GetPoliciesByIdHistoryTriggerParamFilterOpName;
-  filterId: GetPoliciesByIdHistoryTriggerParamFilterId;
-  filterName: GetPoliciesByIdHistoryTriggerParamFilterName;
-  limit: GetPoliciesByIdHistoryTriggerParamLimit;
-  offset: GetPoliciesByIdHistoryTriggerParamOffset;
-  sortColumn: GetPoliciesByIdHistoryTriggerParamSortColumn;
-  sortDirection: GetPoliciesByIdHistoryTriggerParamSortDirection;
+  filterOpId?: GetPoliciesByIdHistoryTriggerParamFilterOpId;
+  filterOpName?: GetPoliciesByIdHistoryTriggerParamFilterOpName;
+  filterId?: GetPoliciesByIdHistoryTriggerParamFilterId;
+  filterName?: GetPoliciesByIdHistoryTriggerParamFilterName;
+  limit?: GetPoliciesByIdHistoryTriggerParamLimit;
+  offset?: GetPoliciesByIdHistoryTriggerParamOffset;
+  sortColumn?: GetPoliciesByIdHistoryTriggerParamSortColumn;
+  sortDirection?: GetPoliciesByIdHistoryTriggerParamSortDirection;
 }
 
 export type GetPoliciesByIdHistoryTriggerPayload =
@@ -2760,7 +2760,7 @@ type PutPoliciesByPolicyIdParamResponse409 = z.infer<
 >;
 export interface PutPoliciesByPolicyId {
   policyId: UUID;
-  dry: PutPoliciesByPolicyIdParamDry;
+  dry?: PutPoliciesByPolicyIdParamDry;
   body: Policy;
 }
 

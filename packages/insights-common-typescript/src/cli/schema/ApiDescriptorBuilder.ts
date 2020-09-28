@@ -1,8 +1,7 @@
 import { isReference, OpenAPI3 } from './types/OpenAPI3';
-import { APIDescriptor, Type } from './Types';
-import { StringMap } from './types/Helpers';
-import { Schema, SchemaObject, SchemaOrType, SchemaType, SchemaUnknown, SchemaWithTypeName } from './types/Schemas';
-import { Parameter, ParamType, Path, RequestBody, Response, Verb } from './types/Operation';
+import {
+    APIDescriptor, Type, StringMap, Schema, SchemaObject, SchemaOrType, SchemaType, SchemaUnknown, SchemaWithTypeName,
+    Parameter, ParamType, Path, RequestBody, Response, Verb } from './types/ApiDescriptor';
 import camelcase from 'camelcase';
 
 const refToName = (reference: OpenAPI3.Reference) => {
@@ -213,6 +212,8 @@ class ApiDescriptorBuilder {
 
                 if (oapiParam.required || paramType === ParamType.PATH) {
                     typeOrSchema.isOptional = false;
+                } else if (!oapiParam.required) {
+                    typeOrSchema.isOptional = true;
                 }
 
                 parameters.push({

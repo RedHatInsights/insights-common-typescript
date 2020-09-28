@@ -74,7 +74,6 @@ export const execute = async (options: Options) => {
         nonRequiredPropertyIsNull: true
     }))
     .then(descriptor => {
-
         const actionGeneratorHeaders = [
             'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
             'import { Action } from \'react-fetching-library\';\n'

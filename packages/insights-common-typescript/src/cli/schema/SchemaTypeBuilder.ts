@@ -1,7 +1,5 @@
-import { SchemaBase } from './SchemaBase';
-import { APIDescriptor, Buffer } from './Types';
-import { StringMap } from './types/Helpers';
-import { SchemaWithTypeName } from './types/Schemas';
+import { Buffer, SchemaBase } from './SchemaBase';
+import { APIDescriptor, StringMap, SchemaWithTypeName } from './types/ApiDescriptor';
 
 export class SchemaTypeBuilder extends SchemaBase {
 

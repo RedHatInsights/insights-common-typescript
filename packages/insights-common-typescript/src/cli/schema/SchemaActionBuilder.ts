@@ -1,8 +1,6 @@
 import camelcase from 'camelcase';
-import { SchemaBase } from './SchemaBase';
-import { APIDescriptor, Buffer } from './Types';
-import { Operation, Parameter, ParameterOrType, ParamType, RequestBody, Response } from './types/Operation';
-import { isType } from './types/Schemas';
+import { Buffer, SchemaBase } from './SchemaBase';
+import { Operation, APIDescriptor, isType, Parameter, ParameterOrType, ParamType, RequestBody, Response } from './types/ApiDescriptor';
 
 export class SchemaActionBuilder extends SchemaBase {
 
@@ -46,7 +44,7 @@ export class SchemaActionBuilder extends SchemaBase {
                 if (!isType(p.schema)) {
                     const propName = this.anonymousParamTypeName(operation.id, p.name);
                     this.append(`const ${propName} = `);
-                    this.schema(p.schema);
+                    this.schema(p.schema, true);
                     this.append(';\n');
                     this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
                 }
@@ -57,7 +55,7 @@ export class SchemaActionBuilder extends SchemaBase {
             if (!isType(operation.requestBody.schema)) {
                 const propName = this.anonymousParamTypeName(operation.id, 'body');
                 this.append(`const ${propName} = `);
-                this.schema(operation.requestBody.schema);
+                this.schema(operation.requestBody.schema, true);
                 this.append(';\n');
                 this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
             }
@@ -67,7 +65,7 @@ export class SchemaActionBuilder extends SchemaBase {
             if (!isType(response.schema)) {
                 const propName = this.responseTypeName(operation.id, response);
                 this.append(`const ${propName} = `);
-                this.schema(response.schema);
+                this.schema(response.schema, true);
                 this.append(';\n');
                 this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
             }
