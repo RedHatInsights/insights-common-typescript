@@ -1,7 +1,7 @@
 export type Verb = 'get' | 'post' | 'put' | 'delete';
 
 export const isReference = (
-    schema: OpenAPI3.Schema | OpenAPI3.Reference | OpenAPI3.RequestBody
+    schema: OpenAPI3.Schema | OpenAPI3.Reference | OpenAPI3.RequestBody | OpenAPI3.Parameter
 ): schema is OpenAPI3.Reference => {
     return schema.hasOwnProperty('$ref');
 };

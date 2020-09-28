@@ -1,7 +1,9 @@
 import { isReference, OpenAPI3 } from './types/OpenAPI3';
-import { APIDescriptor } from './Types';
+import { APIDescriptor, Type } from './Types';
 import { StringMap } from './types/Helpers';
-import { Schema, SchemaObject, SchemaType, SchemaUnknown, SchemaWithTypeName, Type } from './types/Schemas';
+import { Schema, SchemaObject, SchemaOrType, SchemaType, SchemaUnknown, SchemaWithTypeName } from './types/Schemas';
+import { Parameter, ParamType, Path, RequestBody, Response, Verb } from './types/Operation';
+import camelcase from 'camelcase';
 
 const refToName = (reference: OpenAPI3.Reference) => {
     const [ last ] = reference.$ref.split('/').reverse();
@@ -12,14 +14,18 @@ export interface ApiDescriptorBuilderOptions {
     nonRequiredPropertyIsNull: boolean;
 }
 
+const verbs = [ Verb.GET, Verb.POST, Verb.PUT, Verb.DELETE ];
+
+const EMPTY_SCHEMA_KEY = '__Empty';
+
 class ApiDescriptorBuilder {
-    readonly types: StringMap<Type>;
+    readonly topSchemas: StringMap<SchemaWithTypeName>;
     readonly openapi: Readonly<OpenAPI3>;
     readonly options: ApiDescriptorBuilderOptions;
 
     constructor(openapi: OpenAPI3, options: Partial<ApiDescriptorBuilderOptions>) {
         this.openapi = openapi;
-        this.types = this.getTypesPlaceholders();
+        this.topSchemas = this.getTopSchemasPlaceholders();
         this.options = {
             nonRequiredPropertyIsNull: false,
             ...options
@@ -28,27 +34,196 @@ class ApiDescriptorBuilder {
 
     public build(): APIDescriptor {
         return {
-            path: this.getPath(),
-            components: this.getSchemaComponents()
+            basePath: this.getBasePath(),
+            components: {
+                schemas: this.getSchemaComponents()
+            },
+            paths: this.getPaths()
         };
     }
 
     private getSchemaComponents(): StringMap<SchemaWithTypeName> {
-        const schemas: StringMap<SchemaWithTypeName> = {};
         if (this.openapi.components?.schemas) {
             for (const [ typeName, schema ] of Object.entries(this.openapi.components.schemas)) {
                 if (isReference(schema)) {
                     throw new Error('Invalid reference found at component level');
                 } else {
-                    schemas[typeName] = {
-                        typeName,
-                        ...this.getSchema(schema) as Schema
-                    };
+                    Object.assign(this.topSchemas[typeName], {
+                        ...this.getSchema(schema) as SchemaWithTypeName
+                    });
                 }
             }
         }
 
-        return schemas;
+        return this.topSchemas;
+    }
+
+    private getPaths(): Array<Path> {
+        const paths: Array<Path> = [];
+        if (this.openapi.paths) {
+            for (const [ pathKey, openApiPath ] of Object.entries(this.openapi.paths)) {
+                const path: Path = {
+                    operations: [],
+                    path: pathKey
+                };
+
+                for (const verb of verbs) {
+                    const openApiOp = openApiPath[verb.toLowerCase()] as OpenAPI3.Operation;
+
+                    if (!openApiOp) {
+                        continue;
+                    }
+
+                    const id = camelcase(
+                        openApiOp.operationId ?? `${verb}_${pathKey.replace(/{/g, 'By_').replace(/[/}]/g, '_')}`,
+                        {
+                            pascalCase: true
+                        }
+                    );
+
+                    let requestBody;
+                    if (openApiOp.requestBody) {
+                        requestBody = {
+                            schema: this.getRequestBodyOrResponseSchemaOrType(openApiOp.requestBody)
+                        };
+                    }
+
+                    const responses = this.getResponses(openApiOp.responses);
+
+                    if (openApiOp) {
+                        path.operations.push({
+                            id,
+                            description: openApiOp.summary,
+                            parameters: this.getParameters(openApiOp.parameters),
+                            path: pathKey,
+                            verb,
+                            requestBody,
+                            responses
+                        });
+                    }
+                }
+
+                paths.push(path);
+            }
+        }
+
+        return paths;
+    }
+
+    private getRequestBody(requestOrRef: OpenAPI3.RequestBody | OpenAPI3.Reference) : RequestBody {
+        const requestBodySchema = this.getRequestBodyOrResponseSchemaOrType(requestOrRef);
+        const schema: SchemaOrType = requestBodySchema ? requestBodySchema :  {
+            type: SchemaType.UNKNOWN
+        };
+
+        return {
+            schema
+        };
+    }
+
+    private getEmptyType(): Type<Schema> {
+        if (!this.topSchemas[EMPTY_SCHEMA_KEY]) {
+            this.topSchemas[EMPTY_SCHEMA_KEY] = {
+                typeName: EMPTY_SCHEMA_KEY,
+                type: SchemaType.STRING,
+                maxLength: 0,
+                isOptional: true
+            };
+        }
+
+        return {
+            typeName: EMPTY_SCHEMA_KEY,
+            referred: this.topSchemas[EMPTY_SCHEMA_KEY]
+        };
+    }
+
+    private getResponses(oapiResponses: OpenAPI3.Responses): Array<Response> {
+        const responses: Array<Response> = [];
+        if (oapiResponses) {
+            if (oapiResponses.default) {
+                throw new Error('default response not yet supported');
+            }
+
+            for (const [ status, oapiResponse ] of Object.entries(oapiResponses)) {
+                const response = this.getRequestBodyOrResponseSchemaOrType(oapiResponse);
+
+                responses.push({
+                    status,
+                    schema: response !== undefined ? response : this.getEmptyType()
+                });
+            }
+        }
+
+        return responses;
+    }
+
+    private getRequestBodyOrResponseSchemaOrType(
+        requestOrResponse: OpenAPI3.RequestBody | OpenAPI3.Response | OpenAPI3.Reference) : SchemaOrType | undefined {
+        if (isReference(requestOrResponse)) {
+            throw new Error('Reference for RequestBody or Response is not yet supported');
+        }
+
+        if (requestOrResponse.content) {
+            const keys = Object.keys(requestOrResponse.content);
+            if (keys.length > 0) {
+                const firtSchema = requestOrResponse.content[keys[0]].schema;
+                if (firtSchema) {
+                    return this.getSchema(firtSchema);
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    private getParameters(oapiParameters: Array<OpenAPI3.Parameter | OpenAPI3.Reference> | undefined) {
+        if (!oapiParameters) {
+            return [];
+        }
+
+        const parameters: Array<Parameter> = [];
+        for (const oapiParam of oapiParameters) {
+            if (isReference(oapiParam)) {
+                throw new Error('Parameters as Reference is not yet supported');
+            } else {
+                let paramType: ParamType;
+                switch (oapiParam.in) {
+                    case 'header':
+                        paramType = ParamType.HEADER;
+                        break;
+                    case 'query':
+                        paramType = ParamType.QUERY;
+                        break;
+                    case 'cookie':
+                        paramType = ParamType.COOKIE;
+                        break;
+                    case 'path':
+                        paramType = ParamType.PATH;
+                        break;
+                }
+
+                let typeOrSchema;
+                if (oapiParam.schema !== undefined) {
+                    typeOrSchema = this.getSchema(oapiParam.schema);
+                } else {
+                    typeOrSchema = {
+                        type: SchemaType.UNKNOWN
+                    };
+                }
+
+                if (oapiParam.required || paramType === ParamType.PATH) {
+                    typeOrSchema.isOptional = false;
+                }
+
+                parameters.push({
+                    type: paramType,
+                    name: oapiParam.name,
+                    schema: typeOrSchema
+                });
+            }
+        }
+
+        return parameters;
     }
 
     private getSchemaType(schema: OpenAPI3.Schema): Schema {
@@ -113,10 +288,15 @@ class ApiDescriptorBuilder {
         }
     }
 
-    private getSchema(schemaOrRef: OpenAPI3.Schema | OpenAPI3.Reference): Schema | Type {
+    private getSchema(schemaOrRef: OpenAPI3.Schema | OpenAPI3.Reference): SchemaOrType {
         if (isReference(schemaOrRef)) {
             const typeName = refToName(schemaOrRef);
-            return this.types[typeName];
+            return {
+                typeName,
+                isNullable: false,
+                isOptional: false,
+                referred: this.topSchemas[typeName]
+            };
         } else {
             const schema = this.getSchemaType(schemaOrRef);
             if (schemaOrRef.nullable) {
@@ -145,7 +325,7 @@ class ApiDescriptorBuilder {
                 properties = {};
                 for (const [ key, value ] of Object.entries(schema.properties)) {
                     properties[key] = this.getSchema(value);
-                    if (schema.required?.includes(key)) {
+                    if (!schema.required?.includes(key)) {
                         properties[key].isOptional = true;
                         if (this.options.nonRequiredPropertyIsNull) {
                             properties[key].isNullable = true;
@@ -166,7 +346,7 @@ class ApiDescriptorBuilder {
         };
     }
 
-    private getPath(): string {
+    private getBasePath(): string {
         if (this.openapi.servers) {
             const variables = this.openapi.servers[0].variables;
             if (variables?.basePath?.default) {
@@ -177,22 +357,21 @@ class ApiDescriptorBuilder {
         return '';
     }
 
-    private getTypesPlaceholders(): StringMap<Type> {
-        const types: StringMap<Type> = {};
+    private getTopSchemasPlaceholders(): StringMap<SchemaWithTypeName> {
+        const schemas: StringMap<SchemaWithTypeName> = {};
         if (this.openapi.components?.schemas) {
             for (const [ typeName ] of Object.entries(this.openapi.components.schemas)) {
-                types[typeName] = {
-                    typeName,
-                    schema: null
-                } as unknown as Type;
+                schemas[typeName] = {
+                    typeName
+                } as unknown as SchemaWithTypeName;
             }
         }
 
-        return types;
+        return schemas;
     }
 }
 
-export const buildApiDescriptor = (openapi: Readonly<OpenAPI3>, options: Partial<ApiDescriptorBuilderOptions>): APIDescriptor => {
-    const builder = new ApiDescriptorBuilder(openapi, options);
+export const buildApiDescriptor = (openapi: Readonly<OpenAPI3>, options?: Partial<ApiDescriptorBuilderOptions>): APIDescriptor => {
+    const builder = new ApiDescriptorBuilder(openapi, options ?? {});
     return builder.build();
 };

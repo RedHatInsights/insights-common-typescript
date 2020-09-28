@@ -1,6 +1,7 @@
 import { StringMap } from './Helpers';
+import { Type } from '../Types';
 
-export type SchemaOrType = Schema | Type;
+export type SchemaOrType = Schema | Type<Schema>;
 export type Schema = SchemaUnknown | SchemaEnum | SchemaObject | SchemaArray | SchemaAllOf
     | SchemaOneOf | SchemaAnyOf | SchemaNumber | SchemaInteger | SchemaString | SchemaBoolean
     | SchemaNull;
@@ -14,14 +15,9 @@ export interface TypeModifiers {
     isNullable?: boolean;
 }
 
-export const isSchema = (schemaOrType: SchemaOrType): schemaOrType is Schema => {
-    return (schemaOrType as Schema).type !== undefined;
+export const isType = <T>(schemaOrType: T | Type<T>): schemaOrType is Type<T> => {
+    return (schemaOrType as any).typeName !== undefined && (schemaOrType as any).referred !== undefined;
 };
-
-export interface Type extends TypeModifiers {
-    typeName: string;
-    schema: Schema;
-}
 
 export enum SchemaType {
     UNKNOWN = 'UNKNOWN',
@@ -88,6 +84,7 @@ export interface SchemaInteger extends SchemaBase {
 
 export interface SchemaString extends SchemaBase {
     type: SchemaType.STRING;
+    maxLength?: number;
 }
 
 export interface SchemaBoolean extends SchemaBase {

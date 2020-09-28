@@ -1,26 +1,28 @@
-import { isReference, OpenAPI3, StringMap, Buffer } from './Types';
+import { APIDescriptor, Buffer, Type } from './Types';
+import {
+    isType,
+    Schema,
+    SchemaArray,
+    SchemaObject,
+    SchemaOrType,
+    SchemaType,
+    SchemaWithTypeName
+} from './types/Schemas';
+import { assertNever } from '../../utils';
 
 export class SchemaBase {
-    protected readonly openapi: OpenAPI3;
+    protected readonly api: APIDescriptor;
     protected readonly buffer: Buffer;
 
-    protected constructor(openapi: OpenAPI3, buffer: Buffer) {
-        this.openapi = openapi;
+    protected constructor(apiDescriptor: APIDescriptor, buffer: Buffer) {
+        this.api = apiDescriptor;
         this.buffer = buffer;
     }
 
-    protected properties(properties: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>, required: Array<string>) {
+    protected properties(properties: Record<string, SchemaOrType>) {
         Object.entries(properties).forEach(([ key, schema ], index, array) => {
             this.append(`${key}: `);
             this.schema(schema);
-
-            if (!required.includes(key)) {
-                this.append('.optional()');
-                const realSchema = this.deRef(schema);
-                if (realSchema.nullable === undefined) {
-                    this.append('.nullable()');
-                }
-            }
 
             if (array.length !== index + 1) {
                 this.append(',\n');
@@ -28,7 +30,7 @@ export class SchemaBase {
         });
     }
 
-    protected object(schema: OpenAPI3.Schema & { type: 'object' }) {
+    protected object(schema: SchemaObject) {
         if (schema.properties || schema.additionalProperties) {
             if (schema.properties && schema.additionalProperties) {
                 this.append('z.union([\n');
@@ -36,7 +38,7 @@ export class SchemaBase {
 
             if (schema.properties) {
                 this.append('z.object({\n');
-                this.properties(schema.properties, (schema.required ?? []) as Array<string>);
+                this.properties(schema.properties);
                 this.append('})\n');
             }
 
@@ -46,12 +48,7 @@ export class SchemaBase {
 
             if (schema.additionalProperties) {
                 this.append('z.record(\n');
-                if (schema.additionalProperties === true) {
-                    this.append('z.any()\n');
-                } else {
-                    this.schema(schema.additionalProperties);
-                }
-
+                this.schema(schema.additionalProperties);
                 this.append(')\n');
             }
 
@@ -63,105 +60,119 @@ export class SchemaBase {
         }
     }
 
-    protected array(schema: OpenAPI3.Schema & { type: 'array' }) {
+    protected array(schema: SchemaArray) {
         this.append('z.array(\n');
-        if (schema.items) {
-            this.schema(schema.items);
-        } else {
-            this.append('z.any()');
-        }
-
+        this.schema(schema.items);
         this.append(')\n');
     }
 
-    protected schema(schema: OpenAPI3.Schema | OpenAPI3.Reference) {
-        if (isReference(schema)) {
-            this.append(`${this.functionName(this.refToName(schema))}()`);
+    protected schema(schema: SchemaOrType) {
+        if (isType(schema)) {
+            // Todo: Check if we can use the type instead of the function name
+            this.append(`${this.functionName(schema)}()`);
         } else {
-            if (schema.allOf) {
-                let open = 0;
-                schema.allOf.filter(schema => !this.isUnknown(schema)).forEach((localSchema, index, array) => {
-                    if (open > 0) {
-                        this.append(',\n');
+            switch (schema.type) {
+                case SchemaType.ALL_OF:
+                    let open = 0;
+                    schema.allOf.filter(schema => !this.isUnknown(schema)).forEach((localSchema, index, array) => {
+                        if (open > 0) {
+                            this.append(',\n');
+                        }
+
+                        if (array.length !== index + 1) {
+                            ++open;
+                            this.append('z.intersection(\n');
+                        }
+
+                        this.schema(localSchema);
+                    });
+                    for (let i = 0;i < open; ++i) {
+                        this.append(')');
                     }
 
-                    if (array.length !== index + 1) {
-                        ++open;
-                        this.append('z.intersection(\n');
-                    }
-
-                    this.schema(localSchema);
-                });
-                for (let i = 0;i < open; ++i) {
-                    this.append(')');
-                }
-            } else if (schema.oneOf) {
-                this.append('z.union([');
-                schema.oneOf.forEach((s, index, array) => {
-                    this.schema(s);
-                    if (array.length !== index + 1) {
-                        this.append(', ');
-                    }
-                });
-                this.append('])');
-            } else if (schema.anyOf) {
-                this.append('z.union([');
-                schema.anyOf.forEach((s, index, array) => {
-                    this.schema(s);
-                    if (array.length !== index + 1) {
-                        this.append(', ');
-                    }
-                });
-                this.append('])');
-            } else if (schema.enum) {
-                this.append('z.enum([\n');
-                schema.enum.forEach((e, index, array) => {
-                    if (schema.type === 'string' || isNaN(e as any)) {
+                    break;
+                case SchemaType.ONE_OF:
+                    this.append('z.union([');
+                    schema.oneOf.forEach((s, index, array) => {
+                        this.schema(s);
+                        if (array.length !== index + 1) {
+                            this.append(', ');
+                        }
+                    });
+                    this.append('])');
+                    break;
+                case SchemaType.ANY_OF:
+                    // Todo: revisit this case, is more complex than just unions
+                    // Any_of [A, B, C] => A & Optional(B & C) | B & Optional (A & C) | C & Optional (A & B)
+                    // i.e. at least one, but can have everything
+                    this.append('z.union([');
+                    schema.anyOf.forEach((s, index, array) => {
+                        this.schema(s);
+                        if (array.length !== index + 1) {
+                            this.append(', ');
+                        }
+                    });
+                    this.append('])');
+                    break;
+                case SchemaType.ENUM:
+                    this.append('z.enum([\n');
+                    schema.enum.forEach((e, index, array) => {
                         this.append(`'${e}'`);
-                    } else {
-                        this.append(`${e}`);
+                        if (array.length !== index + 1) {
+                            this.append(',\n');
+                        }
+                    });
+                    this.append('])\n');
+                    break;
+                case SchemaType.ARRAY:
+                    this.array(schema);
+                    break;
+                case SchemaType.NUMBER:
+                    this.append('z.number()');
+                    break;
+                case SchemaType.INTEGER:
+                    this.append('z.number().int()');
+                    break;
+                case SchemaType.STRING:
+                    this.append('z.string()');
+                    if (schema.maxLength !== undefined) {
+                        this.append(`.max(${schema.maxLength})`);
                     }
 
-                    if (array.length !== index + 1) {
-                        this.append(',\n');
-                    }
-                });
-                this.append('])\n');
-            } else {
-                switch (schema.type) {
-                    case 'array':
-                        this.array({ ...schema, type: 'array' });
-                        break;
-                    case 'number':
-                        this.append('z.number()');
-                        break;
-                    case 'integer':
-                        this.append('z.number().int()');
-                        break;
-                    case 'string':
-                        this.append('z.string()');
-                        break;
-                    case 'boolean':
-                        this.append('z.boolean()');
-                        break;
-                    case 'null':
-                        this.append('z.null()');
-                        break;
-                    case undefined:
-                        this.append('z.unknown()');
-                        break;
-                    case 'object':
-                        this.object({ ...schema, type: 'object' });
-                        break;
-                }
+                    break;
+                case SchemaType.BOOLEAN:
+                    this.append('z.boolean()');
+                    break;
+                case SchemaType.NULL:
+                    this.append('z.null()');
+                    break;
+                case SchemaType.OBJECT:
+                    this.object(schema);
+                    break;
+                case SchemaType.UNKNOWN:
+                    this.append('z.unknown()');
+                    break;
+                default:
+                    console.log(schema);
+                    assertNever(schema);
             }
         }
 
-        const realSchema = this.deRef(schema);
+        if (schema.isOptional) {
+            this.append('.optional()');
+        }
 
-        if (realSchema.nullable === true) {
+        if (schema.isNullable) {
             this.append('.nullable()');
         }
+    }
+
+    protected deType<T>(type: T | Type<T>): T {
+        if (isType(type)) {
+            return type.referred as T;
+        }
+
+        return type;
     }
 
     protected append(...lines: Array<string>) {
@@ -170,53 +181,15 @@ export class SchemaBase {
         }
     }
 
-    protected refToName(reference: OpenAPI3.Reference) {
-        const [ last ] = reference.$ref.split('/').reverse();
-        return last;
+    protected functionName(type: Type<Schema> | SchemaWithTypeName) {
+        return `zodSchema${type.typeName}`;
     }
 
-    protected deRef<T>(ref: T | OpenAPI3.Reference): T {
-        if (isReference(ref)) {
-            const path = ref.$ref.split('/');
-            if (path.length < 2 && path[0] !== '#') {
-                throw new Error(`Invalid reference found ${ref.$ref}`);
-            }
-
-            path.shift();
-            let current = this.openapi;
-            for (const segment of path) {
-                const next = current[segment];
-                if (!current) {
-                    throw new Error(`Invalid reference found ${ref.$ref} when processing ${segment} in context: ${current}`);
-                }
-
-                current = next;
-            }
-
-            return current as unknown as T;
-        }
-
-        return ref;
-    }
-
-    protected functionName(name: string) {
-        return `zodSchema${name}`;
-    }
-
-    protected typeName(name: string) {
-        return `${name}`;
-    }
-
-    // This function could be easy to break if we introduce any other unknown
-    protected isUnknown(schema: OpenAPI3.Schema | OpenAPI3.Reference): boolean {
-        if (isReference(schema)) {
-            return this.isUnknown(this.deRef(schema));
+    protected isUnknown(schemaOrType: SchemaOrType): boolean {
+        if (isType(schemaOrType)) {
+            return this.isUnknown(schemaOrType.referred);
         } else {
-            if (schema.type === 'object') {
-                return !(schema.properties || schema.additionalProperties);
-            }
-
-            return !schema.allOf && !schema.oneOf && !schema.oneOf && !schema.enum && schema.type === undefined;
+            return schemaOrType.type === SchemaType.UNKNOWN;
         }
     }
 }

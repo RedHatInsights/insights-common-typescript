@@ -1,33 +1,35 @@
 import { SchemaBase } from './SchemaBase';
-import { Buffer, OpenAPI3, StringMap } from './Types';
+import { APIDescriptor, Buffer } from './Types';
+import { StringMap } from './types/Helpers';
+import { SchemaWithTypeName } from './types/Schemas';
 
 export class SchemaTypeBuilder extends SchemaBase {
 
-    constructor(openapi: OpenAPI3, buffer: Buffer) {
-        super(openapi, buffer);
+    constructor(apiDescriptor: APIDescriptor, buffer: Buffer) {
+        super(apiDescriptor, buffer);
     }
 
     public build() {
-        if (this.openapi?.components?.schemas) {
-            const schemas = this.openapi.components.schemas;
+        if (this.api.components?.schemas) {
+            const schemas = this.api.components.schemas;
             this.types(schemas);
             this.functionTypes(schemas);
         }
     }
 
-    private types(schemas: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>) {
-        for (const [ typeName ] of Object.entries(schemas)) {
-            this.append(`export const ${this.typeName(typeName)} = ${this.functionName(typeName)}();\n`);
-            this.append(`export type ${this.typeName(typeName)} = z.infer<typeof ${this.typeName(typeName)}>;\n`);
+    private types(schemas: StringMap<SchemaWithTypeName>) {
+        for (const schema of Object.values(schemas)) {
+            this.append(`export const ${schema.typeName} = ${this.functionName(schema)}();\n`);
+            this.append(`export type ${schema.typeName} = z.infer<typeof ${schema.typeName}>;\n`);
             this.append('\n');
         }
 
         this.append('\n');
     }
 
-    private functionTypes(schemas: StringMap<OpenAPI3.Schema | OpenAPI3.Reference>) {
-        for (const [ typeName, schema ] of Object.entries(schemas)) {
-            this.append(`export function ${this.functionName(typeName)}() {\nreturn `);
+    private functionTypes(schemas: StringMap<SchemaWithTypeName>) {
+        for (const schema of Object.values(schemas)) {
+            this.append(`export function ${this.functionName(schema)}() {\nreturn `);
             this.schema(schema);
             this.append(';\n}\n\n');
         }

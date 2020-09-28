@@ -9,6 +9,7 @@ import isUrl from 'is-url';
 import { existsSync, lstatSync, writeFileSync } from 'fs';
 
 import { SchemaActionBuilder, SchemaTypeBuilder, OpenAPI3 } from './schema/';
+import { buildApiDescriptor } from './schema/ApiDescriptorBuilder';
 
 export interface Options {
     inputFile: string;
@@ -69,22 +70,30 @@ export const execute = async (options: Options) => {
         sort: true,
         input: inputType
     }).then(output => JSON.parse(output as string) as OpenAPI3)
-    .then(openapi => {
+    .then(openapi => buildApiDescriptor(openapi, {
+        nonRequiredPropertyIsNull: true
+    }))
+    .then(descriptor => {
+
+        const actionGeneratorHeaders = [
+            'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
+            'import { Action } from \'react-fetching-library\';\n'
+        ];
+
         const buffer: Array<string> = [
             '/**\n',
             '* Generated code, DO NOT modify directly.\n',
             '*/\n',
             'import * as z from \'zod\';\n',
-            'import { actionBuilder, ValidatedResponse, ActionValidatable } from \'@redhat-cloud-services/insights-common-typescript\';\n',
-            options.skipActionGenerator ? '' : 'import { Action } from \'react-fetching-library\';\n',
+            ...(options.skipActionGenerator ? [] : actionGeneratorHeaders),
             '/* eslint-disable @typescript-eslint/no-use-before-define */\n\n'
         ];
 
-        const typeBuilder = new SchemaTypeBuilder(openapi, buffer);
+        const typeBuilder = new SchemaTypeBuilder(descriptor, buffer);
         typeBuilder.build();
 
         if (!options.skipActionGenerator) {
-            const actionBuilder = new SchemaActionBuilder(openapi, buffer);
+            const actionBuilder = new SchemaActionBuilder(descriptor, buffer);
             actionBuilder.build();
         }
 

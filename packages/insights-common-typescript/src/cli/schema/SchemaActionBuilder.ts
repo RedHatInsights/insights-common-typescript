@@ -1,54 +1,50 @@
 import camelcase from 'camelcase';
 import { SchemaBase } from './SchemaBase';
-import { OpenAPI3, Buffer, isReference, Verb } from './Types';
-
-const Verbs: Array<Verb> = [ 'get', 'post', 'put', 'delete' ];
-const EMPTY_TYPE_NAME = '__Empty';
+import { APIDescriptor, Buffer } from './Types';
+import { Operation, Parameter, ParameterOrType, ParamType, RequestBody, Response } from './types/Operation';
+import { isType } from './types/Schemas';
 
 export class SchemaActionBuilder extends SchemaBase {
 
     private unknownTypeFound: boolean;
 
-    constructor(openapi: OpenAPI3, buffer: Buffer) {
-        super(openapi, buffer);
+    constructor(api: APIDescriptor, buffer: Buffer) {
+        super(api, buffer);
         this.unknownTypeFound = false;
     }
 
     public build() {
         this.unknownTypeFound = false;
 
-        if (this.openapi?.paths) {
-            const paths = this.openapi.paths;
-            for (const [ pathKey, path ] of Object.entries(paths)) {
-                for (const verb of Verbs) {
-                    const currentPath = path[verb];
-                    if (currentPath) {
-                        this.append(`// ${verb} ${pathKey}\n`);
-                        if (currentPath.description) {
-                            this.append(
-                                ...currentPath.description.split('\n').map(d => `// ${d}\n`)
-                            );
-                        }
-
-                        this.anonymousTypes(pathKey, verb, currentPath);
-                        this.params(pathKey, verb, currentPath);
-                        this.actions(pathKey, verb, currentPath);
-                        this.append('\n');
+        if (this.api.paths) {
+            const paths = this.api.paths;
+            for (const path of paths) {
+                for (const operation of path.operations) {
+                    this.append(`// ${operation.verb} ${operation.path}\n`);
+                    if (operation.description) {
+                        this.append(
+                            ...operation.description.split('\n').map(d => `// ${d}\n`)
+                        );
                     }
+
+                    this.anonymousTypes(operation);
+                    this.params(operation);
+                    this.actions(operation);
+                    this.append('\n');
                 }
             }
         }
     }
 
-    private filteredParameters(parameters: Array<OpenAPI3.Parameter | OpenAPI3.Reference>) {
-        return parameters.map(p => this.deRef(p)).filter(p => p && p.in !== 'cookie');
+    private filteredParameters(parameters: Array<ParameterOrType>) {
+        return parameters.map(p => this.deType<Parameter>(p)).filter(p => p.type !== ParamType.COOKIE);
     }
 
-    private anonymousTypes(path: string, verb: Verb, operation: OpenAPI3.Operation) {
+    private anonymousTypes(operation: Operation) {
         if (operation.parameters) {
             this.filteredParameters(operation.parameters).forEach(p => {
-                if (p.schema && !isReference(p.schema)) {
-                    const propName = this.anonymousParamTypeName(path, verb, operation.operationId, p.name);
+                if (!isType(p.schema)) {
+                    const propName = this.anonymousParamTypeName(operation.id, p.name);
                     this.append(`const ${propName} = `);
                     this.schema(p.schema);
                     this.append(';\n');
@@ -58,51 +54,37 @@ export class SchemaActionBuilder extends SchemaBase {
         }
 
         if (operation.requestBody) {
-            const bodySchema = this.requestBodyOrResponseSchema(operation.requestBody);
-            if (bodySchema) {
-                const propName = this.anonymousParamTypeName(path, verb, operation.operationId, 'body');
+            if (!isType(operation.requestBody.schema)) {
+                const propName = this.anonymousParamTypeName(operation.id, 'body');
                 this.append(`const ${propName} = `);
-                this.schema(bodySchema);
+                this.schema(operation.requestBody.schema);
                 this.append(';\n');
                 this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
             }
         }
 
-        if (operation.responses) {
-            for (const [ status, response ] of Object.entries(operation.responses)) {
-                const responseSchema = this.requestBodyOrResponseSchema(response);
-                if (responseSchema) {
-                    const propName = this.responseTypeName(path, verb, operation.operationId, status, response);
-                    this.append(`const ${propName} = `);
-                    this.schema(responseSchema);
-                    this.append(';\n');
-                    this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
-                } else {
-                    const propName = this.responseTypeName(path, verb, operation.operationId, status, response);
-                    if (!this.unknownTypeFound && propName === EMPTY_TYPE_NAME) {
-                        this.append(`const ${propName} = z.string().max(0).optional();\ntype ${propName} = z.infer<typeof ${propName}>;\n`);
-                        this.unknownTypeFound = true;
-                    }
-                }
+        for (const response of operation.responses) {
+            if (!isType(response.schema)) {
+                const propName = this.responseTypeName(operation.id, response);
+                this.append(`const ${propName} = `);
+                this.schema(response.schema);
+                this.append(';\n');
+                this.append(`type ${propName} = z.infer<typeof ${propName}>;\n`);
             }
         }
     }
 
-    private params(path: string, verb: Verb, operation: OpenAPI3.Operation) {
-        if ((operation.parameters && operation.parameters.length > 0) || operation.requestBody) {
-            this.append(`export interface ${this.endpointName(path, verb, operation.operationId)} {\n`);
-            if (operation.parameters) {
+    private params(operation: Operation) {
+        if ((operation.parameters.length > 0) || operation.requestBody) {
+            this.append(`export interface ${operation.id} {\n`);
+            if (operation.parameters.length > 0) {
                 this.filteredParameters(operation.parameters).forEach((p, index, array) => {
-                    const isRequired = !!p.required || p.in === 'path';
+                    const isRequired = !p.schema.isOptional;
                     this.append(`'${this.paramName(p.name)}'${isRequired ? '' : '?'}:`);
-                    if (p.schema) {
-                        if (isReference(p.schema)) {
-                            this.append(this.typeName(this.refToName(p.schema)));
-                        } else {
-                            this.append(this.anonymousParamTypeName(path, verb, operation.operationId, p.name));
-                        }
+                    if (isType(p.schema)) {
+                        this.append(p.schema.typeName);
                     } else {
-                        this.append('unknown');
+                        this.append(this.anonymousParamTypeName(operation.id, p.name));
                     }
 
                     if (operation.requestBody || array.length !== index + 1) {
@@ -112,57 +94,46 @@ export class SchemaActionBuilder extends SchemaBase {
             }
 
             if (operation.requestBody) {
-                const typeName = this.requestBodySchemaTypeName(path, verb, operation.operationId, operation.requestBody);
+                const typeName = this.requestBodySchemaTypeName(operation.id, operation.requestBody);
                 this.append('body');
-                if (isReference(operation.requestBody)) {
-                    this.append(`: ${typeName}`);
-                } else {
-                    if (!operation.requestBody.required) {
-                        this.append('?');
-                    }
 
-                    this.append(`: ${typeName}`);
+                if (isType(operation.requestBody.schema) && operation.requestBody.schema.isOptional) {
+                    this.append('?');
                 }
+
+                this.append(`: ${typeName}`);
             }
 
             this.append('\n}\n\n');
         }
     }
 
-    private actions(path: string, verb: Verb, operation: OpenAPI3.Operation) {
-        if (operation.responses) {
-            const actionType = this.actionEndpointType(path, verb);
-            const payloadType = this.payloadEndpointType(path, verb);
+    private actions(operation: Operation) {
+        if (operation.responses.length) {
+            const actionType = this.actionEndpointType(operation.id);
+            const payloadType = this.payloadEndpointType(operation.id);
             this.append(`export type ${payloadType} = `);
 
-            const responsesEntries = Object.entries(operation.responses);
-            if (responsesEntries.length > 0) {
-                responsesEntries.forEach(([ status, response ]) => {
-                    const responseType = this.responseTypeName(path, verb, operation.operationId, status, response);
-                    this.append(`ValidatedResponse<'${responseType}',${status}, ${responseType}>`);
-
-                    this.append('| ');
-                });
+            for (const response of operation.responses) {
+                const responseType = this.responseTypeName(operation.id, response);
+                this.append(`ValidatedResponse<'${responseType}', ${response.status}, ${responseType}> | `);
             }
 
             this.append('ValidatedResponse<\'unknown\', undefined, unknown>;\n');
 
             this.append(`export type ${actionType} = Action<${payloadType}, ActionValidatable>;\n`);
-            if (operation.summary) {
-                this.append(`\n/** ${operation.summary} */\n`);
-            }
 
-            this.append(`export const ${this.functionEndpointType(path, verb, operation.operationId)} = (`);
+            this.append(`export const ${this.functionEndpointType(operation.id)} = (`);
             if ((operation.parameters && operation.parameters.length > 0) || operation.requestBody) {
-                this.append(`params: ${this.endpointName(path, verb, operation.operationId)}`);
+                this.append(`params: ${operation.id}`);
             }
 
             this.append(`): ${actionType} => {\n`);
 
             // Path params
-            this.append(`const path = \'${this.absolutePath(path)}\'\n`);
+            this.append(`const path = \'${this.absolutePath(operation.path)}\'\n`);
             if (operation.parameters) {
-                this.filteredParameters(operation.parameters).filter(p => p.in === 'path').forEach(param => {
+                this.filteredParameters(operation.parameters).filter(p => p.type === ParamType.PATH).forEach(param => {
                     this.append(`.replace('{${param.name}}', params['${this.paramName(param.name)}'].toString())\n`);
                 });
             }
@@ -172,14 +143,14 @@ export class SchemaActionBuilder extends SchemaBase {
             // Query params
             this.append('const query = {} as Record<string, any>;\n');
             if (operation.parameters) {
-                this.filteredParameters(operation.parameters).filter(p => p.in === 'query').forEach(param => {
+                this.filteredParameters(operation.parameters).filter(p => p.type === ParamType.QUERY).forEach(param => {
                     this.append(`if (params['${this.paramName(param.name)}'] !== undefined) {\n`);
                     this.append(`query['${param.name}'] = params['${this.paramName(param.name)}'].toString();\n`);
                     this.append('}\n\n');
                 });
             }
 
-            this.append(`return actionBuilder('${verb.toUpperCase()}', path)\n`);
+            this.append(`return actionBuilder('${operation.verb.toUpperCase()}', path)\n`);
             this.append('.queryParams(query)\n');
 
             if (operation.requestBody) {
@@ -188,10 +159,10 @@ export class SchemaActionBuilder extends SchemaBase {
 
             if (operation.responses) {
                 this.append('.config({\nrules:[\n');
-                const entries = Object.entries(operation.responses);
-                entries.forEach(([ status, response ], index, array) => {
-                    const responseType = this.responseTypeName(path, verb, operation.operationId, status, response);
-                    this.append(`{ status: ${status}, zod: ${responseType}, type: '${responseType}' }\n`);
+                const responses = Object.values(operation.responses);
+                responses.forEach((response, index, array) => {
+                    const responseType = this.responseTypeName(operation.id, response);
+                    this.append(`{ status: ${response.status}, zod: ${responseType}, type: '${responseType}' }\n`);
                     if (array.length !== index + 1) {
                         this.append(',\n');
                     }
@@ -204,100 +175,44 @@ export class SchemaActionBuilder extends SchemaBase {
         }
     }
 
-    private requestBodyOrResponseSchema(
-        requestOrResponse: OpenAPI3.RequestBody | OpenAPI3.Response | OpenAPI3.Reference): OpenAPI3.Schema | undefined {
-        if (!isReference(requestOrResponse) && requestOrResponse.content) {
-            const keys = Object.keys(requestOrResponse.content);
-            if (keys.length > 0) {
-                const firtSchema = requestOrResponse.content[keys[0]].schema;
-                if (firtSchema && !isReference(firtSchema)) {
-                    return firtSchema;
-                }
-            }
+    private requestBodySchemaTypeName(operationId: string, requestBody: RequestBody): string {
+        if (isType(requestBody.schema)) {
+            return requestBody.schema.typeName;
+        } else {
+            return this.anonymousParamTypeName(operationId, 'body');
         }
-
-        return undefined;
     }
 
-    private requestBodySchemaTypeName(
-        path: string, verb: Verb, operationId: string | undefined, requestBody: OpenAPI3.RequestBody | OpenAPI3.Reference): string {
-        if (isReference(requestBody)) {
-            return this.typeName(this.refToName(requestBody));
+    private responseTypeName(operationId: string, response: Response): string {
+        if (isType(response.schema)) {
+            return response.schema.typeName;
+        } else {
+            return this.anonymousParamTypeName(operationId, `Response${response.status}`);
         }
-
-        if (requestBody.content) {
-            const keys = Object.keys(requestBody.content);
-            if (keys.length > 0) {
-                const firtSchema = requestBody.content[keys[0]].schema;
-                if (firtSchema) {
-                    if (isReference(firtSchema)) {
-                        return this.typeName(this.refToName(firtSchema));
-                    } else {
-                        return this.anonymousParamTypeName(path, verb, operationId, 'body');
-                    }
-                }
-            }
-        }
-
-        throw new Error(`Could find requestBody type for ${verb} ${path}`);
     }
 
-    private responseTypeName(
-        path: string, verb: Verb, operationId: string | undefined, status: string, response: OpenAPI3.Response | OpenAPI3.Reference): string {
-        if (isReference(response)) {
-            return this.typeName(this.refToName(response));
-        } else if (response.content) {
-            const keys = Object.keys(response.content);
-            if (keys.length > 0) {
-                const firtSchema = response.content[keys[0]].schema;
-                if (firtSchema && isReference(firtSchema)) {
-                    return this.typeName(this.refToName(firtSchema));
-                } else {
-                    return this.anonymousParamTypeName(path, verb, operationId, `Response${status}`);
-                }
-            }
-        }
-
-        return EMPTY_TYPE_NAME;
-    }
-
-    private anonymousParamTypeName(path: string, verb: Verb, operationId: string | undefined, name: string) {
-        const paramName = this.endpointName(path, verb, operationId);
+    private anonymousParamTypeName(operationId: string, name: string) {
         const filteredName = name.replace(/[/{}\[\]:]/g, '_');
         const propertyName = camelcase(filteredName, {
             pascalCase: true
         });
-        return `${paramName}Param${propertyName}`;
+        return `${operationId}Param${propertyName}`;
     }
 
-    private endpointName(path: string, verb: Verb, operationId: string | undefined) {
-        const name = operationId ?? `${verb}_${path.replace(/[/{}]/g, '_')}`;
-        return camelcase(name, {
-            pascalCase: true
-        });
+    private actionEndpointType(operationId: string) {
+        return `Action${operationId}`;
     }
 
-    private actionEndpointType(path: string, verb: Verb, operationId?: string | undefined) {
-        return `Action${this.endpointName(path, verb, operationId)}`;
+    private payloadEndpointType(operationId: string) {
+        return `${operationId}Payload`;
     }
 
-    private payloadEndpointType(path: string, verb: Verb, operationId?: string | undefined) {
-        return `${this.endpointName(path, verb, operationId)}Payload`;
-    }
-
-    private functionEndpointType(path: string, verb: Verb, operationId?: string | undefined) {
-        return `action${this.endpointName(path, verb, operationId)}`;
+    private functionEndpointType(operationId: string) {
+        return `action${operationId}`;
     }
 
     private absolutePath(path: string) {
-        if (this.openapi.servers) {
-            const variables = this.openapi.servers[0].variables;
-            if (variables?.basePath?.default) {
-                return `${variables.basePath.default}${path}`;
-            }
-        }
-
-        return path;
+        return `${this.api.basePath}${path}`;
     }
 
     private paramName(name: string) {
