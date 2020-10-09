@@ -1,4 +1,6 @@
 package-lock.json
 yarn.lock
-/dev
 /tmp
+/cjs
+/index.*
+/esm

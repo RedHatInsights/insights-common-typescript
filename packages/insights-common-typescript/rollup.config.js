@@ -12,19 +12,53 @@ const getDependencies = () => {
     .map(path => `${path}`);
 };
 
-const configEntriesForTsFile = (source, jsOutput, dtsFile) => [
+const configEntriesForTsFile = (source, output) => [
     {
         input: source,
         output: [
             {
-                file: jsOutput,
-                format: 'cjs'
+                file: `${output}.js`,
+                name: output,
+                format: 'umd',
+                sourcemap: true,
+                globals: {
+                    react: 'React',
+                    '@redhat-cloud-services/frontend-components': 'frontendComponents',
+                    '@patternfly/react-core': 'reactCore',
+                    tslib: 'tslib',
+                    typestyle: 'typestyle',
+                    csx: 'csx',
+                    '@patternfly/react-tokens': 'reactTokens',
+                    '@patternfly/react-icons': 'reactIcons',
+                    formik: 'formik',
+                    '@redhat-cloud-services/frontend-components-notifications': 'frontendComponentsNotifications',
+                    '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry': 'ReducerRegistry',
+                    'redux-promise-middleware': 'promiseMiddleware',
+                    'react-fetching-library': 'reactFetchingLibrary',
+                    'jest-mock': 'jestMock',
+                    '@redhat-cloud-services/rbac-client': 'rbacClient',
+                    axios: 'axios',
+                    'react-router-dom': 'reactRouterDom',
+                    'react-use': 'reactUse',
+                    camelcase: 'camelcase'
+
+                }
+            },
+            {
+                file: `esm/${output}.js`,
+                format: 'esm',
+                sourcemap: true
+            },
+            {
+                file: `cjs/${output}.js`,
+                format: 'cjs',
+                sourcemap: true
             }
         ],
         plugins: [
             wildcardExternal([ '@redhat-cloud-services/frontend-components-utilities/**' ]),
             typescript({
-                sourceMap: false,
+                sourceMap: true,
                 declaration: false
             }),
             compiler()
@@ -33,35 +67,13 @@ const configEntriesForTsFile = (source, jsOutput, dtsFile) => [
     },
     {
         input: source,
-        output: [{ file: dtsFile, format: 'cjs' }],
+        output: [{ file: `${output}.d.ts`, format: 'cjs' }],
         plugins: [
             dts()
         ]
     }
 ];
 
-const config = [
-    ...configEntriesForTsFile('src/index.ts', pkg.main, pkg.types),
-    ...configEntriesForTsFile('src/dev/index.ts', 'dev/index.js', 'dev/index.d.ts'),
-    {
-        input: 'src/cli/schema.ts',
-        output: [
-            {
-                file: 'lib/cli/schema.js',
-                format: 'cjs',
-                banner: '#!/usr/bin/env node'
-            }
-        ],
-        plugins: [
-            typescript({
-                sourceMap: false,
-                declaration: false,
-                allowSyntheticDefaultImports: true
-            }),
-            compiler()
-        ],
-        external: [ ...getDependencies(), 'fs' ]
-    }
-];
+const config = configEntriesForTsFile('src/index.ts', 'index');
 
 export default config;

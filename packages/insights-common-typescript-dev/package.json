@@ -1,0 +1,23 @@
+{
+  "name": "insights-common-typescript-dev",
+  "version": "0.0.0-dev",
+  "private": false,
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "files": [
+    "index.js*",
+    "index.d.ts",
+    "esm/*",
+    "cjs/*"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "ci": "npm-run-all build lint 'test --coverage --forceExit --maxWorkers=4 --detectOpenHandles'",
+    "lint": "eslint --ext js,ts,tsx src",
+    "lint:fix": "eslint --ext js,ts,tsx src --fix",
+    "test": "jest --verbose"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,14 +1,14 @@
-name: Deploy insights-common-typescript
+name: Deploy openapi2typescript-cli
 
 on:
   push:
     branches: [ master ]
     paths:
-      - 'packages/insights-common-typescript/**'
+      - 'packages/openapi2typescript-cli/**'
 
 env:
-  SCOPE_PACKAGE: '@redhat-cloud-services/insights-common-typescript'
-  PACKAGE_DIR: 'packages/insights-common-typescript'
+  SCOPE_PACKAGE: 'openapi2typescript'
+  PACKAGE_DIR: 'packages/openapi2typescript-cli'
 
 jobs:
   publish:

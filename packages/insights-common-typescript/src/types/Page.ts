@@ -1,4 +1,5 @@
 import { DeepReadonly } from 'ts-essentials';
+import camelcase from 'camelcase';
 
 const DEFAULT_PAGE_SIZE = 50;
 
@@ -42,6 +43,32 @@ export class Page {
         return Page.of(this.index, this.size, this.filter, sort);
     }
 
+    public toQuery(): Record<string, string> {
+        const queryParams = {} as Record<string, string>;
+
+        if (this.size === Page.NO_SIZE) {
+            queryParams.offset = this.index.toString();
+            queryParams.limit = Page.NO_SIZE.toString();
+        } else {
+            queryParams.offset = ((this.index - 1) * this.size).toString();
+            queryParams.limit = this.size.toString();
+        }
+
+        if (this.filter) {
+            for (const filterElement of this.filter.elements) {
+                queryParams[`filter${camelcase(filterElement.column, { pascalCase: true })}`] = filterElement.value;
+                queryParams[`filterOp${camelcase(filterElement.column, { pascalCase: true })}`] = filterElement.operator;
+            }
+        }
+
+        if (this.sort) {
+            queryParams.sortColumn = this.sort.column;
+            queryParams.sortDirection = this.sort.direction;
+        }
+
+        return queryParams;
+    }
+
     static of(index: number, size?: number, filter?: Filter, sort?: Sort) {
         return new Page(index, size, filter, sort);
     }
@@ -53,7 +80,6 @@ export class Page {
     static lastPageForElements(count: number, size: number) {
         return new Page(Math.max(Math.trunc((count + size - 1) / size), 1), size);
     }
-
 }
 
 class FilterElement {
