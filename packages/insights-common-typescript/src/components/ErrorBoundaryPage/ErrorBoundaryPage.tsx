@@ -3,10 +3,9 @@ import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/fronte
 import { Messages } from '../../properties/Messages';
 import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import { Text, ExpandableSection } from '@patternfly/react-core';
+import { global_spacer_sm, global_BackgroundColor_dark_300 } from '@patternfly/react-tokens';
 import { join } from '../../utils/ComponentUtils';
 import { style } from 'typestyle';
-import { PFColors } from '../../utils/PFColors';
-import { Spacer } from '../../utils/Spacer';
 import { EmptyState } from '../EmptyState/EmptyState';
 import { getOuiaProps, OuiaComponentProps } from '../../utils/Ouia';
 
@@ -35,8 +34,8 @@ const errorClass = style({
     backgroundColor: 'white',
     borderWidth: 1,
     borderStyle: 'solid',
-    borderColor: PFColors.GlobalBackgroundColorDark300,
-    padding: Spacer.SM
+    borderColor: global_BackgroundColor_dark_300.var,
+    padding: global_spacer_sm.var
 });
 
 const ErrorStack: React.FunctionComponent<ErrorStackProps> = (props) => {

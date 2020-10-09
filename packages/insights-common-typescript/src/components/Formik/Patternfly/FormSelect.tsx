@@ -30,8 +30,6 @@ export const FormSelect: React.FunctionComponent<FormSelectProps> = (props) => {
                 { ...field }
                 onChange={ onChangePFAdapter<string | number, React.FormEvent<HTMLSelectElement>>(field) }
                 validated={ (isValid) ? 'default' : 'error' }
-                ouiaSafe={ props.ouiaSafe }
-                ouiaId="pf-form-select"
             >
                 { props.children }
             </PFFormSelect>
