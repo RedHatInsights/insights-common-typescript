@@ -7,7 +7,5 @@ export * from './Date';
 export * from './FetchingConfiguration';
 export * from './getBaseName';
 export * from './Insights';
-export * from './PFColors';
 export * from './RbacUtils';
-export * from './Spacer';
 export { OuiaComponentProps, getOuiaPropsFactory, setOuiaPage, withoutOuiaProps, ouiaIdConcat } from './Ouia';
