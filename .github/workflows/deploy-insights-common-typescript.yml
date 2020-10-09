@@ -3,8 +3,8 @@ name: Deploy insights-common-typescript
 on:
   push:
     branches: [ master ]
-    paths:
-      - 'packages/insights-common-typescript/**'
+#    paths:
+#      - 'packages/insights-common-typescript/**'
 
 env:
   SCOPE_PACKAGE: '@redhat-cloud-services/insights-common-typescript'

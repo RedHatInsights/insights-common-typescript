@@ -3,8 +3,8 @@ name: Deploy insights-common-typescript-dev
 on:
   push:
     branches: [ master ]
-    paths:
-      - 'packages/insights-common-typescript-dev/**'
+#    paths:
+#      - 'packages/insights-common-typescript-dev/**'
 
 env:
   SCOPE_PACKAGE: 'insights-common-typescript-dev'

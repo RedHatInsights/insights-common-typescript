@@ -3,8 +3,8 @@ name: Deploy openapi2typescript
 on:
   push:
     branches: [ master ]
-    paths:
-      - 'packages/openapi2typescript/**'
+#    paths:
+#      - 'packages/openapi2typescript/**'
 
 env:
   SCOPE_PACKAGE: 'openapi2typescript'
