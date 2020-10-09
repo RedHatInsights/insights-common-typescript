@@ -3,7 +3,7 @@
   "version": "0.0.0-dev",
   "private": false,
   "license": "Apache-2.0",
-  "main": "lib/index.js",
+  "main": "index.js",
   "files": [
     "index.js*",
     "index.d.ts",
