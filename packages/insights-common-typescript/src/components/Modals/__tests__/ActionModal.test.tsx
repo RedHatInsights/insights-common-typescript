@@ -112,7 +112,7 @@ describe('src/components/Modals/ActionModal', () => {
         );
 
         expect(
-            ouiaSelectors.getByOuia('PF4/ModalContent')
+            screen.getByRole('dialog')
         ).toHaveClass('pf-m-sm');
     });
 
@@ -133,7 +133,7 @@ describe('src/components/Modals/ActionModal', () => {
         );
 
         expect(
-            ouiaSelectors.getByOuia('PF4/ModalContent')
+            screen.getByRole('dialog')
         ).toHaveClass('pf-m-lg');
     });
 

@@ -1,6 +1,6 @@
 import { Action, QueryResponse, ResponseInterceptor } from 'react-fetching-library';
 import * as z from 'zod';
-import { validatedResponse, ValidateRule } from '../../core/ValidatedResponse';
+import { validatedResponse, ValidateRule } from '../..';
 
 export interface ActionValidatableConfig {
     rules: Array<ValidateRule>;
@@ -41,7 +41,7 @@ const logError = (action: ActionWithRequiredConfig, response: QueryResponse<unkn
 };
 
 const validateSchema =
-    <Status extends number | undefined, Type extends any | unknown>(
+    (
         action: ActionWithRequiredConfig,
         response: QueryResponse<unknown>
     ) => {
