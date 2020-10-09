@@ -14,17 +14,21 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Set PACKAGE.DIR
+        run: echo '::set-output name=DIR::${PACKAGE_DIR}'
+        id: PACKAGE
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '12'
           check-latest: true
       - uses: bahmutov/npm-install@v1
+      # This package depends on other local package, build everything.
+      - run: yarn build
       - run: yarn ci --scope $SCOPE_PACKAGE
-      - run: yarn build --scope $SCOPE_PACKAGE
       - uses: mikeal/merge-release@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          DEPLOY_DIR: $PACKAGE_DIR
-          SRC_PACKAGE_DIR: $PACKAGE_DIR
+          DEPLOY_DIR: ${{ steps.PACKAGE.outputs.DIR }}
+          SRC_PACKAGE_DIR: ${{ steps.PACKAGE.outputs.DIR }}
