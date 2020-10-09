@@ -7,7 +7,7 @@ on:
       - 'packages/openapi2typescript-cli/**'
 
 env:
-  SCOPE_PACKAGE: 'openapi2typescript'
+  SCOPE_PACKAGE: 'openapi2typescript-cli'
   PACKAGE_DIR: 'packages/openapi2typescript-cli'
 
 jobs:
