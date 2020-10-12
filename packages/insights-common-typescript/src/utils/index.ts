@@ -1,7 +1,6 @@
 export * from './exporters';
 export * from './AlertUtils';
 export * from './ApiUtils';
-export * from './Assert';
 export * from './ComponentUtils';
 export * from './Date';
 export * from './FetchingConfiguration';
