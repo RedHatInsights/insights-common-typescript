@@ -10,10 +10,7 @@ import {
     SchemaWithTypeName
 } from './types/ApiDescriptor';
 import { BufferType, Buffer } from './types/Buffer';
-
-const assertNever = (val: never): never => {
-    throw new Error(`Unexpected value ${val}`);
-};
+import assertNever from 'assert-never';
 
 export interface Options {
     skipTypes: boolean;
