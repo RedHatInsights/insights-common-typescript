@@ -9,7 +9,7 @@
     "ci": "lerna run ci --stream",
     "lint": "lerna run lint --stream",
     "test": "lerna run test --stream",
-    "release": "lerna exec --concurrency 1 -- yarn run semantic-release --dry-run --no-ci --branches 'master,refs/pull/34/merge,foobar' -e  semantic-release-monorepo"
+    "release": "lerna publish --conventional-commits --no-commit-hooks --yes"
   },
   "husky": {
     "hooks": {
@@ -95,8 +95,6 @@
     "rimraf": "3.0.0",
     "rollup": "2.26.10",
     "rollup-plugin-dts": "1.4.12",
-    "semantic-release": "^17.2.1",
-    "semantic-release-monorepo": "^7.0.3",
     "stylelint": "11.1.1",
     "stylelint-config-recommended-scss": "4.0.0",
     "stylelint-scss": "3.12.1",
