@@ -1,6 +1,6 @@
 {
   "name": "openapi2typescript-cli",
-  "version": "0.0.0-dev",
+  "version": "0.0.1",
   "private": false,
   "license": "Apache-2.0",
   "bin": {

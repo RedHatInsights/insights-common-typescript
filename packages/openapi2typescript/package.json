@@ -1,6 +1,6 @@
 {
   "name": "openapi2typescript",
-  "version": "0.0.0-dev",
+  "version": "0.0.1",
   "private": false,
   "license": "Apache-2.0",
   "main": "index.js",
