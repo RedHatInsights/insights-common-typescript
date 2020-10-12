@@ -8,7 +8,8 @@
     "build": "lerna run build --stream",
     "ci": "lerna run ci --stream",
     "lint": "lerna run lint --stream",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream",
+    "release": "lerna exec --concurrency 1 -- yarn run semantic-release --dry-run --branches add-semantic-release -e  semantic-release-monorepo"
   },
   "husky": {
     "hooks": {
