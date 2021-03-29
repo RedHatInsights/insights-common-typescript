@@ -93,7 +93,7 @@
     "react-use": "13.24.0",
     "redux": "4.0.4",
     "redux-logger": "3.0.6",
-    "redux-promise-middleware": "5.1.1",
+    "redux-promise-middleware": "6.1.2",
     "rimraf": "3.0.0",
     "rollup": "2.26.10",
     "rollup-plugin-dts": "1.4.13",
