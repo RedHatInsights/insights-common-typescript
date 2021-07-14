@@ -165,6 +165,7 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
     filters: Filters<FilterColumn>,
     setFilters: SetFilters<FilterColumn>,
     clearFilters: ClearFilters<FilterColumn>,
+    deleteTitle: 'Reset filters',
     meta: ColumnsMetada<FilterColumn>
 ) => {
 
@@ -211,6 +212,7 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
 
     return {
         filterConfig,
-        activeFiltersConfig
+        activeFiltersConfig,
+        deleteTitle
     };
 };
