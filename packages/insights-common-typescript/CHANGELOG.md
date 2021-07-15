@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.9.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.8.0...@redhat-cloud-services/insights-common-typescript@4.9.0) (2021-07-15)
+
+
+### Bug Fixes
+
+* addition of the optional field which defaults to reset filters ([c59787c](https://github.com/RedHatInsights/insights-common-typescript/commit/c59787ccad8ab04d29194148aad93083f05fd68b))
+* linting error ([0fbba27](https://github.com/RedHatInsights/insights-common-typescript/commit/0fbba275ffb7773a1e94a0485d60bb278df0c4d3))
+
+
+### Features
+
+* addition of opitional field which defaults to Reset Filters ([afc1095](https://github.com/RedHatInsights/insights-common-typescript/commit/afc109570af514f1c01efd20d4392f06aee96308))
+
+
+
+
+
 # [4.8.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.7.0...@redhat-cloud-services/insights-common-typescript@4.8.0) (2021-06-16)
 
 
