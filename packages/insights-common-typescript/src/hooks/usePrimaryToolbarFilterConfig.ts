@@ -165,8 +165,8 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
     filters: Filters<FilterColumn>,
     setFilters: SetFilters<FilterColumn>,
     clearFilters: ClearFilters<FilterColumn>,
-    deleteTitle: 'Reset filters',
-    meta: ColumnsMetada<FilterColumn>
+    meta: ColumnsMetada<FilterColumn>,
+    deleteTitle?: 'Reset filters',
 ) => {
 
     const [ Enum ] = useState(initEnum);
