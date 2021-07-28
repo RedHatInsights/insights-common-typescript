@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.10.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.9.0...@redhat-cloud-services/insights-common-typescript@4.10.0) (2021-07-28)
+
+
+### Bug Fixes
+
+* add gov to prod envs and govStage to stage envs ([7962671](https://github.com/RedHatInsights/insights-common-typescript/commit/7962671c347248d10fa274742a02c5d8c2f7f35b))
+* update Environment to match insights-chrome ([1c6a6ac](https://github.com/RedHatInsights/insights-common-typescript/commit/1c6a6acf115dde71193305e0b2cea1b88a848e44))
+
+
+### Features
+
+* POL-535 Prepare for fedramp environments ([fb6462f](https://github.com/RedHatInsights/insights-common-typescript/commit/fb6462f98117c81ce72642c4dd08e8c25ef496e9))
+
+
+
+
+
 # [4.9.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.8.0...@redhat-cloud-services/insights-common-typescript@4.9.0) (2021-07-15)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript@0.1.5...openapi2typescript@0.2.0) (2021-07-28)
+
+
+### Features
+
+* adds more info of validation errors on shared response status ([275e389](https://github.com/RedHatInsights/insights-common-typescript/commit/275e38900a091487b79881e6a76f7e75d3b03b23))
+
+
+
+
+
 ## [0.1.5](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript@0.1.4...openapi2typescript@0.1.5) (2021-06-16)
 
 **Note:** Version bump only for package openapi2typescript
