@@ -4,25 +4,33 @@ const nonBetaEnvironments = [
     'ci',
     'qa',
     'stage',
-    'prod'
+    'prod',
+    'gov',
+    'govStage'
 ] as const;
 
 const betaEnvironments = nonBetaEnvironments.map(v => `${v}-beta` as const);
 const environments = [ ...nonBetaEnvironments, ...betaEnvironments ] as const;
 
-const prodEnvironments = [ 'prod', 'prod-beta' ] as const;
-const nonProdEnvironments = environments.filter(v => !v.startsWith('prod' as const));
+const prodEnvironments = [ 'prod', 'prod-beta', 'gov', 'gov-beta' ] as const;
+const nonProdEnvironments = environments.filter(v => !prodEnvironments.includes(v as any));
 
 const ciEnvironments: ReadonlyArray<Environment> = [ 'ci', 'ci-beta' ];
 const qaEnvironments: ReadonlyArray<Environment> = [ 'qa', 'qa-beta' ];
-const stageEnvironments: ReadonlyArray<Environment> = [ 'stage', 'stage-beta' ];
+const stageEnvironments: ReadonlyArray<Environment> = [ 'stage', 'stage-beta', 'govStage', 'govStage-beta' ];
+
+const govProdEnvironments: ReadonlyArray<Environment> = [ 'gov', 'gov-beta' ];
+const govStageEnvironments: ReadonlyArray<Environment> = [ 'govStage', 'govStage-beta' ];
 
 export type NonBetaEnvironment = typeof nonBetaEnvironments[number];
 export type BetaEnvironment = typeof betaEnvironments[number];
 
 export type Environment = NonBetaEnvironment | BetaEnvironment;
 
-type Environments = Record<'all' | 'beta' | 'nonBeta' | 'prod' | 'nonProd' | 'ci' | 'qa' | 'stage', ReadonlyArray<Environment>>;
+type Environments = Record<
+    'all' | 'beta' | 'nonBeta' | 'prod' | 'nonProd' | 'ci' | 'qa' | 'stage' | 'govProd' | 'govStage',
+    ReadonlyArray<Environment>
+>;
 export const Environments: Environments = {
     all: environments,
     beta: betaEnvironments,
@@ -31,7 +39,9 @@ export const Environments: Environments = {
     nonProd: nonProdEnvironments,
     ci: ciEnvironments,
     qa: qaEnvironments,
-    stage: stageEnvironments
+    stage: stageEnvironments,
+    govProd: govProdEnvironments,
+    govStage: govStageEnvironments
 };
 
 export const getInsightsEnvironment = (insights: InsightsType): Environment => {

@@ -46,7 +46,7 @@ const validateSchema =
         action: ActionWithRequiredConfig,
         response: QueryResponse<unknown>
     ) => {
-        const errors: Record<number, z.ZodError> = {};
+        const errors: Record<number, Array<z.ZodError>> = {};
         const rules = action.config.rules;
         for (const rule of rules) {
             if (rule.status === response.status) {
@@ -59,7 +59,11 @@ const validateSchema =
                         errors
                     );
                 } else {
-                    errors[rule.status] = result.error;
+                    if (!errors[rule.status]) {
+                        errors[rule.status] = [];
+                    }
+
+                    errors[rule.status].push(result.error);
                 }
             }
         }

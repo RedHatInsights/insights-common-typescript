@@ -4,7 +4,7 @@ export interface ValidatedResponse<Type extends string, Status extends number | 
     type: Type,
     status: Status;
     value: ValueType;
-    errors: Record<number, z.ZodError>;
+    errors: Record<number, Array<z.ZodError>>;
 }
 
 export class ValidateRule {
@@ -31,7 +31,7 @@ export const validatedResponse = <
     Name extends string,
     Status extends number | undefined,
     Value
-    >(name: Name, status: Status, value: Value, errors: Record<number, z.ZodError>): ValidatedResponse<Name, Status, Value> => ({
+    >(name: Name, status: Status, value: Value, errors: Record<number, Array<z.ZodError>>): ValidatedResponse<Name, Status, Value> => ({
         type: name,
         status,
         value,
