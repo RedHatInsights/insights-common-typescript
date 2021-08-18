@@ -10,7 +10,8 @@ describe('src/Program', () => {
             addEslintDisable: false,
             skipTypes: false,
             strict: true,
-            explicitTypes: false
+            explicitTypes: false,
+            apiBasePath: undefined
         });
     });
 
@@ -22,6 +23,8 @@ describe('src/Program', () => {
             '--add-eslint-disable',
             '--skip-types',
             '--no-strict',
+            '--api-base-path',
+            './mybase',
             '--explicit-types',
             '-i',
             'input',
@@ -39,7 +42,8 @@ describe('src/Program', () => {
             strict: false,
             explicitTypes: true,
             input: 'input',
-            output: 'output'
+            output: 'output',
+            apiBasePath: './mybase'
         });
     });
 });

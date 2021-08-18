@@ -38,6 +38,24 @@ describe('src/core/ApiDescriptorBuilder', () => {
         }).basePath).toBe('/foo/bar/');
     });
 
+    it('gets base path from param', () => {
+        expect(buildApiDescriptor({
+            ...emptyOpenApi,
+            servers: [
+                {
+                    name: 'prod',
+                    variables: {
+                        basePath: {
+                            default: '/foo/bar/'
+                        }
+                    }
+                }
+            ]
+        }, {
+            basePath: '/my-base-path/'
+        }).basePath).toBe('/my-base-path/');
+    });
+
     it('does not fail if there is not any server', () => {
         expect(buildApiDescriptor({
             ...emptyOpenApi,
