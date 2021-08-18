@@ -13,6 +13,7 @@ const refToName = (reference: OpenAPI3.Reference) => {
 
 export interface ApiDescriptorBuilderOptions {
     nonRequiredPropertyIsNull: boolean;
+    basePath?: string;
 }
 
 const verbs = [ Verb.GET, Verb.POST, Verb.PUT, Verb.DELETE ];
@@ -29,6 +30,7 @@ class ApiDescriptorBuilder {
         this.topSchemas = this.getTopSchemasPlaceholders();
         this.options = {
             nonRequiredPropertyIsNull: false,
+            basePath: undefined,
             ...options
         };
     }
@@ -412,6 +414,10 @@ class ApiDescriptorBuilder {
     }
 
     private getBasePath(): string {
+        if (this.options.basePath) {
+            return this.options.basePath;
+        }
+
         if (this.openapi.servers) {
             const variables = this.openapi.servers[0]?.variables;
             if (variables?.basePath?.default) {

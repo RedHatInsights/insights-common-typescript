@@ -21,6 +21,7 @@ export interface Options {
     skipTypes: boolean;
     strict: boolean;
     explicitTypes: boolean;
+    apiBasePath?: string;
 }
 
 export const execute = async (options: Options) => {
@@ -47,7 +48,8 @@ export const execute = async (options: Options) => {
     return Promise.resolve<string>(input)
     .then(output => JSON.parse(output) as OpenAPI3)
     .then(openapi => buildApiDescriptor(openapi, {
-        nonRequiredPropertyIsNull: true
+        nonRequiredPropertyIsNull: true,
+        basePath: options.apiBasePath
     }))
     .then(descriptor => {
         const buffer = new Buffer();

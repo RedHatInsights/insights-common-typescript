@@ -50,6 +50,10 @@ export const getProgram = () => {
         'This could be useful to avoid failing if a new schema adds new properties to objects.'
     )
     .option(
+        '--api-base-path <api-base-path>',
+        'Override base path for all the services'
+    )
+    .option(
         '--explicit-types',
         '(Experimental) Whether or not to use explicit types instead of inferring from zod schema. \n' +
         'This generates the typescript `Type` instead of inferring. Makes the types more human readable and in \n' +
