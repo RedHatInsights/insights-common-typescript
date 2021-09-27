@@ -92,6 +92,14 @@ const filterItem = <FilterColumn extends StandardFilterEnum<any>>(
         }
     });
 
+const getChipValue = <FilterColumn extends StandardFilterEnum<any>>(
+    value: string,
+    items: FilterColumnMetadataOptionsBase<FilterColumn>['items']
+) => {
+    const found = items.find(i => i.value === value);
+    return found?.chipValue ?? value;
+};
+
 const getActiveFilterConfigItem = <FilterColumn extends StandardFilterEnum<any>>(
     filters: Filters<FilterColumn>,
     column: EnumElement<FilterColumn>,
@@ -122,15 +130,13 @@ const getActiveFilterConfigItem = <FilterColumn extends StandardFilterEnum<any>>
         return undefined;
     }
 
-    const chips: Array<{ name: string, isRead: true }> = [];
-    chipsValues.forEach(v => chips.push({
-        name: v,
-        isRead: true
-    }));
-
     return {
         category: meta[column].label,
-        chips
+        chips: chipsValues.map(v => ({
+            name: getChipValue(v, options?.items ?? []),
+            value: v,
+            isRead: true
+        }))
     };
 };
 
@@ -140,6 +146,7 @@ interface FilterColumnMetadataOptionsBase<T> {
     exclusive?: boolean;
     items: Array<{
         value: string;
+        chipValue?: string;
         label: ReactNode
     }>
 }
@@ -186,7 +193,7 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
                 key => meta[key].label === element.category
             ) as undefined | EnumElement<FilterColumn>;
             if (key && Object.values(Enum).includes(key)) {
-                toClear[key] = element.chips.map(c => c.name);
+                toClear[key] = element.chips.map(c => c.value);
             } else {
                 throw new Error(`Unexpected filter column label found: ${element.category}`);
             }

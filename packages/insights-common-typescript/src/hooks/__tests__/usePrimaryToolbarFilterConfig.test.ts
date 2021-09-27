@@ -850,6 +850,7 @@ describe('src/hooks/usePrimaryToolbarFilterConfig', () => {
                 chips: [
                     {
                         name: 'foo',
+                        value: 'foo',
                         isRead: true
                     }
                 ]
@@ -859,6 +860,7 @@ describe('src/hooks/usePrimaryToolbarFilterConfig', () => {
                 chips: [
                     {
                         name: 'bar',
+                        value: 'bar',
                         isRead: true
                     }
                 ]
@@ -903,6 +905,7 @@ describe('src/hooks/usePrimaryToolbarFilterConfig', () => {
                 chips: [
                     {
                         name: 'bar',
+                        value: 'bar',
                         isRead: true
                     }
                 ]
