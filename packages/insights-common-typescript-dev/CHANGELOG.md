@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.19](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.18...insights-common-typescript-dev@0.1.19) (2021-09-30)
+
+
+### Bug Fixes
+
+* do not send an event on subscription ([53dfe1e](https://github.com/RedHatInsights/insights-common-typescript/commit/53dfe1ef8b40e2f0da7ea9ba1db01adc5cc256d2))
+
+
+
+
+
 ## [0.1.18](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.17...insights-common-typescript-dev@0.1.18) (2021-09-27)
 
 **Note:** Version bump only for package insights-common-typescript-dev
