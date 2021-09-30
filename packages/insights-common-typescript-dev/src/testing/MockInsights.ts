@@ -12,9 +12,7 @@ export const mockInsights = (mock?: InsightsType) => {
         chrome: {
             init: jestMock.fn(),
             identifyApp: jestMock.fn((_appId: string) => Promise.resolve()),
-            on: jestMock.fn((type: string, callback: ((event: any) => void)) => {
-                callback(new Event('fake'));
-            }),
+            on: jestMock.fn(),
             getApp: jestMock.fn(() => 'my-app'),
             getBundle: jestMock.fn(() => 'my-bundle'),
             isPenTest: jestMock.fn(() => false),
