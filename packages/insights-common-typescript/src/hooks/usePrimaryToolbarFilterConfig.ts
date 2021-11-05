@@ -5,16 +5,16 @@ import {
     EnumElement,
     FilterBase,
     FilterContent,
-    Filters,
+    Filters, OptionalFilterBase,
     SetFilters,
     StandardFilterEnum
 } from '../types';
 
 const getFilterItemType = <FilterColumn extends StandardFilterEnum<any>>(
     column: EnumElement<FilterColumn>,
-    meta: ColumnsMetada<FilterColumn>
+    meta: ColumnsMetada<FilterColumn>[EnumElement<FilterColumn>]
 ) => {
-    const options = meta[column].options;
+    const options = meta.options;
     if (options) {
         if (options.exclusive) {
             return 'radio';
@@ -28,11 +28,11 @@ const getFilterItemType = <FilterColumn extends StandardFilterEnum<any>>(
 
 const getFilterItemValue = <FilterColumn extends StandardFilterEnum<any>>(
     column: EnumElement<FilterColumn>,
-    filters: Filters<FilterColumn>,
-    meta: ColumnsMetada<FilterColumn>
+    filters: Filters<FilterColumn>[EnumElement<FilterColumn>],
+    meta: ColumnsMetada<FilterColumn>[EnumElement<FilterColumn>]
 ) => {
-    const options = meta[column].options;
-    let value: FilterContent = filters[column];
+    const options = meta.options;
+    let value: FilterContent = filters;
     if (options) {
         if (options.exclude) {
             if (typeof value === 'string') {
@@ -62,33 +62,33 @@ const getFilterItemValue = <FilterColumn extends StandardFilterEnum<any>>(
 
 const filterItem = <FilterColumn extends StandardFilterEnum<any>>(
     column: EnumElement<FilterColumn>,
-    filters: Filters<FilterColumn>,
-    setFilters: SetFilters<FilterColumn>,
-    meta: ColumnsMetada<FilterColumn>
+    filters: Filters<FilterColumn>[EnumElement<FilterColumn>],
+    setFilters: SetFilters<FilterColumn>[EnumElement<FilterColumn>],
+    meta: ColumnsMetada<FilterColumn>[EnumElement<FilterColumn>]
 ) => ({
-        label: meta[column].label,
+        label: meta.label,
         type: getFilterItemType(column, meta),
         filterValues: {
             id: `filter-${column}`,
             value: getFilterItemValue(column, filters, meta),
-            placeholder: meta[column].placeholder,
+            placeholder: meta.placeholder,
             onChange: (_event, value: string | Array<string>) => {
-                const options = meta[column].options;
+                const options = meta.options;
                 if (options) {
                     if (options.exclusive) {
                         if (options.exclude?.includes(value as string)) {
-                            setFilters[column]('');
+                            setFilters('');
                         } else if (options.items.find(i => i.value === value)) {
-                            setFilters[column](value);
+                            setFilters(value);
                         }
                     } else {
-                        setFilters[column]((value as Array<string>).filter(v => options.items.find(i => i.value === v)));
+                        setFilters((value as Array<string>).filter(v => options.items.find(i => i.value === v)));
                     }
                 } else {
-                    setFilters[column](value);
+                    setFilters(value);
                 }
             },
-            items: meta[column].options?.items
+            items: meta.options?.items
         }
     });
 
@@ -101,13 +101,13 @@ const getChipValue = <FilterColumn extends StandardFilterEnum<any>>(
 };
 
 const getActiveFilterConfigItem = <FilterColumn extends StandardFilterEnum<any>>(
-    filters: Filters<FilterColumn>,
     column: EnumElement<FilterColumn>,
-    meta: ColumnsMetada<FilterColumn>
+    filters: Filters<FilterColumn>[EnumElement<FilterColumn>],
+    meta: ColumnsMetada<FilterColumn>[EnumElement<FilterColumn>]
 ) => {
-    const value: FilterContent = filters[column];
+    const value: FilterContent = filters;
     let chipsValues: Array<string> = [];
-    const options = meta[column].options;
+    const options = meta.options;
     if (value === undefined || value === '') {
         return undefined;
     }
@@ -131,7 +131,7 @@ const getActiveFilterConfigItem = <FilterColumn extends StandardFilterEnum<any>>
     }
 
     return {
-        category: meta[column].label,
+        category: meta.label,
         chips: chipsValues.map(v => ({
             name: getChipValue(v, options?.items ?? []),
             value: v,
@@ -165,6 +165,7 @@ export interface FilterColumnMetadata {
     options?: FilterColumnMetadataOptionsSingleValue | FilterColumnMetadataOptionsMultipleValue;
 }
 
+export type OptionalColumnsMetada<Enum extends StandardFilterEnum<any>> = OptionalFilterBase<Enum, FilterColumnMetadata>;
 export type ColumnsMetada<Enum extends StandardFilterEnum<any>> = FilterBase<Enum, FilterColumnMetadata>;
 
 export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilterEnum<any>>(
@@ -172,15 +173,16 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
     filters: Filters<FilterColumn>,
     setFilters: SetFilters<FilterColumn>,
     clearFilters: ClearFilters<FilterColumn>,
-    meta: ColumnsMetada<FilterColumn>,
+    meta: OptionalColumnsMetada<FilterColumn>,
     deleteTitle?: 'Reset filters'
 ) => {
 
     const [ Enum ] = useState(initEnum);
 
     const filterConfig = useMemo(() => ({
-        items: (Object.values(Enum) as unknown as Array<EnumElement<FilterColumn>>).map(
-            column => filterItem(column, filters, setFilters, meta)
+        items: (Object.values(Enum) as unknown as Array<EnumElement<FilterColumn>>)
+        .filter(e => meta[e])
+        .map(column => filterItem(column, filters[column], setFilters[column], meta[column] as FilterColumnMetadata)
         )
     }), [ filters, setFilters, meta, Enum ]);
 
@@ -190,7 +192,7 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
             const key = Object.keys(
                 meta
             ).find(
-                key => meta[key].label === element.category
+                key => meta[key]  && meta[key].label === element.category
             ) as undefined | EnumElement<FilterColumn>;
             if (key && Object.values(Enum).includes(key)) {
                 toClear[key] = element.chips.map(c => c.value);
@@ -205,7 +207,11 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
     const activeFiltersConfig = useMemo(() => {
         const filterConfig: Array<ReturnType<typeof getActiveFilterConfigItem>> = [];
         for (const column of Object.values(Enum) as Array<EnumElement<FilterColumn>>) {
-            const config = getActiveFilterConfigItem(filters, column, meta);
+            if (!meta[column]) {
+                continue;
+            }
+
+            const config = getActiveFilterConfigItem(column, filters[column], meta[column] as FilterColumnMetadata);
             if (config) {
                 filterConfig.push(config);
             }
