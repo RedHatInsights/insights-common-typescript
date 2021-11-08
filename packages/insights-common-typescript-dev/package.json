@@ -1,6 +1,6 @@
 {
   "name": "insights-common-typescript-dev",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "private": false,
   "license": "Apache-2.0",
   "main": "index.js",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.12.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.11.0...@redhat-cloud-services/insights-common-typescript@4.12.0) (2021-11-08)
+
+
+### Features
+
+* allow to hide filters in the Primary Toolbar ([5639267](https://github.com/RedHatInsights/insights-common-typescript/commit/563926710ac36ddcbc299636c47e0a222d61171e))
+
+
+
+
+
 # [4.11.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.10.0...@redhat-cloud-services/insights-common-typescript@4.11.0) (2021-09-27)
 
 
