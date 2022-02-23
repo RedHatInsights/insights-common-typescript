@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getByText, render, screen } from '@testing-library/react';
 import { ActionModal } from '../..';
 import jestMock from 'jest-mock';
-import { ouiaSelectors } from 'insights-common-typescript-dev';
+import { ouiaSelectors } from '@redhat-cloud-services/frontend-components-testing';
 import userEvent from '@testing-library/user-event';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ButtonVariant, ModalVariant } from '@patternfly/react-core';
