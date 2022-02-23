@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
 import jestMock from 'jest-mock';
-import { ouiaSelectors } from 'insights-common-typescript-dev';
+import { ouiaSelectors } from '@redhat-cloud-services/frontend-components-testing';
 import { DeleteModal } from '../..';
 
 describe('src/components/Modals/DeleteModal', () => {
