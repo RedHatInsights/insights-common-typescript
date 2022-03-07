@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.0...@redhat-cloud-services/insights-common-typescript@4.12.1) (2022-03-07)
+
+
+### Bug Fixes
+
+* **component:** update button to say Delete instead of previous Remove per UXD ([dca1b01](https://github.com/RedHatInsights/insights-common-typescript/commit/dca1b016e68a8841ad838e8d735157dd7d86231e))
+
+
+
+
+
 # [4.12.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.11.0...@redhat-cloud-services/insights-common-typescript@4.12.0) (2021-11-08)
 
 
