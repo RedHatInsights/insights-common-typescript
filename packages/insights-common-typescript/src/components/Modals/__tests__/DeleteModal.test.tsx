@@ -5,7 +5,7 @@ import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { DeleteModal } from '../..';
 
 describe('src/components/Modals/DeleteModal', () => {
-    it('Shows action modal with Remove action button', () => {
+    it('Shows action modal with Delete action button', () => {
         render(
             <DeleteModal
                 isDeleting={ false }
@@ -19,7 +19,7 @@ describe('src/components/Modals/DeleteModal', () => {
 
         expect(
             ouiaSelectors.getByOuia('PF4/Button', 'action')
-        ).toHaveTextContent('Remove');
+        ).toHaveTextContent('Delete');
     });
 
     it('Shows action modal with action button style of Danger', () => {
