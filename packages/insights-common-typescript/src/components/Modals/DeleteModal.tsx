@@ -14,7 +14,7 @@ export type DeleteModalProps = Omit<SemiPartial<ActionModalProps, InheritedProps
 export const DeleteModal: React.FunctionComponent<DeleteModalProps> = (props) => {
     return <ActionModal
         { ...props }
-        actionButtonTitle={ props.actionButtonTitle ?? 'Remove' }
+        actionButtonTitle={ props.actionButtonTitle ?? 'Delete' }
         actionButtonVariant={ props.actionButtonVariant ?? ButtonVariant.danger }
         titleIconVariant={ props.titleIconVariant ?? 'warning' }
         isPerformingAction={ props.isDeleting }
