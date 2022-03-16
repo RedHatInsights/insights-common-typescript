@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { FormGroup, Text, TextInput as PFTextInput, TextInputProps, TextVariants } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
-import { getOuiaProps } from '../../../utils/Ouia';
+import { OuiaProps, useOuia, withoutOuiaProps } from '@redhat-cloud-services/frontend-components';
+import { ouiaParams } from '../../../utils/Ouia';
 
-interface FormTextInputProps extends OuiaComponentProps, Omit<TextInputProps, 'onChange' | 'innerRef'> {
+interface FormTextInputProps extends OuiaProps, Omit<TextInputProps, 'onChange' | 'innerRef'> {
     id: string;
     name: string;
     hint?: string;
@@ -17,6 +17,8 @@ export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props
     const [ field, meta ] = useField({ ...otherProps });
     const isValid = !meta.error || !meta.touched;
 
+    const ouiaData = useOuia(ouiaParams('FormikPatternfly/FormTextInput'));
+
     return (
         <FormGroup
             fieldId={ props.id }
@@ -24,7 +26,7 @@ export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props
             isRequired={ props.isRequired }
             validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
-            { ...getOuiaProps('FormikPatternfly/FormTextInput', props) }
+            { ...ouiaData }
         >
             <PFTextInput
                 { ...withoutOuiaProps(otherProps) }

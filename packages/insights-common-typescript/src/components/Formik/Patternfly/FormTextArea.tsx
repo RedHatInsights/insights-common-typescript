@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { FormGroup, TextArea as PFTextArea, TextAreaProps as PFTextAreaProps } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
-import { getOuiaProps } from '../../../utils/Ouia';
+import { OuiaProps, useOuia, withoutOuiaProps } from '@redhat-cloud-services/frontend-components';
+import { ouiaParams } from '../../../utils/Ouia';
 
-interface FormTextAreaProps extends OuiaComponentProps, Omit<PFTextAreaProps, 'id' | 'name' | 'onChange'> {
+interface FormTextAreaProps extends OuiaProps, Omit<PFTextAreaProps, 'id' | 'name' | 'onChange'> {
     id: string;
     name: string;
 }
@@ -16,6 +16,8 @@ export const FormTextArea: React.FunctionComponent<FormTextAreaProps> = (props) 
     const [ field, meta ] = useField({ ...useFieldProps });
     const isValid = !meta.error || !meta.touched;
 
+    const ouiaData = useOuia(ouiaParams('FormikPatternfly/FormTextArea'));
+
     return (
         <FormGroup
             fieldId={ props.id }
@@ -23,7 +25,7 @@ export const FormTextArea: React.FunctionComponent<FormTextAreaProps> = (props) 
             isRequired={ props.isRequired }
             validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
-            { ...getOuiaProps('FormikPatternfly/FormTextArea', props) }
+            { ...ouiaData }
         >
             <PFTextArea
                 { ...withoutOuiaProps(props) }
