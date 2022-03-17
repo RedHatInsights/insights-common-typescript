@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { Main, PageHeader, PageHeaderTitle, WithOuia } from '@redhat-cloud-services/frontend-components';
 import { Messages } from '../../properties/Messages';
 import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import { Text, ExpandableSection } from '@patternfly/react-core';
@@ -7,9 +7,9 @@ import { global_spacer_sm, global_BackgroundColor_dark_300 } from '@patternfly/r
 import { join } from '../../utils/ComponentUtils';
 import { style } from 'typestyle';
 import { EmptyState } from '../EmptyState/EmptyState';
-import { getOuiaProps, OuiaComponentProps } from '../../utils/Ouia';
+import { ouiaParams } from '../../utils/Ouia';
 
-interface ErrorPageProps extends OuiaComponentProps {
+interface ErrorPageProps {
     action: () => void;
     actionLabel: string;
     pageHeader: string;
@@ -70,7 +70,7 @@ const ErrorStack: React.FunctionComponent<ErrorStackProps> = (props) => {
 };
 
 // As of time of writing, React only supports error boundaries in class components
-export class ErrorBoundaryPage extends React.Component<ErrorPageProps, ErrorPageState> {
+class ErrorBoundaryPageInternal extends React.Component<ErrorPageProps, ErrorPageState> {
     constructor(props: Readonly<ErrorPageProps>) {
         super(props);
         this.state = {
@@ -93,7 +93,7 @@ export class ErrorBoundaryPage extends React.Component<ErrorPageProps, ErrorPage
     render() {
         if (this.state.hasError) {
             return (
-                <div { ...getOuiaProps('ErrorBoundaryPage', this.props) }>
+                <>
                     <PageHeader>
                         <PageHeaderTitle title={ this.props.pageHeader }/>
                     </PageHeader>
@@ -114,10 +114,12 @@ export class ErrorBoundaryPage extends React.Component<ErrorPageProps, ErrorPage
                             actionLabel={ this.props.actionLabel }
                         />
                     </Main>
-                </div>
+                </>
             );
         }
 
         return this.props.children;
     }
 }
+
+export const ErrorBoundaryPage = WithOuia(ErrorBoundaryPageInternal, ouiaParams('ErrorBoundaryPage'));

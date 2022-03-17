@@ -6,16 +6,16 @@ import {
     PageHeaderTitle,
     Section,
     Skeleton,
-    Spinner
+    Spinner,
+    WithOuia
 } from '@redhat-cloud-services/frontend-components';
 import { Bullseye } from '@patternfly/react-core';
+import { ouiaParams } from '../../utils/Ouia';
 
-import { OuiaComponentProps, getOuiaProps } from '../../utils/Ouia';
-
-export const AppSkeleton: React.FunctionComponent<OuiaComponentProps> = (props) => {
+export const AppSkeleton = WithOuia(() => {
 
     return (
-        <div { ...getOuiaProps('AppSkeleton', props) }>
+        <>
             <PageHeader>
                 <div className="pf-c-content">
                     <PageHeaderTitle title={ <Skeleton size="sm"/> }/>
@@ -28,6 +28,6 @@ export const AppSkeleton: React.FunctionComponent<OuiaComponentProps> = (props) 
                     </Bullseye>
                 </Section>
             </Main>
-        </div>
+        </>
     );
-};
+}, ouiaParams('AppSkeleton'));

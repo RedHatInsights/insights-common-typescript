@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { FormGroup, FormSelect as PFFormSelect, FormSelectProps as PFFormSelectProps } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps } from '../../../utils';
-import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
+import { OuiaProps, useOuia, withoutOuiaProps } from '@redhat-cloud-services/frontend-components';
+import { ouiaParams } from '../../../utils/Ouia';
 
-interface FormSelectProps extends OuiaComponentProps, Omit<PFFormSelectProps, 'onChange' | 'ref' | 'ouiaId'> {
+interface FormSelectProps extends OuiaProps, Omit<PFFormSelectProps, 'onChange' | 'ref' | 'ouiaId'> {
     id: string;
     name: string;
     isRequired?: boolean;
@@ -16,6 +16,8 @@ export const FormSelect: React.FunctionComponent<FormSelectProps> = (props) => {
     const [ field, meta ] = useField({ ...props });
     const isValid = !meta.error || !meta.touched;
 
+    const ouiaData = useOuia(ouiaParams('FormikPatternfly/FormSelect'));
+
     return (
         <FormGroup
             fieldId={ props.id }
@@ -23,7 +25,7 @@ export const FormSelect: React.FunctionComponent<FormSelectProps> = (props) => {
             isRequired={ props.isRequired }
             validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
-            { ...getOuiaProps('FormikPatternfly/FormSelect', props) }
+            { ...ouiaData }
         >
             <PFFormSelect
                 { ...withoutOuiaProps(props) }
