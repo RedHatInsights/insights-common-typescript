@@ -3,10 +3,10 @@ import { useField } from 'formik';
 import { FormGroup, Switch as PFSwitch, SwitchProps as PFSwitchProps } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
-import { getOuiaProps } from '../../../utils/Ouia';
+import { OuiaProps, useOuia, withoutOuiaProps } from '@redhat-cloud-services/frontend-components';
+import { ouiaParams } from '../../../utils/Ouia';
 
-interface SwitchProps extends OuiaComponentProps, Omit<PFSwitchProps, 'onChange' | 'ref' | 'ouiaSafe' | 'ouiaId'> {
+interface SwitchProps extends OuiaProps, Omit<PFSwitchProps, 'onChange' | 'ref' | 'ouiaSafe' | 'ouiaId'> {
     id: string;
     name: string;
     isRequired?: boolean;
@@ -18,6 +18,8 @@ export const Switch: React.FunctionComponent<SwitchProps> = (props) => {
     const { labelOn: label, ...restProps } = props;
     const isValid = !meta.error || !meta.touched;
 
+    const ouiaData = useOuia(ouiaParams('FormikPatternfly/Switch'));
+
     return (
         <FormGroup
             fieldId={ props.id }
@@ -25,7 +27,7 @@ export const Switch: React.FunctionComponent<SwitchProps> = (props) => {
             isRequired={ props.isRequired }
             validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
-            { ...getOuiaProps('FormikPatternfly/Switch', props) }
+            { ...ouiaData }
         >
             <div>
                 <PFSwitch
