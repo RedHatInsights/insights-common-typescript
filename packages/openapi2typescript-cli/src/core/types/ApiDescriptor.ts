@@ -154,11 +154,19 @@ export interface Parameter {
     schema: SchemaOrType;
 }
 
+export type ParameterWithTypeName = Parameter & {
+    typeName: string;
+}
+
 export type ParameterOrType = Parameter | Type<Parameter>;
 
 export interface RequestBody {
     schema: SchemaOrType;
 }
+
+export type RequestBodyWithTypeName = RequestBody & {
+    typeName: string;
+};
 
 export interface Response {
     status: string;

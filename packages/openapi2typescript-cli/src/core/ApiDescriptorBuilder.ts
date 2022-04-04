@@ -1,10 +1,28 @@
 import { isReference, OpenAPI3 } from './types/OpenAPI3';
 import {
-    APIDescriptor, Type, StringMap, Schema, SchemaObject, SchemaOrType, SchemaType, SchemaUnknown, SchemaWithTypeName,
-    Parameter, ParamType, Path, RequestBody, Response, Verb, deType, isType
+    APIDescriptor,
+    Type,
+    StringMap,
+    Schema,
+    SchemaObject,
+    SchemaOrType,
+    SchemaType,
+    SchemaUnknown,
+    SchemaWithTypeName,
+    Parameter,
+    ParamType,
+    Path,
+    RequestBody,
+    Response,
+    Verb,
+    deType,
+    isType,
+    ParameterWithTypeName,
+    RequestBodyWithTypeName
 } from './types/ApiDescriptor';
 import camelcase from 'camelcase';
 import { sortByKey } from './Utils';
+import assertNever from 'assert-never';
 
 const refToName = (reference: OpenAPI3.Reference) => {
     const [ last ] = reference.$ref.split('/').reverse();
@@ -22,12 +40,17 @@ const EMPTY_SCHEMA_KEY = '__Empty';
 
 class ApiDescriptorBuilder {
     readonly topSchemas: StringMap<SchemaWithTypeName>;
+    readonly topParameters: StringMap<ParameterWithTypeName>;
+    readonly topRequestBodies: StringMap<RequestBodyWithTypeName>;
+
     readonly openapi: Readonly<OpenAPI3>;
     readonly options: ApiDescriptorBuilderOptions;
 
     constructor(openapi: OpenAPI3, options: Partial<ApiDescriptorBuilderOptions>) {
         this.openapi = openapi;
         this.topSchemas = this.getTopSchemasPlaceholders();
+        this.topParameters = this.getTopParameters();
+        this.topRequestBodies = this.getTopRequestBodies();
         this.options = {
             nonRequiredPropertyIsNull: false,
             basePath: undefined,
@@ -225,7 +248,14 @@ class ApiDescriptorBuilder {
     private getRequestBodyOrResponseSchemaOrType(
         requestOrResponse: OpenAPI3.RequestBody | OpenAPI3.Response | OpenAPI3.Reference) : SchemaOrType | undefined {
         if (isReference(requestOrResponse)) {
-            throw new Error('Reference for RequestBody or Response is not yet supported');
+            const typeName = refToName(requestOrResponse);
+            if (this.topRequestBodies[typeName]?.schema) {
+                return this.topRequestBodies[typeName].schema;
+            }
+
+            return {
+                type: SchemaType.UNKNOWN
+            };
         }
 
         if (requestOrResponse.content) {
@@ -249,23 +279,10 @@ class ApiDescriptorBuilder {
         const parameters: Array<Parameter> = [];
         for (const oapiParam of oapiParameters) {
             if (isReference(oapiParam)) {
-                throw new Error('Parameters as Reference is not yet supported');
+                const typeName = refToName(oapiParam);
+                parameters.push(this.topParameters[typeName]);
             } else {
-                let paramType: ParamType;
-                switch (oapiParam.in) {
-                    case 'header':
-                        paramType = ParamType.HEADER;
-                        break;
-                    case 'query':
-                        paramType = ParamType.QUERY;
-                        break;
-                    case 'cookie':
-                        paramType = ParamType.COOKIE;
-                        break;
-                    case 'path':
-                        paramType = ParamType.PATH;
-                        break;
-                }
+                const paramType = this.getParamType(oapiParam.in);
 
                 let typeOrSchema;
                 if (oapiParam.schema !== undefined) {
@@ -348,6 +365,8 @@ class ApiDescriptorBuilder {
                 default:
                     throw new Error(`Unknown type found: ${schema.type} for schema ${JSON.stringify(schema)}`);
             }
+        } else if (schema.properties) { // it didn't had a type, but has properties.
+            return this.getSchemaForObject({ ...schema, type: 'object' });
         } else {
             return {
                 type: SchemaType.UNKNOWN
@@ -439,6 +458,76 @@ class ApiDescriptorBuilder {
         }
 
         return schemas;
+    }
+
+    private getTopParameters(): StringMap<ParameterWithTypeName> {
+        const parameters: StringMap<ParameterWithTypeName> = {};
+        if (this.openapi.components?.parameters) {
+            for (const [ typeName, parameter ] of sortByKey(Object.entries(this.openapi.components.parameters))) {
+                if (isReference(parameter)) {
+                    throw new Error('Invalid reference found at parameters level');
+                }
+
+                let schema: SchemaOrType;
+                if (parameter.schema) {
+                    schema = this.getSchema(parameter.schema);
+                } else {
+                    schema = {
+                        type: SchemaType.UNKNOWN
+                    };
+                }
+
+                const paramType = this.getParamType(parameter.in);
+
+                if (parameter.required || paramType === ParamType.PATH) {
+                    schema.isOptional = false;
+                } else if (!parameter.required) {
+                    schema.isOptional = true;
+                }
+
+                parameters[typeName] = {
+                    typeName,
+                    name: parameter.name,
+                    type: paramType,
+                    schema
+                } as ParameterWithTypeName;
+            }
+        }
+
+        return parameters;
+    }
+
+    private getTopRequestBodies(): StringMap<RequestBodyWithTypeName> {
+        const requestBodies: StringMap<RequestBodyWithTypeName> = {};
+        if (this.openapi.components?.requestBodies) {
+            for (const [ typeName, requestBody ] of sortByKey(Object.entries(this.openapi.components.requestBodies))) {
+                if (isReference(requestBody)) {
+                    throw new Error('Invalid reference found at request bodies level');
+                }
+
+                requestBodies[typeName] = {
+                    ...this.getRequestBody(requestBody),
+                    typeName
+                };
+            }
+        }
+
+        return requestBodies;
+    }
+
+    private getParamType(rawParamType: OpenAPI3.Parameter['in']): ParamType {
+        switch (rawParamType) {
+            case 'header':
+                return ParamType.HEADER;
+            case 'query':
+                return ParamType.QUERY;
+            case 'cookie':
+                return ParamType.COOKIE;
+            case 'path':
+                return ParamType.PATH;
+        }
+
+        assertNever(rawParamType);
     }
 }
 

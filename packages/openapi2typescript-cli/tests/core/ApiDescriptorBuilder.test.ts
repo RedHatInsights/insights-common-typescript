@@ -1,7 +1,6 @@
 import { buildApiDescriptor } from '../../src/core/ApiDescriptorBuilder';
 import { OpenAPI3 } from '../../src/core/types/OpenAPI3';
 import { SchemaType } from '../../src/core/types/ApiDescriptor';
-import { readFileSync } from "fs";
 
 const emptyOpenApi: Readonly<OpenAPI3> = {
     info: {
@@ -93,8 +92,8 @@ describe('src/core/ApiDescriptorBuilder', () => {
         })).toThrowError('Invalid reference found at component level');
     });
 
-    it('Throws if a request is a schema', () => {
-        expect(() => buildApiDescriptor({
+    it('Supports requestBodies', () => {
+        expect(buildApiDescriptor({
             ...emptyOpenApi,
             paths: {
                 foo: {
@@ -116,12 +115,53 @@ describe('src/core/ApiDescriptorBuilder', () => {
                         }
                     }
                 }
+            },
+            components: {
+                requestBodies: {
+                    myref: {
+                        description: 'string',
+                        content: {
+
+                        },
+                        required: false
+                    }
+                }
             }
-        })).toThrowError('Reference for RequestBody or Response is not yet supported');
+        })).toEqual({
+            basePath: '',
+            components: {
+                schemas: {}
+            },
+            paths: [
+                {
+                    operations: [
+                        {
+                            id: 'GetFoo',
+                            parameters: [],
+                            path: 'foo',
+                            verb: 'GET',
+                            requestBody: {
+                                schema: {
+                                    type: 'UNKNOWN'
+                                }
+                            },
+                            responses: [
+                                {
+                                    status: '200',
+                                    schema: { type: 'STRING' }
+                                }
+                            ]
+                        }
+                    ],
+                    path: 'foo'
+                }
+            ]
+        });
+
     });
 
-    it('Throws if a response is a schema', () => {
-        expect(() => buildApiDescriptor({
+    it('Supports a response is a schema', () => {
+        expect(buildApiDescriptor({
             ...emptyOpenApi,
             paths: {
                 foo: {
@@ -133,8 +173,42 @@ describe('src/core/ApiDescriptorBuilder', () => {
                         }
                     }
                 }
+            },
+            components: {
+                responses: {
+                    myref: {
+                        content: {
+                            schema: {
+                            }
+                        },
+                        description: 'my-desc'
+                    }
+                }
             }
-        })).toThrowError('Reference for RequestBody or Response is not yet supported');
+        })).toEqual(
+            {
+                basePath: '',
+                components: {
+                    schemas: {}
+                },
+                paths: [
+                    {
+                        operations: [
+                            {
+                                id: 'GetFoo',
+                                description: undefined,
+                                parameters: [],
+                                path: 'foo',
+                                requestBody: undefined,
+                                verb: 'GET',
+                                responses: [{ status: '200', schema: { type: 'UNKNOWN' }}]
+                            }
+                        ],
+                        path: 'foo'
+                    }
+                ]
+            }
+        );
     });
 
     it('Identify loops in schema components objects 1', () => {

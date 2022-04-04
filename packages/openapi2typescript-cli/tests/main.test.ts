@@ -11,6 +11,7 @@ describe('src/cli/schema', () => {
     describe.each([
         './tests/__fixtures__/notifications-openapi.json',
         './tests/__fixtures__/integrations-openapi.json',
+        './tests/__fixtures__/rbac-openapi.json',
         './tests/__fixtures__/policies-openapi.json',
         './tests/__fixtures__/simple-openapi.json'
     ])('execute for %s', (filename) => {
