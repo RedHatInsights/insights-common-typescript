@@ -525,9 +525,9 @@ class ApiDescriptorBuilder {
                 return ParamType.COOKIE;
             case 'path':
                 return ParamType.PATH;
+            default:
+                assertNever(rawParamType);
         }
-
-        assertNever(rawParamType);
     }
 }
 
