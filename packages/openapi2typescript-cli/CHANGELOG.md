@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript-cli@0.5.1...openapi2typescript-cli@0.6.0) (2022-04-08)
+
+
+### Features
+
+* supports other components ([b280ec8](https://github.com/RedHatInsights/insights-common-typescript/commit/b280ec8e06ba4b822aaf8c935c650220e2bccb6f))
+
+
+
+
+
 ## [0.5.1](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript-cli@0.5.0...openapi2typescript-cli@0.5.1) (2022-02-14)
 
 **Note:** Version bump only for package openapi2typescript-cli
