@@ -15,10 +15,13 @@ jest.mock('@redhat-cloud-services/frontend-components', () => {
         return <span>{ props.title }</span>;
     };
 
+    const Identity = (c) => c;
+
     return {
         Main: Children,
         PageHeader: Children,
-        PageHeaderTitle: Title
+        PageHeaderTitle: Title,
+        WithOuia: Identity
     };
 });
 
