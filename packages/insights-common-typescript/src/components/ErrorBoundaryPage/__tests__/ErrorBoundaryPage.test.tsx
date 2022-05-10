@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ErrorBoundaryPage } from '../../..';
+import { ErrorBoundaryPage } from '../ErrorBoundaryPage';
 import jestMock from 'jest-mock';
 
 jest.mock('@redhat-cloud-services/frontend-components', () => {
@@ -15,10 +15,13 @@ jest.mock('@redhat-cloud-services/frontend-components', () => {
         return <span>{ props.title }</span>;
     };
 
+    const Identity = (c) => c;
+
     return {
         Main: Children,
         PageHeader: Children,
-        PageHeaderTitle: Title
+        PageHeaderTitle: Title,
+        WithOuia: Identity
     };
 });
 
