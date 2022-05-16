@@ -34,12 +34,14 @@
     "csx": "^10.0.2",
     "formik": "^2.2.9",
     "react": "^17.0.2",
-    "react-fetching-library": "^1.7.6",
     "react-router-dom": "^5.2.0",
     "react-use": "^17.2.4",
     "redux": "^4.1.0",
     "redux-promise-middleware": "^5.1.1",
     "typestyle": "^2.1.0"
+  },
+  "devDependencies": {
+    "@redhat-cloud-services/types": "0.0.3"
   },
   "publishConfig": {
     "access": "public"

@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { RenderIf } from './RenderIf';
-import { InsightsType } from '../../utils';
-import { BetaEnvironment, Environment, NonBetaEnvironment } from '../../types/Environment';
+import { Environment } from '../../types';
+import { ChromeAPI } from '@redhat-cloud-services/types';
 
 interface EnvDetectorProps {
     onEnvironment: ReadonlyArray<Environment> | Environment;
-    currentEnvironment: Environment;
+    currentEnvironment: string;
 }
 
 export const EnvDetector: React.FunctionComponent<EnvDetectorProps> = (props) => {
@@ -25,19 +25,19 @@ export const EnvDetector: React.FunctionComponent<EnvDetectorProps> = (props) =>
 };
 
 interface InsightsBetaDetectorProps extends Omit<EnvDetectorProps, 'currentEnvironment'> {
-    insights: InsightsType;
+    chrome: ChromeAPI;
 }
 
 export const InsightsEnvDetector: React.FunctionComponent<InsightsBetaDetectorProps> = (props) => {
-    const currentEnvironment: Environment = React.useMemo(() => {
-        const isBeta = props.insights.chrome.isBeta();
-        const env: NonBetaEnvironment = props.insights.chrome.getEnvironment();
+    const currentEnvironment: string = React.useMemo(() => {
+        const isBeta = props.chrome.isBeta();
+        const env = props.chrome.getEnvironment();
         if (isBeta) {
-            return `${env}-beta` as BetaEnvironment;
+            return `${env}-beta`;
         } else {
             return env;
         }
-    }, [ props.insights ]);
+    }, [ props.chrome ]);
 
     return <EnvDetector onEnvironment={ props.onEnvironment } currentEnvironment={ currentEnvironment }>{ props.children }</EnvDetector>;
 };

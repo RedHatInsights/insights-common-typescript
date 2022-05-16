@@ -34,7 +34,7 @@ describe('src/components/EmailOptIn', () => {
                     getBundle: () => 'mybundle'
                 }
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(
                 screen.getByText('Open user preferences', {
                     selector: 'a'
@@ -49,7 +49,7 @@ describe('src/components/EmailOptIn', () => {
                     getBundle: () => 'mybundle'
                 }
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {
                 selector: 'a'
             })).toHaveAttribute('href', '/user-preferences/notification/mybundle');
@@ -62,7 +62,7 @@ describe('src/components/EmailOptIn', () => {
                     getBundle: () => 'abc'
                 }
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {
                 selector: 'a'
             })).toHaveAttribute('href', '/user-preferences/notification/abc');
