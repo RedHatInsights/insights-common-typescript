@@ -3,10 +3,10 @@ import { Alert, AlertVariant, Text, TextContent } from '@patternfly/react-core';
 
 import { Messages } from '../../properties/Messages';
 import { Config } from '../../config';
-import { InsightsType } from '../../utils';
 import { ouiaParams } from '../../utils/Ouia';
 import { format } from 'react-string-format';
 import { WithOuia } from '@redhat-cloud-services/frontend-components';
+import { ChromeAPI } from '@redhat-cloud-services/types';
 
 interface EmailOptInProps {
     content: string;
@@ -40,12 +40,12 @@ type Partials = 'isBeta' | 'bundle';
 type InsightsEmailOptInPropsType = Partial<Pick<EmailOptInProps, Partials>> & Omit<EmailOptInProps, Partials>;
 
 interface InsightsEmailOptInProps extends InsightsEmailOptInPropsType {
-    insights: InsightsType;
+    chromeAPI: ChromeAPI;
 }
 
 export const InsightsEmailOptIn: React.FunctionComponent<InsightsEmailOptInProps> = (props) =>
     <EmailOptIn
         { ...props }
-        isBeta={ props.isBeta ?? props.insights.chrome.isBeta() }
-        bundle={ props.bundle ?? props.insights.chrome.getBundle() }
+        isBeta={ props.isBeta ?? props.chromeAPI.isBeta() }
+        bundle={ props.bundle ?? props.chromeAPI.getBundle() }
     />;

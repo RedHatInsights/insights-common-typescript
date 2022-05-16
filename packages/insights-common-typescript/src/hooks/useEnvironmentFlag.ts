@@ -1,7 +1,7 @@
 import { FeatureFlagCallback, useFeatureFlag } from './useFeatureFlag';
-import { Environment, getInsightsEnvironment } from '../types/Environment';
+import { Environment, getChromeEnvironment } from '../types/Environment';
 import { useCallback, useMemo } from 'react';
-import { InsightsType } from '../utils';
+import { ChromeAPI } from '@redhat-cloud-services/types';
 
 type EnvironmentFlagSignature = {
     <T>(
@@ -33,13 +33,13 @@ export const useEnvironmentFlag: EnvironmentFlagSignature = <T>(
 
 type InsightsEnvironmentFlagSignature = {
     <T>(
-        insights: InsightsType,
+        chrome: ChromeAPI,
         targetEnvironments: Environment | ReadonlyArray<Environment>,
         ifTrue: FeatureFlagCallback<T>,
         ifFalse?: FeatureFlagCallback<T>
     ): T | undefined;
     <T>(
-        insights: InsightsType,
+        chrome: ChromeAPI,
         targetEnvironments: Environment | ReadonlyArray<Environment>,
         ifTrue: FeatureFlagCallback<T> | undefined,
         ifFalse: FeatureFlagCallback<T>
@@ -47,12 +47,12 @@ type InsightsEnvironmentFlagSignature = {
 };
 
 export const useInsightsEnvironmentFlag: InsightsEnvironmentFlagSignature = <T>(
-    insights: InsightsType,
+    chrome: ChromeAPI,
     targetEnvironments: Environment | ReadonlyArray<Environment>,
     ifTrue: FeatureFlagCallback<T> | undefined,
     ifFalse: FeatureFlagCallback<T> | undefined
 ) => {
-    const current = useMemo(() => getInsightsEnvironment(insights), [ insights ]);
+    const current = useMemo(() => getChromeEnvironment(chrome), [ chrome ]);
 
     // Same as above
     return useEnvironmentFlag(current, targetEnvironments, ifTrue, ifFalse as any);

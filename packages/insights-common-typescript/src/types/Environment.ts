@@ -1,4 +1,4 @@
-import { InsightsType } from '../utils/Insights';
+import { ChromeAPI } from '@redhat-cloud-services/types';
 
 const nonBetaEnvironments = [
     'ci',
@@ -44,11 +44,11 @@ export const Environments: Environments = {
     govStage: govStageEnvironments
 };
 
-export const getInsightsEnvironment = (insights: InsightsType): Environment => {
-    const isBeta = insights.chrome.isBeta();
-    const env: NonBetaEnvironment = insights.chrome.getEnvironment();
+export const getChromeEnvironment = (chrome: ChromeAPI) => {
+    const isBeta = chrome.isBeta();
+    const env: string = chrome.getEnvironment();
     if (isBeta) {
-        return `${env}-beta` as BetaEnvironment;
+        return `${env}-beta`;
     } else {
         return env;
     }
