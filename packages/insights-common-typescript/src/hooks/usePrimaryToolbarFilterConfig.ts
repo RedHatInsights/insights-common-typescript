@@ -9,6 +9,7 @@ import {
     SetFilters,
     StandardFilterEnum
 } from '../types';
+import { FilterChipsFilter } from '@redhat-cloud-services/frontend-components';
 
 const getFilterItemType = <FilterColumn extends StandardFilterEnum<any>>(
     column: EnumElement<FilterColumn>,
@@ -205,7 +206,7 @@ export const usePrimaryToolbarFilterConfig = <FilterColumn extends StandardFilte
     }, [ clearFilters, Enum, meta ]);
 
     const activeFiltersConfig = useMemo(() => {
-        const filterConfig: Array<ReturnType<typeof getActiveFilterConfigItem>> = [];
+        const filterConfig: Array<FilterChipsFilter> = [];
         for (const column of Object.values(Enum) as Array<EnumElement<FilterColumn>>) {
             if (!meta[column]) {
                 continue;
