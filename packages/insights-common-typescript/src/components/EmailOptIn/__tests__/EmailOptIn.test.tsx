@@ -29,12 +29,10 @@ describe('src/components/EmailOptIn', () => {
     describe('Insights component', () => {
         it('Builds link for beta', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => true,
-                    getBundle: () => 'mybundle'
-                }
+                isBeta: () => true,
+                getBundle: () => 'mybundle'
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(
                 screen.getByText('Open user preferences', {
                     selector: 'a'
@@ -44,12 +42,10 @@ describe('src/components/EmailOptIn', () => {
 
         it('Builds link for stable', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => false,
-                    getBundle: () => 'mybundle'
-                }
+                isBeta: () => false,
+                getBundle: () => 'mybundle'
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {
                 selector: 'a'
             })).toHaveAttribute('href', '/user-preferences/notification/mybundle');
@@ -57,12 +53,10 @@ describe('src/components/EmailOptIn', () => {
 
         it('Builds link using the bundle', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => false,
-                    getBundle: () => 'abc'
-                }
+                isBeta: () => false,
+                getBundle: () => 'abc'
             };
-            render(<InsightsEmailOptIn content="foobar" insights={ insights } />);
+            render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {
                 selector: 'a'
             })).toHaveAttribute('href', '/user-preferences/notification/abc');

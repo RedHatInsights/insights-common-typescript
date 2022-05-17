@@ -1,5 +1,4 @@
 export * from './AppSkeleton/AppSkeleton';
-export * from './Beta/BetaDetector';
 export * from './EmailOptIn/EmailOptIn';
 export * from './EmptyState/EmptyState';
 export * from './ErrorBoundaryPage/ErrorBoundaryPage';

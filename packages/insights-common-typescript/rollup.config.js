@@ -73,8 +73,14 @@ export default function makeConfig(params) {
                     axios: 'axios',
                     'react-router-dom': 'reactRouterDom',
                     'react-use': 'reactUse',
-                    camelcase: 'camelcase'
-
+                    camelcase: 'camelcase',
+                    'react-string-format': 'reactStringFormat',
+                    '@patternfly/react-tokens/dist/js/global_spacer_3xl': 'global_spacer_3xl',
+                    '@patternfly/react-icons/dist/js/icons/error-circle-o-icon': 'ErrorCircleOIcon',
+                    '@patternfly/react-tokens/dist/js/global_spacer_sm': 'global_spacer_sm',
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    '@patternfly/react-tokens/dist/js/global_BackgroundColor_dark_300': 'global_BackgroundColor_dark_300',
+                    '@redhat-cloud-services/frontend-components-utilities/ReducerRegistry/index': 'index'
                 }
             }
         ];
