@@ -1,6 +1,6 @@
 {
   "name": "@redhat-cloud-services/insights-common-typescript",
-  "version": "4.12.1",
+  "version": "4.12.2",
   "private": false,
   "license": "Apache-2.0",
   "main": "index.js",

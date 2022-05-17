@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.2](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.1...@redhat-cloud-services/insights-common-typescript@4.12.2) (2022-05-17)
+
+
+### Bug Fixes
+
+* update type of primary toolbar filter config ([#83](https://github.com/RedHatInsights/insights-common-typescript/issues/83)) ([83f2b78](https://github.com/RedHatInsights/insights-common-typescript/commit/83f2b78a5fb03f21c87ce60723ba8c8a616c6b07))
+
+
+
+
+
 ## [4.12.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.0...@redhat-cloud-services/insights-common-typescript@4.12.1) (2022-03-07)
 
 
