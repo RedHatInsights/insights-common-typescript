@@ -29,10 +29,8 @@ describe('src/components/EmailOptIn', () => {
     describe('Insights component', () => {
         it('Builds link for beta', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => true,
-                    getBundle: () => 'mybundle'
-                }
+                isBeta: () => true,
+                getBundle: () => 'mybundle'
             };
             render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(
@@ -44,10 +42,8 @@ describe('src/components/EmailOptIn', () => {
 
         it('Builds link for stable', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => false,
-                    getBundle: () => 'mybundle'
-                }
+                isBeta: () => false,
+                getBundle: () => 'mybundle'
             };
             render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {
@@ -57,10 +53,8 @@ describe('src/components/EmailOptIn', () => {
 
         it('Builds link using the bundle', () => {
             const insights: any = {
-                chrome: {
-                    isBeta: () => false,
-                    getBundle: () => 'abc'
-                }
+                isBeta: () => false,
+                getBundle: () => 'abc'
             };
             render(<InsightsEmailOptIn content="foobar" chromeAPI={ insights } />);
             expect(screen.getByText('Open user preferences', {

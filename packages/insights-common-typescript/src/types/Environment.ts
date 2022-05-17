@@ -7,12 +7,12 @@ const nonBetaEnvironments = [
     'prod',
     'gov',
     'govStage'
-] as const;
+];
 
-const betaEnvironments = nonBetaEnvironments.map(v => `${v}-beta` as const);
-const environments = [ ...nonBetaEnvironments, ...betaEnvironments ] as const;
+const betaEnvironments = nonBetaEnvironments.map(v => `${v}-beta`);
+const environments = [ ...nonBetaEnvironments, ...betaEnvironments ];
 
-const prodEnvironments = [ 'prod', 'prod-beta', 'gov', 'gov-beta' ] as const;
+const prodEnvironments = [ 'prod', 'prod-beta', 'gov', 'gov-beta' ];
 const nonProdEnvironments = environments.filter(v => !prodEnvironments.includes(v as any));
 
 const ciEnvironments: ReadonlyArray<Environment> = [ 'ci', 'ci-beta' ];
@@ -44,7 +44,7 @@ export const Environments: Environments = {
     govStage: govStageEnvironments
 };
 
-export const getChromeEnvironment = (chrome: ChromeAPI) => {
+export const getChromeEnvironment = (chrome: ChromeAPI): Environment => {
     const isBeta = chrome.isBeta();
     const env: string = chrome.getEnvironment();
     if (isBeta) {
