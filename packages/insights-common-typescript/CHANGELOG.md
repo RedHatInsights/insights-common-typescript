@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.12.3](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.2...@redhat-cloud-services/insights-common-typescript@4.12.3) (2022-07-15)
+
+
+### Bug Fixes
+
+* adding source files to be used by the maps ([81bd2e1](https://github.com/RedHatInsights/insights-common-typescript/commit/81bd2e1ef42c3afa5b02892e83affd145edf0992))
+
+
+
+
+
 ## [4.12.2](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.1...@redhat-cloud-services/insights-common-typescript@4.12.2) (2022-05-17)
 
 

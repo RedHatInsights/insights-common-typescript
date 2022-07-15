@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript@0.2.0...openapi2typescript@0.2.1) (2022-07-15)
+
+
+### Bug Fixes
+
+* adding source files to be used by the maps ([81bd2e1](https://github.com/RedHatInsights/insights-common-typescript/commit/81bd2e1ef42c3afa5b02892e83affd145edf0992))
+
+
+
+
+
 # [0.2.0](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript@0.1.5...openapi2typescript@0.2.0) (2021-07-28)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.23](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.22...insights-common-typescript-dev@0.1.23) (2022-07-15)
+
+
+### Bug Fixes
+
+* adding source files to be used by the maps ([81bd2e1](https://github.com/RedHatInsights/insights-common-typescript/commit/81bd2e1ef42c3afa5b02892e83affd145edf0992))
+
+
+
+
+
 ## [0.1.22](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.21...insights-common-typescript-dev@0.1.22) (2022-05-17)
 
 **Note:** Version bump only for package insights-common-typescript-dev
