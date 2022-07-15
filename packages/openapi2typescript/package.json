@@ -10,7 +10,8 @@
     "react-fetching-library.js*",
     "react-fetching-library.d.ts",
     "esm/*",
-    "cjs/*"
+    "cjs/*",
+    "src/*"
   ],
   "scripts": {
     "build": "rollup --config",

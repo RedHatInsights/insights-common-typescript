@@ -7,7 +7,8 @@
     "openapi2typescript": "./lib/main.js"
   },
   "files": [
-    "lib/*"
+    "lib/*",
+    "src/*"
   ],
   "scripts": {
     "build": "rollup --config",
