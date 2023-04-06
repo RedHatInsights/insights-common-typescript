@@ -1,24 +1,24 @@
 import { isReference, OpenAPI3 } from './types/OpenAPI3';
 import {
     APIDescriptor,
-    Type,
-    StringMap,
-    Schema,
-    SchemaObject,
+    deType,
+    isType,
+    Parameter,
+    ParameterWithTypeName,
+    ParamType,
+    Path,
+    RequestBody,
+    RequestBodyWithTypeName,
+    Response,
+    Schema, SchemaAllOf, SchemaAnyOf,
+    SchemaObject, SchemaOneOf,
     SchemaOrType,
     SchemaType,
     SchemaUnknown,
     SchemaWithTypeName,
-    Parameter,
-    ParamType,
-    Path,
-    RequestBody,
-    Response,
-    Verb,
-    deType,
-    isType,
-    ParameterWithTypeName,
-    RequestBodyWithTypeName
+    StringMap,
+    Type,
+    Verb
 } from './types/ApiDescriptor';
 import camelcase from 'camelcase';
 import { sortByKey } from './Utils';
@@ -32,6 +32,7 @@ const refToName = (reference: OpenAPI3.Reference) => {
 export interface ApiDescriptorBuilderOptions {
     nonRequiredPropertyIsNull: boolean;
     basePath?: string;
+    skipDeprecated: boolean;
 }
 
 const verbs = [ Verb.GET, Verb.POST, Verb.PUT, Verb.DELETE ];
@@ -54,6 +55,7 @@ class ApiDescriptorBuilder {
         this.options = {
             nonRequiredPropertyIsNull: false,
             basePath: undefined,
+            skipDeprecated: false,
             ...options
         };
     }
@@ -68,8 +70,74 @@ class ApiDescriptorBuilder {
         };
 
         this.findAndFixLoops(descriptor);
+        this.reduceUnknown(descriptor);
 
         return descriptor;
+    }
+
+    private reduceUnknown(descriptor: APIDescriptor) {
+        for (const [ name, schema ] of Object.entries(descriptor.components?.schemas ?? {})) {
+            this.reduceUnknownOfSchema(schema, [ name ]);
+        }
+    }
+
+    private reduceUnknownOfArraySchema(schemasOrTypes: Array<SchemaOrType>, typePath: Array<string>) {
+        for (const schemaOrType of schemasOrTypes) {
+            this.reduceUnknownOfSchema(schemaOrType, typePath);
+        }
+    }
+
+    private reduceUnknownOfSchema(schemaOrType: SchemaOrType, typePath: Array<string>) {
+        const localTypePath = [ ...typePath ];
+
+        if (isType(schemaOrType) && schemaOrType.hasLoop) {
+            return;
+        }
+
+        const schema = deType(schemaOrType);
+
+        switch (schema.type) {
+            case SchemaType.OBJECT:
+                if (schema.properties) {
+                    this.reduceUnknownOfArraySchema(Object.values(schema.properties), localTypePath);
+                }
+
+                if (schema.additionalProperties) {
+                    this.reduceUnknownOfSchema(schema.additionalProperties, localTypePath);
+                }
+
+                break;
+            case SchemaType.ARRAY:
+                if (schema.items) {
+                    this.reduceUnknownOfSchema(schema.items, localTypePath);
+                }
+
+                break;
+            case SchemaType.ANY_OF:
+                this.reduceUnknownOfArraySchema(schema.anyOf, localTypePath);
+                this.patchUnknownType(schema, 'anyOf');
+
+                break;
+            case SchemaType.ONE_OF:
+                this.reduceUnknownOfArraySchema(schema.oneOf, localTypePath);
+                this.patchUnknownType(schema, 'oneOf');
+
+                break;
+            case SchemaType.ALL_OF:
+                this.reduceUnknownOfArraySchema(schema.allOf, localTypePath);
+                this.patchUnknownType(schema, 'allOf');
+
+                break;
+        }
+    }
+
+    private patchUnknownType<T extends SchemaAllOf | SchemaOneOf | SchemaAnyOf>(schema: T, prop: keyof T) {
+        const schemaAsAny = schema as any;
+        schemaAsAny[prop] = schemaAsAny[prop].filter(s => !this.isUnknown(s));
+        if (schemaAsAny[prop].length === 0) {
+            schemaAsAny.type = SchemaType.UNKNOWN;
+            schemaAsAny[prop] = undefined;
+        }
     }
 
     private findAndFixLoops(descriptor: APIDescriptor) {
@@ -282,10 +350,18 @@ class ApiDescriptorBuilder {
                 const typeName = refToName(oapiParam);
                 parameters.push(this.topParameters[typeName]);
             } else {
+                if (this.options.skipDeprecated && oapiParam.deprecated) {
+                    continue;
+                }
+
                 const paramType = this.getParamType(oapiParam.in);
 
                 let typeOrSchema;
                 if (oapiParam.schema !== undefined) {
+                    if (this.options.skipDeprecated && !isReference(oapiParam.schema) && oapiParam.schema.deprecated) {
+                        continue;
+                    }
+
                     typeOrSchema = this.getSchema(oapiParam.schema);
                 } else {
                     typeOrSchema = {
@@ -311,22 +387,49 @@ class ApiDescriptorBuilder {
     }
 
     private getSchemaType(schema: OpenAPI3.Schema): Schema {
-        if (schema.allOf) {
-            return {
-                type: SchemaType.ALL_OF,
-                allOf: schema.allOf.map(s => this.getSchema(s))
+
+        // Group allOf, oneOf and anyOf
+        if (schema.allOf || schema.oneOf || schema.anyOf) {
+            const getSchemasOrTypeAndFilterUnknown = (schemaOrRef?: Array<OpenAPI3.Schema | OpenAPI3.Reference>): Array<SchemaOrType> | undefined => {
+                return schemaOrRef?.map(s => this.getSchema(s)).filter(s => !this.isUnknown(s));
             };
-        } else if (schema.oneOf) {
-            return {
-                type: SchemaType.ONE_OF,
-                oneOf: schema.oneOf.map(s => this.getSchema(s))
-            };
-        } else if (schema.anyOf) {
-            return {
-                type: SchemaType.ANY_OF,
-                anyOf: schema.anyOf.map(s => this.getSchema(s))
-            };
-        } else if (schema.enum) {
+
+            const allOfSchemas = getSchemasOrTypeAndFilterUnknown(schema.allOf);
+            const oneOfSchemas = getSchemasOrTypeAndFilterUnknown(schema.oneOf);
+            const anyOfSchemas = getSchemasOrTypeAndFilterUnknown(schema.anyOf);
+
+            if (allOfSchemas || oneOfSchemas || anyOfSchemas) {
+
+                const types: Array<Schema> = [];
+                if (allOfSchemas) {
+                    types.push({
+                        type: SchemaType.ALL_OF,
+                        allOf: allOfSchemas
+                    });
+                }
+
+                if (oneOfSchemas) {
+                    types.push({
+                        type: SchemaType.ONE_OF,
+                        oneOf: oneOfSchemas
+                    });
+                }
+
+                if (anyOfSchemas) {
+                    types.push({
+                        type: SchemaType.ANY_OF,
+                        anyOf: anyOfSchemas
+                    });
+                }
+
+                return {
+                    type: SchemaType.ALL_OF,
+                    allOf: types
+                };
+            }
+        }
+
+        if (schema.enum) {
             return {
                 type: SchemaType.ENUM,
                 enum: schema.enum
@@ -410,6 +513,10 @@ class ApiDescriptorBuilder {
             if (schema.properties) {
                 properties = {};
                 for (const [ key, value ] of sortByKey(Object.entries(schema.properties))) {
+                    if (this.options.skipDeprecated && !isReference(value) && value.deprecated) {
+                        continue;
+                    }
+
                     properties[key] = this.getSchema(value);
                     if (!schema.required?.includes(key)) {
                         properties[key].isOptional = true;
@@ -527,6 +634,14 @@ class ApiDescriptorBuilder {
                 return ParamType.PATH;
             default:
                 assertNever(rawParamType);
+        }
+    }
+
+    protected isUnknown(schemaOrType: SchemaOrType): boolean {
+        if (isType(schemaOrType)) {
+            return this.isUnknown(schemaOrType.referred);
+        } else {
+            return schemaOrType.type === SchemaType.UNKNOWN;
         }
     }
 }

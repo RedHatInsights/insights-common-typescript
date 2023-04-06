@@ -22,6 +22,7 @@ export interface Options {
     strict: boolean;
     explicitTypes: boolean;
     apiBasePath?: string;
+    skipDeprecated: boolean;
 }
 
 export const execute = async (options: Options) => {
@@ -49,7 +50,8 @@ export const execute = async (options: Options) => {
     .then(output => JSON.parse(output) as OpenAPI3)
     .then(openapi => buildApiDescriptor(openapi, {
         nonRequiredPropertyIsNull: true,
-        basePath: options.apiBasePath
+        basePath: options.apiBasePath,
+        skipDeprecated: options.skipDeprecated
     }))
     .then(descriptor => {
         const buffer = new Buffer();

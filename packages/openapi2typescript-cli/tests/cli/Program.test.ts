@@ -11,7 +11,8 @@ describe('src/Program', () => {
             skipTypes: false,
             strict: true,
             explicitTypes: false,
-            apiBasePath: undefined
+            apiBasePath: undefined,
+            skipDeprecated: false
         });
     });
 
@@ -26,6 +27,7 @@ describe('src/Program', () => {
             '--api-base-path',
             './mybase',
             '--explicit-types',
+            '--skip-deprecated',
             '-i',
             'input',
             '-o',
@@ -41,6 +43,7 @@ describe('src/Program', () => {
             skipTypes: true,
             strict: false,
             explicitTypes: true,
+            skipDeprecated: true,
             input: 'input',
             output: 'output',
             apiBasePath: './mybase'

@@ -160,10 +160,7 @@ export namespace Schemas {
           enabled: z.boolean().optional().nullable(),
           id: zodSchemaUUID().optional().nullable(),
           name: z.string(),
-          properties: z
-          .union([ zodSchemaWebhookAttributes(), zodSchemaEmailAttributes() ])
-          .optional()
-          .nullable(),
+          properties: z.union([ zodSchemaWebhookAttributes() ]).optional().nullable(),
           type: z.intersection(
               zodSchemaEndpointType(),
               z.enum([ 'webhook', 'email', 'default' ])
@@ -817,10 +814,7 @@ export namespace Schemas {
           enabled: z.boolean().optional().nullable(),
           id: zodSchemaUUID().optional().nullable(),
           name: z.string(),
-          properties: z
-          .union([ zodSchemaWebhookAttributes(), zodSchemaEmailAttributes() ])
-          .optional()
-          .nullable(),
+          properties: z.union([ zodSchemaWebhookAttributes() ]).optional().nullable(),
           type: z.intersection(
               zodSchemaEndpointType(),
               z.enum([ 'webhook', 'email', 'default' ])
@@ -1317,127 +1311,274 @@ import {
 } from 'openapi2typescript/react-fetching-library';
 
 export namespace Schemas {
+  export const AddAccessRequest = zodSchemaAddAccessRequest();
+  export type AddAccessRequest = z.infer<typeof AddAccessRequest>;
+
+  export const AddApplicationRequest = zodSchemaAddApplicationRequest();
+  export type AddApplicationRequest = z.infer<typeof AddApplicationRequest>;
+
+  export const AggregationEmailTemplate = zodSchemaAggregationEmailTemplate();
+  export type AggregationEmailTemplate = z.infer<
+    typeof AggregationEmailTemplate
+  >;
+
   export const Application = zodSchemaApplication();
   export type Application = z.infer<typeof Application>;
 
-  export const Attributes = zodSchemaAttributes();
-  export type Attributes = z.infer<typeof Attributes>;
+  export const Application1 = zodSchemaApplication1();
+  export type Application1 = z.infer<typeof Application1>;
+
+  export const ApplicationSettingsValue = zodSchemaApplicationSettingsValue();
+  export type ApplicationSettingsValue = z.infer<
+    typeof ApplicationSettingsValue
+  >;
 
   export const BasicAuthentication = zodSchemaBasicAuthentication();
   export type BasicAuthentication = z.infer<typeof BasicAuthentication>;
 
-  export const Date = zodSchemaDate();
-  export type Date = z.infer<typeof Date>;
+  export const BehaviorGroup = zodSchemaBehaviorGroup();
+  export type BehaviorGroup = z.infer<typeof BehaviorGroup>;
 
-  export const EmailAttributes = zodSchemaEmailAttributes();
-  export type EmailAttributes = z.infer<typeof EmailAttributes>;
+  export const BehaviorGroupAction = zodSchemaBehaviorGroupAction();
+  export type BehaviorGroupAction = z.infer<typeof BehaviorGroupAction>;
+
+  export const BehaviorGroupActionId = zodSchemaBehaviorGroupActionId();
+  export type BehaviorGroupActionId = z.infer<typeof BehaviorGroupActionId>;
+
+  export const Bundle = zodSchemaBundle();
+  export type Bundle = z.infer<typeof Bundle>;
+
+  export const BundleSettingsValue = zodSchemaBundleSettingsValue();
+  export type BundleSettingsValue = z.infer<typeof BundleSettingsValue>;
+
+  export const CamelProperties = zodSchemaCamelProperties();
+  export type CamelProperties = z.infer<typeof CamelProperties>;
+
+  export const CreateBehaviorGroupRequest =
+    zodSchemaCreateBehaviorGroupRequest();
+  export type CreateBehaviorGroupRequest = z.infer<
+    typeof CreateBehaviorGroupRequest
+  >;
+
+  export const CreateBehaviorGroupResponse =
+    zodSchemaCreateBehaviorGroupResponse();
+  export type CreateBehaviorGroupResponse = z.infer<
+    typeof CreateBehaviorGroupResponse
+  >;
+
+  export const CurrentStatus = zodSchemaCurrentStatus();
+  export type CurrentStatus = z.infer<typeof CurrentStatus>;
+
+  export const DuplicateNameMigrationReport =
+    zodSchemaDuplicateNameMigrationReport();
+  export type DuplicateNameMigrationReport = z.infer<
+    typeof DuplicateNameMigrationReport
+  >;
+
+  export const EmailSubscriptionProperties =
+    zodSchemaEmailSubscriptionProperties();
+  export type EmailSubscriptionProperties = z.infer<
+    typeof EmailSubscriptionProperties
+  >;
+
+  export const EmailSubscriptionType = zodSchemaEmailSubscriptionType();
+  export type EmailSubscriptionType = z.infer<typeof EmailSubscriptionType>;
 
   export const Endpoint = zodSchemaEndpoint();
   export type Endpoint = z.infer<typeof Endpoint>;
 
+  export const EndpointPage = zodSchemaEndpointPage();
+  export type EndpointPage = z.infer<typeof EndpointPage>;
+
+  export const EndpointProperties = zodSchemaEndpointProperties();
+  export type EndpointProperties = z.infer<typeof EndpointProperties>;
+
+  export const EndpointStatus = zodSchemaEndpointStatus();
+  export type EndpointStatus = z.infer<typeof EndpointStatus>;
+
   export const EndpointType = zodSchemaEndpointType();
   export type EndpointType = z.infer<typeof EndpointType>;
 
-  export const EntityTag = zodSchemaEntityTag();
-  export type EntityTag = z.infer<typeof EntityTag>;
+  export const Environment = zodSchemaEnvironment();
+  export type Environment = z.infer<typeof Environment>;
+
+  export const EventLogEntry = zodSchemaEventLogEntry();
+  export type EventLogEntry = z.infer<typeof EventLogEntry>;
+
+  export const EventLogEntryAction = zodSchemaEventLogEntryAction();
+  export type EventLogEntryAction = z.infer<typeof EventLogEntryAction>;
+
+  export const EventLogEntryActionStatus = zodSchemaEventLogEntryActionStatus();
+  export type EventLogEntryActionStatus = z.infer<
+    typeof EventLogEntryActionStatus
+  >;
 
   export const EventType = zodSchemaEventType();
   export type EventType = z.infer<typeof EventType>;
 
-  export const Family = zodSchemaFamily();
-  export type Family = z.infer<typeof Family>;
+  export const EventTypeBehavior = zodSchemaEventTypeBehavior();
+  export type EventTypeBehavior = z.infer<typeof EventTypeBehavior>;
+
+  export const EventTypeBehaviorId = zodSchemaEventTypeBehaviorId();
+  export type EventTypeBehaviorId = z.infer<typeof EventTypeBehaviorId>;
+
+  export const Facet = zodSchemaFacet();
+  export type Facet = z.infer<typeof Facet>;
 
   export const HttpType = zodSchemaHttpType();
   export type HttpType = z.infer<typeof HttpType>;
 
-  export const JsonObject = zodSchemaJsonObject();
-  export type JsonObject = z.infer<typeof JsonObject>;
+  export const InstantEmailTemplate = zodSchemaInstantEmailTemplate();
+  export type InstantEmailTemplate = z.infer<typeof InstantEmailTemplate>;
 
-  export const Link = zodSchemaLink();
-  export type Link = z.infer<typeof Link>;
-
-  export const ListString = zodSchemaListString();
-  export type ListString = z.infer<typeof ListString>;
-
-  export const Locale = zodSchemaLocale();
-  export type Locale = z.infer<typeof Locale>;
-
-  export const MapStringNewCookie = zodSchemaMapStringNewCookie();
-  export type MapStringNewCookie = z.infer<typeof MapStringNewCookie>;
-
-  export const MapStringString = zodSchemaMapStringString();
-  export type MapStringString = z.infer<typeof MapStringString>;
-
-  export const MediaType = zodSchemaMediaType();
-  export type MediaType = z.infer<typeof MediaType>;
-
-  export const MultivaluedMapStringObject =
-    zodSchemaMultivaluedMapStringObject();
-  export type MultivaluedMapStringObject = z.infer<
-    typeof MultivaluedMapStringObject
+  export const InternalApplicationUserPermission =
+    zodSchemaInternalApplicationUserPermission();
+  export type InternalApplicationUserPermission = z.infer<
+    typeof InternalApplicationUserPermission
   >;
 
-  export const MultivaluedMapStringString =
-    zodSchemaMultivaluedMapStringString();
-  export type MultivaluedMapStringString = z.infer<
-    typeof MultivaluedMapStringString
+  export const InternalRoleAccess = zodSchemaInternalRoleAccess();
+  export type InternalRoleAccess = z.infer<typeof InternalRoleAccess>;
+
+  export const InternalUserPermissions = zodSchemaInternalUserPermissions();
+  export type InternalUserPermissions = z.infer<typeof InternalUserPermissions>;
+
+  export const LocalDate = zodSchemaLocalDate();
+  export type LocalDate = z.infer<typeof LocalDate>;
+
+  export const LocalDateTime = zodSchemaLocalDateTime();
+  export type LocalDateTime = z.infer<typeof LocalDateTime>;
+
+  export const LocalTime = zodSchemaLocalTime();
+  export type LocalTime = z.infer<typeof LocalTime>;
+
+  export const MessageValidationResponse = zodSchemaMessageValidationResponse();
+  export type MessageValidationResponse = z.infer<
+    typeof MessageValidationResponse
   >;
 
-  export const NewCookie = zodSchemaNewCookie();
-  export type NewCookie = z.infer<typeof NewCookie>;
-
-  export const Notification = zodSchemaNotification();
-  export type Notification = z.infer<typeof Notification>;
+  export const Meta = zodSchemaMeta();
+  export type Meta = z.infer<typeof Meta>;
 
   export const NotificationHistory = zodSchemaNotificationHistory();
   export type NotificationHistory = z.infer<typeof NotificationHistory>;
 
-  export const Response = zodSchemaResponse();
-  export type Response = z.infer<typeof Response>;
+  export const NotificationStatus = zodSchemaNotificationStatus();
+  export type NotificationStatus = z.infer<typeof NotificationStatus>;
 
-  export const SetCharacter = zodSchemaSetCharacter();
-  export type SetCharacter = z.infer<typeof SetCharacter>;
+  export const PageEventLogEntry = zodSchemaPageEventLogEntry();
+  export type PageEventLogEntry = z.infer<typeof PageEventLogEntry>;
 
-  export const SetEndpoint = zodSchemaSetEndpoint();
-  export type SetEndpoint = z.infer<typeof SetEndpoint>;
+  export const PageEventType = zodSchemaPageEventType();
+  export type PageEventType = z.infer<typeof PageEventType>;
 
-  export const SetEventType = zodSchemaSetEventType();
-  export type SetEventType = z.infer<typeof SetEventType>;
+  export const RenderEmailTemplateRequest =
+    zodSchemaRenderEmailTemplateRequest();
+  export type RenderEmailTemplateRequest = z.infer<
+    typeof RenderEmailTemplateRequest
+  >;
 
-  export const SetLink = zodSchemaSetLink();
-  export type SetLink = z.infer<typeof SetLink>;
+  export const RequestDefaultBehaviorGroupPropertyList =
+    zodSchemaRequestDefaultBehaviorGroupPropertyList();
+  export type RequestDefaultBehaviorGroupPropertyList = z.infer<
+    typeof RequestDefaultBehaviorGroupPropertyList
+  >;
 
-  export const SetString = zodSchemaSetString();
-  export type SetString = z.infer<typeof SetString>;
+  export const RequestEmailSubscriptionProperties =
+    zodSchemaRequestEmailSubscriptionProperties();
+  export type RequestEmailSubscriptionProperties = z.infer<
+    typeof RequestEmailSubscriptionProperties
+  >;
 
-  export const StatusType = zodSchemaStatusType();
-  export type StatusType = z.infer<typeof StatusType>;
+  export const ServerInfo = zodSchemaServerInfo();
+  export type ServerInfo = z.infer<typeof ServerInfo>;
 
-  export const URI = zodSchemaURI();
-  export type URI = z.infer<typeof URI>;
+  export const SettingsValues = zodSchemaSettingsValues();
+  export type SettingsValues = z.infer<typeof SettingsValues>;
+
+  export const Status = zodSchemaStatus();
+  export type Status = z.infer<typeof Status>;
+
+  export const Template = zodSchemaTemplate();
+  export type Template = z.infer<typeof Template>;
+
+  export const TriggerDailyDigestRequest = zodSchemaTriggerDailyDigestRequest();
+  export type TriggerDailyDigestRequest = z.infer<
+    typeof TriggerDailyDigestRequest
+  >;
 
   export const UUID = zodSchemaUUID();
   export type UUID = z.infer<typeof UUID>;
 
-  export const UriBuilder = zodSchemaUriBuilder();
-  export type UriBuilder = z.infer<typeof UriBuilder>;
+  export const UpdateBehaviorGroupRequest =
+    zodSchemaUpdateBehaviorGroupRequest();
+  export type UpdateBehaviorGroupRequest = z.infer<
+    typeof UpdateBehaviorGroupRequest
+  >;
 
-  export const WebhookAttributes = zodSchemaWebhookAttributes();
-  export type WebhookAttributes = z.infer<typeof WebhookAttributes>;
+  export const UserConfigPreferences = zodSchemaUserConfigPreferences();
+  export type UserConfigPreferences = z.infer<typeof UserConfigPreferences>;
 
-  function zodSchemaApplication() {
+  export const WebhookProperties = zodSchemaWebhookProperties();
+  export type WebhookProperties = z.infer<typeof WebhookProperties>;
+
+  export const __Empty = zodSchema__Empty();
+  export type __Empty = z.infer<typeof __Empty>;
+
+  function zodSchemaAddAccessRequest() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
-          description: z.string(),
-          eventTypes: zodSchemaSetEventType().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          updated: zodSchemaDate().optional().nullable()
+          application_id: zodSchemaUUID().optional().nullable(),
+          role: z.string().optional().nullable()
       });
   }
 
-  function zodSchemaAttributes() {
-      return z.unknown();
+  function zodSchemaAddApplicationRequest() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          display_name: z.string(),
+          name: z.string(),
+          owner_role: z.string().optional().nullable()
+      });
+  }
+
+  function zodSchemaAggregationEmailTemplate() {
+      return z.object({
+          application: zodSchemaApplication().optional().nullable(),
+          application_id: zodSchemaUUID().optional().nullable(),
+          body_template: zodSchemaTemplate().optional().nullable(),
+          body_template_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          subject_template: zodSchemaTemplate().optional().nullable(),
+          subject_template_id: zodSchemaUUID(),
+          subscription_type: zodSchemaEmailSubscriptionType(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaApplication() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaApplication1() {
+      return z.object({
+          display_name: z.string(),
+          id: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaApplicationSettingsValue() {
+      return z.object({
+          hasForcedEmail: z.boolean().optional().nullable(),
+          notifications: z.record(z.boolean()).optional().nullable()
+      });
   }
 
   function zodSchemaBasicAuthentication() {
@@ -1447,322 +1588,779 @@ export namespace Schemas {
       });
   }
 
-  function zodSchemaDate() {
-      return z.string();
+  function zodSchemaBehaviorGroup() {
+      return z.object({
+          actions: z.array(zodSchemaBehaviorGroupAction()).optional().nullable(),
+          behaviors: z.array(zodSchemaEventTypeBehavior()).optional().nullable(),
+          bundle: zodSchemaBundle().optional().nullable(),
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          default_behavior: z.boolean().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
   }
 
-  function zodSchemaEmailAttributes() {
-      return z.unknown();
+  function zodSchemaBehaviorGroupAction() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          endpoint: zodSchemaEndpoint().optional().nullable(),
+          id: zodSchemaBehaviorGroupActionId().optional().nullable()
+      });
+  }
+
+  function zodSchemaBehaviorGroupActionId() {
+      return z.object({
+          behaviorGroupId: zodSchemaUUID(),
+          endpointId: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaBundle() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaBundleSettingsValue() {
+      return z.object({
+          applications: z
+          .record(zodSchemaApplicationSettingsValue())
+          .optional()
+          .nullable()
+      });
+  }
+
+  function zodSchemaCamelProperties() {
+      return z.object({
+          basic_authentication: zodSchemaBasicAuthentication()
+          .optional()
+          .nullable(),
+          disable_ssl_verification: z.boolean(),
+          extras: z.record(z.string()).optional().nullable(),
+          secret_token: z.string().optional().nullable(),
+          url: z.string()
+      });
+  }
+
+  function zodSchemaCreateBehaviorGroupRequest() {
+      return z.object({
+          bundle_id: zodSchemaUUID().optional().nullable(),
+          bundle_name: z.string().optional().nullable(),
+          bundle_uuid_or_bundle_name_valid: z.boolean().optional().nullable(),
+          display_name: z.string(),
+          endpoint_ids: z.array(z.string()).optional().nullable(),
+          event_type_ids: z.array(z.string()).optional().nullable()
+      });
+  }
+
+  function zodSchemaCreateBehaviorGroupResponse() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime(),
+          display_name: z.string(),
+          endpoints: z.array(z.string()),
+          event_types: z.array(z.string()),
+          id: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaCurrentStatus() {
+      return z.object({
+          end_time: zodSchemaLocalDateTime().optional().nullable(),
+          start_time: zodSchemaLocalDateTime().optional().nullable(),
+          status: zodSchemaStatus()
+      });
+  }
+
+  function zodSchemaDuplicateNameMigrationReport() {
+      return z.object({
+          updatedBehaviorGroups: z.number().int().optional().nullable(),
+          updatedIntegrations: z.number().int().optional().nullable()
+      });
+  }
+
+  function zodSchemaEmailSubscriptionProperties() {
+      return z.object({
+          group_id: zodSchemaUUID().optional().nullable(),
+          ignore_preferences: z.boolean(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaEmailSubscriptionType() {
+      return z.enum([ 'INSTANT', 'DAILY' ]);
   }
 
   function zodSchemaEndpoint() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
           description: z.string(),
           enabled: z.boolean().optional().nullable(),
           id: zodSchemaUUID().optional().nullable(),
           name: z.string(),
           properties: z
-          .union([ zodSchemaWebhookAttributes(), zodSchemaEmailAttributes() ])
+          .union([
+              zodSchemaWebhookProperties(),
+              zodSchemaEmailSubscriptionProperties(),
+              zodSchemaCamelProperties()
+          ])
           .optional()
           .nullable(),
-          type: z.intersection(
-              zodSchemaEndpointType(),
-              z.enum([ 'webhook', 'email', 'default' ])
-          ),
-          updated: zodSchemaDate().optional().nullable()
+          server_errors: z.number().int().optional().nullable(),
+          status: zodSchemaEndpointStatus().optional().nullable(),
+          sub_type: z.string().optional().nullable(),
+          type: zodSchemaEndpointType(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
       });
+  }
+
+  function zodSchemaEndpointPage() {
+      return z.object({
+          data: z.array(zodSchemaEndpoint()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
+      });
+  }
+
+  function zodSchemaEndpointProperties() {
+      return z.unknown();
+  }
+
+  function zodSchemaEndpointStatus() {
+      return z.enum([
+          'READY',
+          'UNKNOWN',
+          'NEW',
+          'PROVISIONING',
+          'DELETING',
+          'FAILED'
+      ]);
   }
 
   function zodSchemaEndpointType() {
-      return z.enum([ 'webhook', 'email', 'default' ]);
+      return z.enum([ 'webhook', 'email_subscription', 'camel' ]);
   }
 
-  function zodSchemaEntityTag() {
+  function zodSchemaEnvironment() {
+      return z.enum([ 'PROD', 'STAGE', 'EPHEMERAL', 'LOCAL_SERVER' ]);
+  }
+
+  function zodSchemaEventLogEntry() {
       return z.object({
-          value: z.string().optional().nullable(),
-          weak: z.boolean().optional().nullable()
+          actions: z.array(zodSchemaEventLogEntryAction()),
+          application: z.string(),
+          bundle: z.string(),
+          created: zodSchemaLocalDateTime(),
+          event_type: z.string(),
+          id: zodSchemaUUID(),
+          payload: z.string().optional().nullable()
       });
+  }
+
+  function zodSchemaEventLogEntryAction() {
+      return z.object({
+          details: z.record(z.unknown()).optional().nullable(),
+          endpoint_id: zodSchemaUUID().optional().nullable(),
+          endpoint_sub_type: z.string().optional().nullable(),
+          endpoint_type: zodSchemaEndpointType(),
+          id: zodSchemaUUID(),
+          invocation_result: z.boolean(),
+          status: zodSchemaEventLogEntryActionStatus()
+      });
+  }
+
+  function zodSchemaEventLogEntryActionStatus() {
+      return z.enum([ 'SENT', 'SUCCESS', 'PROCESSING', 'FAILED', 'UNKNOWN' ]);
   }
 
   function zodSchemaEventType() {
       return z.object({
-          application: z
-          .lazy(() => zodSchemaApplication())
-          .optional()
-          .nullable(),
-          description: z.string(),
-          endpoints: zodSchemaSetEndpoint().optional().nullable(),
-          id: z.number().int().optional().nullable(),
+          application: zodSchemaApplication().optional().nullable(),
+          application_id: zodSchemaUUID(),
+          description: z.string().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
           name: z.string()
       });
   }
 
-  function zodSchemaFamily() {
-      return z.enum([
-          'CLIENT_ERROR',
-          'INFORMATIONAL',
-          'OTHER',
-          'REDIRECTION',
-          'SERVER_ERROR',
-          'SUCCESSFUL'
-      ]);
+  function zodSchemaEventTypeBehavior() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          event_type: zodSchemaEventType().optional().nullable(),
+          id: zodSchemaEventTypeBehaviorId().optional().nullable()
+      });
+  }
+
+  function zodSchemaEventTypeBehaviorId() {
+      return z.object({
+          behaviorGroupId: zodSchemaUUID(),
+          eventTypeId: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaFacet() {
+      return z.object({
+          children: z
+          .array(z.lazy(() => zodSchemaFacet()))
+          .optional()
+          .nullable(),
+          displayName: z.string(),
+          id: z.string(),
+          name: z.string()
+      });
   }
 
   function zodSchemaHttpType() {
       return z.enum([ 'GET', 'POST', 'PUT' ]);
   }
 
-  function zodSchemaJsonObject() {
-      return z.array(z.unknown());
-  }
-
-  function zodSchemaLink() {
+  function zodSchemaInstantEmailTemplate() {
       return z.object({
-          params: zodSchemaMapStringString().optional().nullable(),
-          rel: z.string().optional().nullable(),
-          rels: zodSchemaListString().optional().nullable(),
-          title: z.string().optional().nullable(),
-          type: z.string().optional().nullable(),
-          uri: zodSchemaURI().optional().nullable(),
-          uriBuilder: zodSchemaUriBuilder().optional().nullable()
+          body_template: zodSchemaTemplate().optional().nullable(),
+          body_template_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          event_type: zodSchemaEventType().optional().nullable(),
+          event_type_id: zodSchemaUUID().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          subject_template: zodSchemaTemplate().optional().nullable(),
+          subject_template_id: zodSchemaUUID(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
       });
   }
 
-  function zodSchemaListString() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaLocale() {
+  function zodSchemaInternalApplicationUserPermission() {
       return z.object({
-          country: z.string().optional().nullable(),
-          displayCountry: z.string().optional().nullable(),
-          displayLanguage: z.string().optional().nullable(),
-          displayName: z.string().optional().nullable(),
-          displayScript: z.string().optional().nullable(),
-          displayVariant: z.string().optional().nullable(),
-          extensionKeys: zodSchemaSetCharacter().optional().nullable(),
-          iSO3Country: z.string().optional().nullable(),
-          iSO3Language: z.string().optional().nullable(),
-          language: z.string().optional().nullable(),
-          script: z.string().optional().nullable(),
-          unicodeLocaleAttributes: zodSchemaSetString().optional().nullable(),
-          unicodeLocaleKeys: zodSchemaSetString().optional().nullable(),
-          variant: z.string().optional().nullable()
+          application_display_name: z.string(),
+          application_id: zodSchemaUUID(),
+          role: z.string()
       });
   }
 
-  function zodSchemaMapStringNewCookie() {
-      return z.record(zodSchemaNewCookie());
-  }
-
-  function zodSchemaMapStringString() {
-      return z.record(z.string());
-  }
-
-  function zodSchemaMediaType() {
+  function zodSchemaInternalRoleAccess() {
       return z.object({
-          parameters: zodSchemaMapStringString().optional().nullable(),
-          subtype: z.string().optional().nullable(),
-          type: z.string().optional().nullable(),
-          wildcardSubtype: z.boolean().optional().nullable(),
-          wildcardType: z.boolean().optional().nullable()
+          application_id: zodSchemaUUID(),
+          id: zodSchemaUUID().optional().nullable(),
+          role: z.string()
       });
   }
 
-  function zodSchemaMultivaluedMapStringObject() {
-      return z.record(z.unknown());
-  }
-
-  function zodSchemaMultivaluedMapStringString() {
-      return z.record(z.string());
-  }
-
-  function zodSchemaNewCookie() {
+  function zodSchemaInternalUserPermissions() {
       return z.object({
-          comment: z.string().optional().nullable(),
-          domain: z.string().optional().nullable(),
-          expiry: zodSchemaDate().optional().nullable(),
-          httpOnly: z.boolean().optional().nullable(),
-          maxAge: z.number().int().optional().nullable(),
-          name: z.string().optional().nullable(),
-          path: z.string().optional().nullable(),
-          secure: z.boolean().optional().nullable(),
-          value: z.string().optional().nullable(),
-          version: z.number().int().optional().nullable()
+          applications: z.array(zodSchemaApplication1()),
+          is_admin: z.boolean(),
+          roles: z.array(z.string())
       });
   }
 
-  function zodSchemaNotification() {
+  function zodSchemaLocalDate() {
+      return z.string();
+  }
+
+  function zodSchemaLocalDateTime() {
+      return z.string();
+  }
+
+  function zodSchemaLocalTime() {
+      return z.string();
+  }
+
+  function zodSchemaMessageValidationResponse() {
       return z.object({
-          endpoint: zodSchemaEndpoint().optional().nullable(),
-          payload: z.unknown().optional().nullable(),
-          tenant: z.string().optional().nullable()
+          errors: z.record(z.array(z.string()))
+      });
+  }
+
+  function zodSchemaMeta() {
+      return z.object({
+          count: z.number().int()
       });
   }
 
   function zodSchemaNotificationHistory() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
-          details: zodSchemaJsonObject().optional().nullable(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          details: z.record(z.unknown()).optional().nullable(),
           endpointId: zodSchemaUUID().optional().nullable(),
-          id: z.number().int().optional().nullable(),
-          invocationResult: z.boolean().optional().nullable(),
-          invocationTime: z.number().int().optional().nullable()
+          endpointSubType: z.string().optional().nullable(),
+          endpointType: zodSchemaEndpointType().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          invocationResult: z.boolean(),
+          invocationTime: z.number().int(),
+          status: zodSchemaNotificationStatus()
       });
   }
 
-  function zodSchemaResponse() {
+  function zodSchemaNotificationStatus() {
+      return z.enum([
+          'FAILED_INTERNAL',
+          'FAILED_EXTERNAL',
+          'PROCESSING',
+          'SENT',
+          'SUCCESS'
+      ]);
+  }
+
+  function zodSchemaPageEventLogEntry() {
       return z.object({
-          allowedMethods: zodSchemaSetString().optional().nullable(),
-          cookies: zodSchemaMapStringNewCookie().optional().nullable(),
-          date: zodSchemaDate().optional().nullable(),
-          entity: z.unknown().optional().nullable(),
-          entityTag: zodSchemaEntityTag().optional().nullable(),
-          headers: zodSchemaMultivaluedMapStringObject().optional().nullable(),
-          language: zodSchemaLocale().optional().nullable(),
-          lastModified: zodSchemaDate().optional().nullable(),
-          length: z.number().int().optional().nullable(),
-          links: zodSchemaSetLink().optional().nullable(),
-          location: zodSchemaURI().optional().nullable(),
-          mediaType: zodSchemaMediaType().optional().nullable(),
-          metadata: zodSchemaMultivaluedMapStringObject().optional().nullable(),
-          status: z.number().int().optional().nullable(),
-          statusInfo: zodSchemaStatusType().optional().nullable(),
-          stringHeaders: zodSchemaMultivaluedMapStringString()
-          .optional()
-          .nullable()
+          data: z.array(zodSchemaEventLogEntry()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
       });
   }
 
-  function zodSchemaSetCharacter() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaSetEndpoint() {
-      return z.array(zodSchemaEndpoint());
-  }
-
-  function zodSchemaSetEventType() {
-      return z.array(zodSchemaEventType());
-  }
-
-  function zodSchemaSetLink() {
-      return z.array(zodSchemaLink());
-  }
-
-  function zodSchemaSetString() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaStatusType() {
+  function zodSchemaPageEventType() {
       return z.object({
-          family: zodSchemaFamily().optional().nullable(),
-          reasonPhrase: z.string().optional().nullable(),
-          statusCode: z.number().int().optional().nullable()
+          data: z.array(zodSchemaEventType()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
       });
   }
 
-  function zodSchemaURI() {
-      return z.string();
+  function zodSchemaRenderEmailTemplateRequest() {
+      return z.object({
+          payload: z.string(),
+          template: z.array(z.string())
+      });
+  }
+
+  function zodSchemaRequestDefaultBehaviorGroupPropertyList() {
+      return z.object({
+          ignore_preferences: z.boolean(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaRequestEmailSubscriptionProperties() {
+      return z.object({
+          group_id: zodSchemaUUID().optional().nullable(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaServerInfo() {
+      return z.object({
+          environment: zodSchemaEnvironment().optional().nullable()
+      });
+  }
+
+  function zodSchemaSettingsValues() {
+      return z.object({
+          bundles: z.record(zodSchemaBundleSettingsValue()).optional().nullable()
+      });
+  }
+
+  function zodSchemaStatus() {
+      return z.enum([ 'UP', 'MAINTENANCE' ]);
+  }
+
+  function zodSchemaTemplate() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          data: z.string(),
+          description: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaTriggerDailyDigestRequest() {
+      return z.object({
+          application_name: z.string(),
+          bundle_name: z.string(),
+          end: zodSchemaLocalDateTime().optional().nullable(),
+          org_id: z.string(),
+          start: zodSchemaLocalDateTime().optional().nullable()
+      });
   }
 
   function zodSchemaUUID() {
       return z.string();
   }
 
-  function zodSchemaUriBuilder() {
-      return z.unknown();
+  function zodSchemaUpdateBehaviorGroupRequest() {
+      return z.object({
+          display_name: z.string().optional().nullable(),
+          display_name_not_null_and_blank: z.boolean().optional().nullable(),
+          endpoint_ids: z.array(z.string()).optional().nullable(),
+          event_type_ids: z.array(z.string()).optional().nullable()
+      });
   }
 
-  function zodSchemaWebhookAttributes() {
+  function zodSchemaUserConfigPreferences() {
+      return z.object({
+          daily_email: z.boolean().optional().nullable(),
+          instant_email: z.boolean().optional().nullable()
+      });
+  }
+
+  function zodSchemaWebhookProperties() {
       return z.object({
           basic_authentication: zodSchemaBasicAuthentication()
           .optional()
           .nullable(),
-          disable_ssl_verification: z.boolean().optional().nullable(),
-          method: z.intersection(
-              zodSchemaHttpType(),
-              z.enum([ 'GET', 'POST', 'PUT' ])
-          ),
+          disable_ssl_verification: z.boolean(),
+          method: zodSchemaHttpType(),
           secret_token: z.string().optional().nullable(),
           url: z.string()
       });
   }
+
+  function zodSchema__Empty() {
+      return z.string().max(0).optional();
+  }
 }
 
 export namespace Operations {
-  // GET /notifications/defaults
-  export namespace NotificationServiceGetEndpointsForDefaults {
-    const Response200 = z.array(Schemas.Endpoint);
-    type Response200 = z.infer<typeof Response200>;
+  // POST /notifications/behaviorGroups
+  // Create a behavior group - assigning actions and linking to event types as requested
+  export namespace NotificationResourceCreateBehaviorGroup {
+    const Response400 = z.string();
+    type Response400 = z.infer<typeof Response400>;
+    export interface Params {
+      body: Schemas.CreateBehaviorGroupRequest;
+    }
+
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<
+          'CreateBehaviorGroupResponse',
+          200,
+          Schemas.CreateBehaviorGroupResponse
+        >
+      | ValidatedResponse<'unknown', 400, Response400>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/defaults';
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/notifications/v1.0/notifications/behaviorGroups';
         const query = {} as Record<string, any>;
-        return actionBuilder('GET', path)
+        return actionBuilder('POST', path)
         .queryParams(query)
+        .data(params.body)
         .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
+            rules: [
+                new ValidateRule(
+                    Schemas.CreateBehaviorGroupResponse,
+                    'CreateBehaviorGroupResponse',
+                    200
+                ),
+                new ValidateRule(Response400, 'unknown', 400),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // PUT /notifications/defaults/{endpointId}
-  export namespace NotificationServiceAddEndpointToDefaults {
+  // GET /notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}
+  // Retrieve the behavior groups affected by the removal of an endpoint.
+  export namespace NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint {
+    const Response200 = z.array(Schemas.BehaviorGroup);
+    type Response200 = z.infer<typeof Response200>;
     export interface Params {
       endpointId: Schemas.UUID;
     }
 
     export type Payload =
-      | ValidatedResponse<'Response', 200, Schemas.Response>
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
         const path =
-        '/api/notifications/v1.0/notifications/defaults/{endpointId}'.replace(
+        '/api/notifications/v1.0/notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}'.replace(
             '{endpointId}',
             params.endpointId.toString()
         );
         const query = {} as Record<string, any>;
-        return actionBuilder('PUT', path)
+        return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // DELETE /notifications/defaults/{endpointId}
-  export namespace NotificationServiceDeleteEndpointFromDefaults {
+  // PUT /notifications/behaviorGroups/{behaviorGroupId}/actions
+  // Update the list of actions of a behavior group.
+  export namespace NotificationResourceUpdateBehaviorGroupActions {
+    const Body = z.array(z.string());
+    type Body = z.infer<typeof Body>;
+    const Response200 = z.string();
+    type Response200 = z.infer<typeof Response200>;
     export interface Params {
-      endpointId: Schemas.UUID;
+      behaviorGroupId: Schemas.UUID;
+      body: Body;
     }
 
     export type Payload =
-      | ValidatedResponse<'Response', 200, Schemas.Response>
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
         const path =
-        '/api/notifications/v1.0/notifications/defaults/{endpointId}'.replace(
-            '{endpointId}',
-            params.endpointId.toString()
+        '/api/notifications/v1.0/notifications/behaviorGroups/{behaviorGroupId}/actions'.replace(
+            '{behaviorGroupId}',
+            params.behaviorGroupId.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/behaviorGroups/{id}
+  // Update a behavior group.
+  export namespace NotificationResourceUpdateBehaviorGroup {
+    const Response200 = z.boolean();
+    type Response200 = z.infer<typeof Response200>;
+    const Response400 = z.string();
+    type Response400 = z.infer<typeof Response400>;
+    const Response404 = z.string();
+    type Response404 = z.infer<typeof Response404>;
+    export interface Params {
+      id: Schemas.UUID;
+      body: Schemas.UpdateBehaviorGroupRequest;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'unknown', 400, Response400>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', 404, Response404>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
+            '{id}',
+            params.id.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Response400, 'unknown', 400),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403),
+                new ValidateRule(Response404, 'unknown', 404)
+            ]
+        })
+        .build();
+    };
+  }
+  // DELETE /notifications/behaviorGroups/{id}
+  // Delete a behavior group.
+  export namespace NotificationResourceDeleteBehaviorGroup {
+    const Response200 = z.boolean();
+    type Response200 = z.infer<typeof Response200>;
+    export interface Params {
+      id: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
+            '{id}',
+            params.id.toString()
         );
         const query = {} as Record<string, any>;
         return actionBuilder('DELETE', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleId}/behaviorGroups
+  // Retrieve the behavior groups of a bundle.
+  export namespace NotificationResourceFindBehaviorGroupsByBundleId {
+    const Response200 = z.array(Schemas.BehaviorGroup);
+    type Response200 = z.infer<typeof Response200>;
+    export interface Params {
+      bundleId: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleId}/behaviorGroups'.replace(
+            '{bundleId}',
+            params.bundleId.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}
+  // Retrieve the bundle by name
+  export namespace NotificationResourceGetBundleByName {
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    export interface Params {
+      bundleName: BundleName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'Bundle', 200, Schemas.Bundle>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}'.replace(
+            '{bundleName}',
+            params.bundleName.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Bundle, 'Bundle', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}/applications/{applicationName}
+  // Retrieve the application by name of a given bundle name
+  export namespace NotificationResourceGetApplicationByNameAndBundleName {
+    const ApplicationName = z.string();
+    type ApplicationName = z.infer<typeof ApplicationName>;
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    export interface Params {
+      applicationName: ApplicationName;
+      bundleName: BundleName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'Application', 200, Schemas.Application>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}/applications/{applicationName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString());
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Application, 'Application', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}/applications/{applicationName}/eventTypes/{eventTypeName}
+  // Retrieve the event type by name of a given bundle name and application name
+  export namespace NotificationResourceGetEventTypesByNameAndBundleAndApplicationName {
+    const ApplicationName = z.string();
+    type ApplicationName = z.infer<typeof ApplicationName>;
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    const EventTypeName = z.string();
+    type EventTypeName = z.infer<typeof EventTypeName>;
+    export interface Params {
+      applicationName: ApplicationName;
+      bundleName: BundleName;
+      eventTypeName: EventTypeName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'EventType', 200, Schemas.EventType>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}/applications/{applicationName}/eventTypes/{eventTypeName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString())
+        .replace('{eventTypeName}', params.eventTypeName.toString());
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.EventType, 'EventType', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
   // GET /notifications/eventTypes
-  export namespace NotificationServiceGetEventTypes {
+  // Retrieve all event types. The returned list can be filtered by bundle or application.
+  export namespace NotificationResourceGetEventTypes {
+    const ApplicationIds = z.array(z.string());
+    type ApplicationIds = z.infer<typeof ApplicationIds>;
+    const EventTypeName = z.string();
+    type EventTypeName = z.infer<typeof EventTypeName>;
     const Limit = z.number().int();
     type Limit = z.infer<typeof Limit>;
     const Offset = z.number().int();
@@ -1771,22 +2369,40 @@ export namespace Operations {
     type PageNumber = z.infer<typeof PageNumber>;
     const SortBy = z.string();
     type SortBy = z.infer<typeof SortBy>;
-    const Response200 = z.array(Schemas.EventType);
-    type Response200 = z.infer<typeof Response200>;
+    const SortBy = z.string();
+    type SortBy = z.infer<typeof SortBy>;
     export interface Params {
+      applicationIds?: ApplicationIds;
+      bundleId?: Schemas.UUID;
+      eventTypeName?: EventTypeName;
       limit?: Limit;
       offset?: Offset;
       pageNumber?: PageNumber;
       sortBy?: SortBy;
+      sortBy?: SortBy;
     }
 
     export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'PageEventType', 200, Schemas.PageEventType>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
         const path = '/api/notifications/v1.0/notifications/eventTypes';
         const query = {} as Record<string, any>;
+        if (params.applicationIds !== undefined) {
+            query.applicationIds = params.applicationIds;
+        }
+
+        if (params.bundleId !== undefined) {
+            query.bundleId = params.bundleId;
+        }
+
+        if (params.eventTypeName !== undefined) {
+            query.eventTypeName = params.eventTypeName;
+        }
+
         if (params.limit !== undefined) {
             query.limit = params.limit;
         }
@@ -1800,21 +2416,62 @@ export namespace Operations {
         }
 
         if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
             query.sort_by = params.sortBy;
         }
 
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
+            rules: [
+                new ValidateRule(Schemas.PageEventType, 'PageEventType', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // GET /notifications/eventTypes/{eventTypeId}
-  export namespace NotificationServiceGetLinkedEndpoints {
-    const EventTypeId = z.number().int();
-    type EventTypeId = z.infer<typeof EventTypeId>;
+  // GET /notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}
+  // Retrieve the event types affected by the removal of a behavior group.
+  export namespace NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup {
+    const Response200 = z.array(Schemas.EventType);
+    type Response200 = z.infer<typeof Response200>;
+    export interface Params {
+      behaviorGroupId: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}'.replace(
+            '{behaviorGroupId}',
+            params.behaviorGroupId.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Retrieve the behavior groups linked to an event type.
+  export namespace NotificationResourceGetLinkedBehaviorGroups {
     const Limit = z.number().int();
     type Limit = z.infer<typeof Limit>;
     const Offset = z.number().int();
@@ -1823,23 +2480,28 @@ export namespace Operations {
     type PageNumber = z.infer<typeof PageNumber>;
     const SortBy = z.string();
     type SortBy = z.infer<typeof SortBy>;
-    const Response200 = z.array(Schemas.Endpoint);
+    const SortBy = z.string();
+    type SortBy = z.infer<typeof SortBy>;
+    const Response200 = z.array(Schemas.BehaviorGroup);
     type Response200 = z.infer<typeof Response200>;
     export interface Params {
-      eventTypeId: EventTypeId;
+      eventTypeId: Schemas.UUID;
       limit?: Limit;
       offset?: Offset;
       pageNumber?: PageNumber;
+      sortBy?: SortBy;
       sortBy?: SortBy;
     }
 
     export type Payload =
       | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
         const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}'.replace(
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
             '{eventTypeId}',
             params.eventTypeId.toString()
         );
@@ -1857,7 +2519,289 @@ export namespace Operations {
         }
 
         if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
             query.sort_by = params.sortBy;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Update the list of behavior groups of an event type.
+  export namespace NotificationResourceUpdateEventTypeBehaviors {
+    const Body = z.array(z.string());
+    type Body = z.infer<typeof Body>;
+    const Response200 = z.string();
+    type Response200 = z.infer<typeof Response200>;
+    export interface Params {
+      eventTypeId: Schemas.UUID;
+      body: Body;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
+            '{eventTypeId}',
+            params.eventTypeId.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // DELETE /notifications/eventTypes/{eventTypeId}/behaviorGroups/{behaviorGroupId}
+  // Delete a behavior group from the given event type.
+  export namespace NotificationResourceDeleteBehaviorGroupFromEventType {
+    export interface Params {
+      behaviorGroupId: Schemas.UUID;
+      eventTypeId: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 204, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups/{behaviorGroupId}'
+        .replace('{behaviorGroupId}', params.behaviorGroupId.toString())
+        .replace('{eventTypeId}', params.eventTypeId.toString());
+        const query = {} as Record<string, any>;
+        return actionBuilder('DELETE', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 204),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/eventTypes/{eventTypeUuid}/behaviorGroups/{behaviorGroupUuid}
+  // Add a behavior group to the given event type.
+  export namespace NotificationResourceAppendBehaviorGroupToEventType {
+    export interface Params {
+      behaviorGroupUuid: Schemas.UUID;
+      eventTypeUuid: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 204, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeUuid}/behaviorGroups/{behaviorGroupUuid}'
+        .replace(
+            '{behaviorGroupUuid}',
+            params.behaviorGroupUuid.toString()
+        )
+        .replace('{eventTypeUuid}', params.eventTypeUuid.toString());
+        const query = {} as Record<string, any>;
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 204),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/events
+  // Retrieve the event log entries.
+  export namespace EventResourceGetEvents {
+    const AppIds = z.array(z.string());
+    type AppIds = z.infer<typeof AppIds>;
+    const BundleIds = z.array(z.string());
+    type BundleIds = z.infer<typeof BundleIds>;
+    const EndpointTypes = z.array(z.string());
+    type EndpointTypes = z.infer<typeof EndpointTypes>;
+    const EventTypeDisplayName = z.string();
+    type EventTypeDisplayName = z.infer<typeof EventTypeDisplayName>;
+    const IncludeActions = z.boolean();
+    type IncludeActions = z.infer<typeof IncludeActions>;
+    const IncludeDetails = z.boolean();
+    type IncludeDetails = z.infer<typeof IncludeDetails>;
+    const IncludePayload = z.boolean();
+    type IncludePayload = z.infer<typeof IncludePayload>;
+    const InvocationResults = z.array(z.boolean());
+    type InvocationResults = z.infer<typeof InvocationResults>;
+    const Limit = z.number().int();
+    type Limit = z.infer<typeof Limit>;
+    const Offset = z.number().int();
+    type Offset = z.infer<typeof Offset>;
+    const PageNumber = z.number().int();
+    type PageNumber = z.infer<typeof PageNumber>;
+    const SortBy = z.string();
+    type SortBy = z.infer<typeof SortBy>;
+    const SortBy = z.string();
+    type SortBy = z.infer<typeof SortBy>;
+    const Status = z.array(Schemas.EventLogEntryActionStatus);
+    type Status = z.infer<typeof Status>;
+    export interface Params {
+      appIds?: AppIds;
+      bundleIds?: BundleIds;
+      endDate?: Schemas.LocalDate;
+      endpointTypes?: EndpointTypes;
+      eventTypeDisplayName?: EventTypeDisplayName;
+      includeActions?: IncludeActions;
+      includeDetails?: IncludeDetails;
+      includePayload?: IncludePayload;
+      invocationResults?: InvocationResults;
+      limit?: Limit;
+      offset?: Offset;
+      pageNumber?: PageNumber;
+      sortBy?: SortBy;
+      sortBy?: SortBy;
+      startDate?: Schemas.LocalDate;
+      status?: Status;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'PageEventLogEntry', 200, Schemas.PageEventLogEntry>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/notifications/v1.0/notifications/events';
+        const query = {} as Record<string, any>;
+        if (params.appIds !== undefined) {
+            query.appIds = params.appIds;
+        }
+
+        if (params.bundleIds !== undefined) {
+            query.bundleIds = params.bundleIds;
+        }
+
+        if (params.endDate !== undefined) {
+            query.endDate = params.endDate;
+        }
+
+        if (params.endpointTypes !== undefined) {
+            query.endpointTypes = params.endpointTypes;
+        }
+
+        if (params.eventTypeDisplayName !== undefined) {
+            query.eventTypeDisplayName = params.eventTypeDisplayName;
+        }
+
+        if (params.includeActions !== undefined) {
+            query.includeActions = params.includeActions;
+        }
+
+        if (params.includeDetails !== undefined) {
+            query.includeDetails = params.includeDetails;
+        }
+
+        if (params.includePayload !== undefined) {
+            query.includePayload = params.includePayload;
+        }
+
+        if (params.invocationResults !== undefined) {
+            query.invocationResults = params.invocationResults;
+        }
+
+        if (params.limit !== undefined) {
+            query.limit = params.limit;
+        }
+
+        if (params.offset !== undefined) {
+            query.offset = params.offset;
+        }
+
+        if (params.pageNumber !== undefined) {
+            query.pageNumber = params.pageNumber;
+        }
+
+        if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
+            query.sort_by = params.sortBy;
+        }
+
+        if (params.startDate !== undefined) {
+            query.startDate = params.startDate;
+        }
+
+        if (params.status !== undefined) {
+            query.status = params.status;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(
+                    Schemas.PageEventLogEntry,
+                    'PageEventLogEntry',
+                    200
+                ),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/facets/applications
+  // Return a thin list of configured applications. This can be used to configure a filter in the UI
+  export namespace NotificationResourceGetApplicationsFacets {
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    const Response200 = z.array(Schemas.Facet);
+    type Response200 = z.infer<typeof Response200>;
+    export interface Params {
+      bundleName?: BundleName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'unknown', 200, Response200>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/notifications/v1.0/notifications/facets/applications';
+        const query = {} as Record<string, any>;
+        if (params.bundleName !== undefined) {
+            query.bundleName = params.bundleName;
         }
 
         return actionBuilder('GET', path)
@@ -1868,15 +2812,15 @@ export namespace Operations {
         .build();
     };
   }
-  // PUT /notifications/eventTypes/{eventTypeId}/{endpointId}
-  export namespace NotificationServiceLinkEndpointToEventType {
-    const EventTypeId = z.number().int();
-    type EventTypeId = z.infer<typeof EventTypeId>;
-    const Response200 = z.string();
+  // GET /notifications/facets/bundles
+  // Return a thin list of configured bundles. This can be used to configure a filter in the UI
+  export namespace NotificationResourceGetBundleFacets {
+    const IncludeApplications = z.boolean();
+    type IncludeApplications = z.infer<typeof IncludeApplications>;
+    const Response200 = z.array(Schemas.Facet);
     type Response200 = z.infer<typeof Response200>;
     export interface Params {
-      endpointId: Schemas.UUID;
-      eventTypeId: EventTypeId;
+      includeApplications?: IncludeApplications;
     }
 
     export type Payload =
@@ -1884,57 +2828,12 @@ export namespace Operations {
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/{endpointId}'
-        .replace('{endpointId}', params.endpointId.toString())
-        .replace('{eventTypeId}', params.eventTypeId.toString());
+        const path = '/api/notifications/v1.0/notifications/facets/bundles';
         const query = {} as Record<string, any>;
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
-        })
-        .build();
-    };
-  }
-  // DELETE /notifications/eventTypes/{eventTypeId}/{endpointId}
-  export namespace NotificationServiceUnlinkEndpointFromEventType {
-    const EventTypeId = z.number().int();
-    type EventTypeId = z.infer<typeof EventTypeId>;
-    export interface Params {
-      endpointId: Schemas.UUID;
-      eventTypeId: EventTypeId;
-    }
+        if (params.includeApplications !== undefined) {
+            query.includeApplications = params.includeApplications;
+        }
 
-    export type Payload =
-      | ValidatedResponse<'Response', 200, Schemas.Response>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/{endpointId}'
-        .replace('{endpointId}', params.endpointId.toString())
-        .replace('{eventTypeId}', params.eventTypeId.toString());
-        const query = {} as Record<string, any>;
-        return actionBuilder('DELETE', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
-        })
-        .build();
-    };
-  }
-  // GET /notifications/updates
-  export namespace NotificationServiceGetNotificationUpdates {
-    const Response200 = z.array(Schemas.Notification);
-    type Response200 = z.infer<typeof Response200>;
-    export type Payload =
-      | ValidatedResponse<'unknown', 200, Response200>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/updates';
-        const query = {} as Record<string, any>;
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
@@ -1943,26 +2842,146 @@ export namespace Operations {
         .build();
     };
   }
-  // DELETE /notifications/{id}
-  export namespace NotificationServiceMarkRead {
-    const Body = z.number().int();
-    type Body = z.infer<typeof Body>;
+  // GET /org-config/daily-digest/time-preference
+  export namespace OrgConfigResourceGetDailyDigestTimePreference {
+    export type Payload =
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/org-config/daily-digest/time-preference';
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /org-config/daily-digest/time-preference
+  // Save the daily digest UTC time preference. To cover all time zones conversion to UTC, the accepted minute values are 00, 15, 30 and 45.
+  export namespace OrgConfigResourceSaveDailyDigestTimePreference {
     export interface Params {
-      body: Body;
+      body: Schemas.LocalTime;
     }
 
     export type Payload =
-      | ValidatedResponse<'Response', 200, Schemas.Response>
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 401, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/notifications/v1.0/notifications/{id}';
+        const path =
+        '/api/notifications/v1.0/org-config/daily-digest/time-preference';
         const query = {} as Record<string, any>;
-        return actionBuilder('DELETE', path)
+        return actionBuilder('PUT', path)
         .queryParams(query)
         .data(params.body)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /user-config/notification-preference
+  export namespace UserConfigResourceGetSettingsSchema {
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    export interface Params {
+      bundleName?: BundleName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference';
+        const query = {} as Record<string, any>;
+        if (params.bundleName !== undefined) {
+            query.bundleName = params.bundleName;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 200) ]
+        })
+        .build();
+    };
+  }
+  // POST /user-config/notification-preference
+  export namespace UserConfigResourceSaveSettings {
+    export interface Params {
+      body: Schemas.SettingsValues;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference';
+        const query = {} as Record<string, any>;
+        return actionBuilder('POST', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 200) ]
+        })
+        .build();
+    };
+  }
+  // GET /user-config/notification-preference/{bundleName}/{applicationName}
+  export namespace UserConfigResourceGetPreferences {
+    const ApplicationName = z.string();
+    type ApplicationName = z.infer<typeof ApplicationName>;
+    const BundleName = z.string();
+    type BundleName = z.infer<typeof BundleName>;
+    export interface Params {
+      applicationName: ApplicationName;
+      bundleName: BundleName;
+    }
+
+    export type Payload =
+      | ValidatedResponse<
+          'UserConfigPreferences',
+          200,
+          Schemas.UserConfigPreferences
+        >
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference/{bundleName}/{applicationName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString());
+        const query = {} as Record<string, any>;
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(
+                    Schemas.UserConfigPreferences,
+                    'UserConfigPreferences',
+                    200
+                )
+            ]
         })
         .build();
     };
@@ -1981,89 +3000,187 @@ import { ValidateRule } from 'openapi2typescript';
 import { actionBuilder } from 'openapi2typescript/react-fetching-library';
 
 export namespace Schemas {
+  export const AddAccessRequest = zodSchemaAddAccessRequest();
+
+  export const AddApplicationRequest = zodSchemaAddApplicationRequest();
+
+  export const AggregationEmailTemplate = zodSchemaAggregationEmailTemplate();
+
   export const Application = zodSchemaApplication();
 
-  export const Attributes = zodSchemaAttributes();
+  export const Application1 = zodSchemaApplication1();
+
+  export const ApplicationSettingsValue = zodSchemaApplicationSettingsValue();
 
   export const BasicAuthentication = zodSchemaBasicAuthentication();
 
-  export const Date = zodSchemaDate();
+  export const BehaviorGroup = zodSchemaBehaviorGroup();
 
-  export const EmailAttributes = zodSchemaEmailAttributes();
+  export const BehaviorGroupAction = zodSchemaBehaviorGroupAction();
+
+  export const BehaviorGroupActionId = zodSchemaBehaviorGroupActionId();
+
+  export const Bundle = zodSchemaBundle();
+
+  export const BundleSettingsValue = zodSchemaBundleSettingsValue();
+
+  export const CamelProperties = zodSchemaCamelProperties();
+
+  export const CreateBehaviorGroupRequest =
+    zodSchemaCreateBehaviorGroupRequest();
+
+  export const CreateBehaviorGroupResponse =
+    zodSchemaCreateBehaviorGroupResponse();
+
+  export const CurrentStatus = zodSchemaCurrentStatus();
+
+  export const DuplicateNameMigrationReport =
+    zodSchemaDuplicateNameMigrationReport();
+
+  export const EmailSubscriptionProperties =
+    zodSchemaEmailSubscriptionProperties();
+
+  export const EmailSubscriptionType = zodSchemaEmailSubscriptionType();
 
   export const Endpoint = zodSchemaEndpoint();
 
+  export const EndpointPage = zodSchemaEndpointPage();
+
+  export const EndpointProperties = zodSchemaEndpointProperties();
+
+  export const EndpointStatus = zodSchemaEndpointStatus();
+
   export const EndpointType = zodSchemaEndpointType();
 
-  export const EntityTag = zodSchemaEntityTag();
+  export const Environment = zodSchemaEnvironment();
+
+  export const EventLogEntry = zodSchemaEventLogEntry();
+
+  export const EventLogEntryAction = zodSchemaEventLogEntryAction();
+
+  export const EventLogEntryActionStatus = zodSchemaEventLogEntryActionStatus();
 
   export const EventType = zodSchemaEventType();
 
-  export const Family = zodSchemaFamily();
+  export const EventTypeBehavior = zodSchemaEventTypeBehavior();
+
+  export const EventTypeBehaviorId = zodSchemaEventTypeBehaviorId();
+
+  export const Facet = zodSchemaFacet();
 
   export const HttpType = zodSchemaHttpType();
 
-  export const JsonObject = zodSchemaJsonObject();
+  export const InstantEmailTemplate = zodSchemaInstantEmailTemplate();
 
-  export const Link = zodSchemaLink();
+  export const InternalApplicationUserPermission =
+    zodSchemaInternalApplicationUserPermission();
 
-  export const ListString = zodSchemaListString();
+  export const InternalRoleAccess = zodSchemaInternalRoleAccess();
 
-  export const Locale = zodSchemaLocale();
+  export const InternalUserPermissions = zodSchemaInternalUserPermissions();
 
-  export const MapStringNewCookie = zodSchemaMapStringNewCookie();
+  export const LocalDate = zodSchemaLocalDate();
 
-  export const MapStringString = zodSchemaMapStringString();
+  export const LocalDateTime = zodSchemaLocalDateTime();
 
-  export const MediaType = zodSchemaMediaType();
+  export const LocalTime = zodSchemaLocalTime();
 
-  export const MultivaluedMapStringObject =
-    zodSchemaMultivaluedMapStringObject();
+  export const MessageValidationResponse = zodSchemaMessageValidationResponse();
 
-  export const MultivaluedMapStringString =
-    zodSchemaMultivaluedMapStringString();
-
-  export const NewCookie = zodSchemaNewCookie();
-
-  export const Notification = zodSchemaNotification();
+  export const Meta = zodSchemaMeta();
 
   export const NotificationHistory = zodSchemaNotificationHistory();
 
-  export const Response = zodSchemaResponse();
+  export const NotificationStatus = zodSchemaNotificationStatus();
 
-  export const SetCharacter = zodSchemaSetCharacter();
+  export const PageEventLogEntry = zodSchemaPageEventLogEntry();
 
-  export const SetEndpoint = zodSchemaSetEndpoint();
+  export const PageEventType = zodSchemaPageEventType();
 
-  export const SetEventType = zodSchemaSetEventType();
+  export const RenderEmailTemplateRequest =
+    zodSchemaRenderEmailTemplateRequest();
 
-  export const SetLink = zodSchemaSetLink();
+  export const RequestDefaultBehaviorGroupPropertyList =
+    zodSchemaRequestDefaultBehaviorGroupPropertyList();
 
-  export const SetString = zodSchemaSetString();
+  export const RequestEmailSubscriptionProperties =
+    zodSchemaRequestEmailSubscriptionProperties();
 
-  export const StatusType = zodSchemaStatusType();
+  export const ServerInfo = zodSchemaServerInfo();
 
-  export const URI = zodSchemaURI();
+  export const SettingsValues = zodSchemaSettingsValues();
+
+  export const Status = zodSchemaStatus();
+
+  export const Template = zodSchemaTemplate();
+
+  export const TriggerDailyDigestRequest = zodSchemaTriggerDailyDigestRequest();
 
   export const UUID = zodSchemaUUID();
 
-  export const UriBuilder = zodSchemaUriBuilder();
+  export const UpdateBehaviorGroupRequest =
+    zodSchemaUpdateBehaviorGroupRequest();
 
-  export const WebhookAttributes = zodSchemaWebhookAttributes();
+  export const UserConfigPreferences = zodSchemaUserConfigPreferences();
 
-  function zodSchemaApplication() {
+  export const WebhookProperties = zodSchemaWebhookProperties();
+
+  export const __Empty = zodSchema__Empty();
+
+  function zodSchemaAddAccessRequest() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
-          description: z.string(),
-          eventTypes: zodSchemaSetEventType().optional().nullable(),
-          id: zodSchemaUUID().optional().nullable(),
-          name: z.string(),
-          updated: zodSchemaDate().optional().nullable()
+          application_id: zodSchemaUUID().optional().nullable(),
+          role: z.string().optional().nullable()
       });
   }
 
-  function zodSchemaAttributes() {
-      return z.unknown();
+  function zodSchemaAddApplicationRequest() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          display_name: z.string(),
+          name: z.string(),
+          owner_role: z.string().optional().nullable()
+      });
+  }
+
+  function zodSchemaAggregationEmailTemplate() {
+      return z.object({
+          application: zodSchemaApplication().optional().nullable(),
+          application_id: zodSchemaUUID().optional().nullable(),
+          body_template: zodSchemaTemplate().optional().nullable(),
+          body_template_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          subject_template: zodSchemaTemplate().optional().nullable(),
+          subject_template_id: zodSchemaUUID(),
+          subscription_type: zodSchemaEmailSubscriptionType(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaApplication() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaApplication1() {
+      return z.object({
+          display_name: z.string(),
+          id: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaApplicationSettingsValue() {
+      return z.object({
+          hasForcedEmail: z.boolean().optional().nullable(),
+          notifications: z.record(z.boolean()).optional().nullable()
+      });
   }
 
   function zodSchemaBasicAuthentication() {
@@ -2073,324 +3190,732 @@ export namespace Schemas {
       });
   }
 
-  function zodSchemaDate() {
-      return z.string();
+  function zodSchemaBehaviorGroup() {
+      return z.object({
+          actions: z.array(zodSchemaBehaviorGroupAction()).optional().nullable(),
+          behaviors: z.array(zodSchemaEventTypeBehavior()).optional().nullable(),
+          bundle: zodSchemaBundle().optional().nullable(),
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          default_behavior: z.boolean().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
   }
 
-  function zodSchemaEmailAttributes() {
-      return z.unknown();
+  function zodSchemaBehaviorGroupAction() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          endpoint: zodSchemaEndpoint().optional().nullable(),
+          id: zodSchemaBehaviorGroupActionId().optional().nullable()
+      });
+  }
+
+  function zodSchemaBehaviorGroupActionId() {
+      return z.object({
+          behaviorGroupId: zodSchemaUUID(),
+          endpointId: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaBundle() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaBundleSettingsValue() {
+      return z.object({
+          applications: z
+          .record(zodSchemaApplicationSettingsValue())
+          .optional()
+          .nullable()
+      });
+  }
+
+  function zodSchemaCamelProperties() {
+      return z.object({
+          basic_authentication: zodSchemaBasicAuthentication()
+          .optional()
+          .nullable(),
+          disable_ssl_verification: z.boolean(),
+          extras: z.record(z.string()).optional().nullable(),
+          secret_token: z.string().optional().nullable(),
+          url: z.string()
+      });
+  }
+
+  function zodSchemaCreateBehaviorGroupRequest() {
+      return z.object({
+          bundle_id: zodSchemaUUID().optional().nullable(),
+          bundle_name: z.string().optional().nullable(),
+          bundle_uuid_or_bundle_name_valid: z.boolean().optional().nullable(),
+          display_name: z.string(),
+          endpoint_ids: z.array(z.string()).optional().nullable(),
+          event_type_ids: z.array(z.string()).optional().nullable()
+      });
+  }
+
+  function zodSchemaCreateBehaviorGroupResponse() {
+      return z.object({
+          bundle_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime(),
+          display_name: z.string(),
+          endpoints: z.array(z.string()),
+          event_types: z.array(z.string()),
+          id: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaCurrentStatus() {
+      return z.object({
+          end_time: zodSchemaLocalDateTime().optional().nullable(),
+          start_time: zodSchemaLocalDateTime().optional().nullable(),
+          status: zodSchemaStatus()
+      });
+  }
+
+  function zodSchemaDuplicateNameMigrationReport() {
+      return z.object({
+          updatedBehaviorGroups: z.number().int().optional().nullable(),
+          updatedIntegrations: z.number().int().optional().nullable()
+      });
+  }
+
+  function zodSchemaEmailSubscriptionProperties() {
+      return z.object({
+          group_id: zodSchemaUUID().optional().nullable(),
+          ignore_preferences: z.boolean(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaEmailSubscriptionType() {
+      return z.enum([ 'INSTANT', 'DAILY' ]);
   }
 
   function zodSchemaEndpoint() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
           description: z.string(),
           enabled: z.boolean().optional().nullable(),
           id: zodSchemaUUID().optional().nullable(),
           name: z.string(),
           properties: z
-          .union([ zodSchemaWebhookAttributes(), zodSchemaEmailAttributes() ])
+          .union([
+              zodSchemaWebhookProperties(),
+              zodSchemaEmailSubscriptionProperties(),
+              zodSchemaCamelProperties()
+          ])
           .optional()
           .nullable(),
-          type: z.intersection(
-              zodSchemaEndpointType(),
-              z.enum([ 'webhook', 'email', 'default' ])
-          ),
-          updated: zodSchemaDate().optional().nullable()
+          server_errors: z.number().int().optional().nullable(),
+          status: zodSchemaEndpointStatus().optional().nullable(),
+          sub_type: z.string().optional().nullable(),
+          type: zodSchemaEndpointType(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
       });
+  }
+
+  function zodSchemaEndpointPage() {
+      return z.object({
+          data: z.array(zodSchemaEndpoint()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
+      });
+  }
+
+  function zodSchemaEndpointProperties() {
+      return z.unknown();
+  }
+
+  function zodSchemaEndpointStatus() {
+      return z.enum([
+          'READY',
+          'UNKNOWN',
+          'NEW',
+          'PROVISIONING',
+          'DELETING',
+          'FAILED'
+      ]);
   }
 
   function zodSchemaEndpointType() {
-      return z.enum([ 'webhook', 'email', 'default' ]);
+      return z.enum([ 'webhook', 'email_subscription', 'camel' ]);
   }
 
-  function zodSchemaEntityTag() {
+  function zodSchemaEnvironment() {
+      return z.enum([ 'PROD', 'STAGE', 'EPHEMERAL', 'LOCAL_SERVER' ]);
+  }
+
+  function zodSchemaEventLogEntry() {
       return z.object({
-          value: z.string().optional().nullable(),
-          weak: z.boolean().optional().nullable()
+          actions: z.array(zodSchemaEventLogEntryAction()),
+          application: z.string(),
+          bundle: z.string(),
+          created: zodSchemaLocalDateTime(),
+          event_type: z.string(),
+          id: zodSchemaUUID(),
+          payload: z.string().optional().nullable()
       });
+  }
+
+  function zodSchemaEventLogEntryAction() {
+      return z.object({
+          details: z.record(z.unknown()).optional().nullable(),
+          endpoint_id: zodSchemaUUID().optional().nullable(),
+          endpoint_sub_type: z.string().optional().nullable(),
+          endpoint_type: zodSchemaEndpointType(),
+          id: zodSchemaUUID(),
+          invocation_result: z.boolean(),
+          status: zodSchemaEventLogEntryActionStatus()
+      });
+  }
+
+  function zodSchemaEventLogEntryActionStatus() {
+      return z.enum([ 'SENT', 'SUCCESS', 'PROCESSING', 'FAILED', 'UNKNOWN' ]);
   }
 
   function zodSchemaEventType() {
       return z.object({
-          application: z
-          .lazy(() => zodSchemaApplication())
-          .optional()
-          .nullable(),
-          description: z.string(),
-          endpoints: zodSchemaSetEndpoint().optional().nullable(),
-          id: z.number().int().optional().nullable(),
+          application: zodSchemaApplication().optional().nullable(),
+          application_id: zodSchemaUUID(),
+          description: z.string().optional().nullable(),
+          display_name: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
           name: z.string()
       });
   }
 
-  function zodSchemaFamily() {
-      return z.enum([
-          'CLIENT_ERROR',
-          'INFORMATIONAL',
-          'OTHER',
-          'REDIRECTION',
-          'SERVER_ERROR',
-          'SUCCESSFUL'
-      ]);
+  function zodSchemaEventTypeBehavior() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          event_type: zodSchemaEventType().optional().nullable(),
+          id: zodSchemaEventTypeBehaviorId().optional().nullable()
+      });
+  }
+
+  function zodSchemaEventTypeBehaviorId() {
+      return z.object({
+          behaviorGroupId: zodSchemaUUID(),
+          eventTypeId: zodSchemaUUID()
+      });
+  }
+
+  function zodSchemaFacet() {
+      return z.object({
+          children: z
+          .array(z.lazy(() => zodSchemaFacet()))
+          .optional()
+          .nullable(),
+          displayName: z.string(),
+          id: z.string(),
+          name: z.string()
+      });
   }
 
   function zodSchemaHttpType() {
       return z.enum([ 'GET', 'POST', 'PUT' ]);
   }
 
-  function zodSchemaJsonObject() {
-      return z.array(z.unknown());
-  }
-
-  function zodSchemaLink() {
+  function zodSchemaInstantEmailTemplate() {
       return z.object({
-          params: zodSchemaMapStringString().optional().nullable(),
-          rel: z.string().optional().nullable(),
-          rels: zodSchemaListString().optional().nullable(),
-          title: z.string().optional().nullable(),
-          type: z.string().optional().nullable(),
-          uri: zodSchemaURI().optional().nullable(),
-          uriBuilder: zodSchemaUriBuilder().optional().nullable()
+          body_template: zodSchemaTemplate().optional().nullable(),
+          body_template_id: zodSchemaUUID(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          event_type: zodSchemaEventType().optional().nullable(),
+          event_type_id: zodSchemaUUID().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          subject_template: zodSchemaTemplate().optional().nullable(),
+          subject_template_id: zodSchemaUUID(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
       });
   }
 
-  function zodSchemaListString() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaLocale() {
+  function zodSchemaInternalApplicationUserPermission() {
       return z.object({
-          country: z.string().optional().nullable(),
-          displayCountry: z.string().optional().nullable(),
-          displayLanguage: z.string().optional().nullable(),
-          displayName: z.string().optional().nullable(),
-          displayScript: z.string().optional().nullable(),
-          displayVariant: z.string().optional().nullable(),
-          extensionKeys: zodSchemaSetCharacter().optional().nullable(),
-          iSO3Country: z.string().optional().nullable(),
-          iSO3Language: z.string().optional().nullable(),
-          language: z.string().optional().nullable(),
-          script: z.string().optional().nullable(),
-          unicodeLocaleAttributes: zodSchemaSetString().optional().nullable(),
-          unicodeLocaleKeys: zodSchemaSetString().optional().nullable(),
-          variant: z.string().optional().nullable()
+          application_display_name: z.string(),
+          application_id: zodSchemaUUID(),
+          role: z.string()
       });
   }
 
-  function zodSchemaMapStringNewCookie() {
-      return z.record(zodSchemaNewCookie());
-  }
-
-  function zodSchemaMapStringString() {
-      return z.record(z.string());
-  }
-
-  function zodSchemaMediaType() {
+  function zodSchemaInternalRoleAccess() {
       return z.object({
-          parameters: zodSchemaMapStringString().optional().nullable(),
-          subtype: z.string().optional().nullable(),
-          type: z.string().optional().nullable(),
-          wildcardSubtype: z.boolean().optional().nullable(),
-          wildcardType: z.boolean().optional().nullable()
+          application_id: zodSchemaUUID(),
+          id: zodSchemaUUID().optional().nullable(),
+          role: z.string()
       });
   }
 
-  function zodSchemaMultivaluedMapStringObject() {
-      return z.record(z.unknown());
-  }
-
-  function zodSchemaMultivaluedMapStringString() {
-      return z.record(z.string());
-  }
-
-  function zodSchemaNewCookie() {
+  function zodSchemaInternalUserPermissions() {
       return z.object({
-          comment: z.string().optional().nullable(),
-          domain: z.string().optional().nullable(),
-          expiry: zodSchemaDate().optional().nullable(),
-          httpOnly: z.boolean().optional().nullable(),
-          maxAge: z.number().int().optional().nullable(),
-          name: z.string().optional().nullable(),
-          path: z.string().optional().nullable(),
-          secure: z.boolean().optional().nullable(),
-          value: z.string().optional().nullable(),
-          version: z.number().int().optional().nullable()
+          applications: z.array(zodSchemaApplication1()),
+          is_admin: z.boolean(),
+          roles: z.array(z.string())
       });
   }
 
-  function zodSchemaNotification() {
+  function zodSchemaLocalDate() {
+      return z.string();
+  }
+
+  function zodSchemaLocalDateTime() {
+      return z.string();
+  }
+
+  function zodSchemaLocalTime() {
+      return z.string();
+  }
+
+  function zodSchemaMessageValidationResponse() {
       return z.object({
-          endpoint: zodSchemaEndpoint().optional().nullable(),
-          payload: z.unknown().optional().nullable(),
-          tenant: z.string().optional().nullable()
+          errors: z.record(z.array(z.string()))
+      });
+  }
+
+  function zodSchemaMeta() {
+      return z.object({
+          count: z.number().int()
       });
   }
 
   function zodSchemaNotificationHistory() {
       return z.object({
-          created: zodSchemaDate().optional().nullable(),
-          details: zodSchemaJsonObject().optional().nullable(),
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          details: z.record(z.unknown()).optional().nullable(),
           endpointId: zodSchemaUUID().optional().nullable(),
-          id: z.number().int().optional().nullable(),
-          invocationResult: z.boolean().optional().nullable(),
-          invocationTime: z.number().int().optional().nullable()
+          endpointSubType: z.string().optional().nullable(),
+          endpointType: zodSchemaEndpointType().optional().nullable(),
+          id: zodSchemaUUID().optional().nullable(),
+          invocationResult: z.boolean(),
+          invocationTime: z.number().int(),
+          status: zodSchemaNotificationStatus()
       });
   }
 
-  function zodSchemaResponse() {
+  function zodSchemaNotificationStatus() {
+      return z.enum([
+          'FAILED_INTERNAL',
+          'FAILED_EXTERNAL',
+          'PROCESSING',
+          'SENT',
+          'SUCCESS'
+      ]);
+  }
+
+  function zodSchemaPageEventLogEntry() {
       return z.object({
-          allowedMethods: zodSchemaSetString().optional().nullable(),
-          cookies: zodSchemaMapStringNewCookie().optional().nullable(),
-          date: zodSchemaDate().optional().nullable(),
-          entity: z.unknown().optional().nullable(),
-          entityTag: zodSchemaEntityTag().optional().nullable(),
-          headers: zodSchemaMultivaluedMapStringObject().optional().nullable(),
-          language: zodSchemaLocale().optional().nullable(),
-          lastModified: zodSchemaDate().optional().nullable(),
-          length: z.number().int().optional().nullable(),
-          links: zodSchemaSetLink().optional().nullable(),
-          location: zodSchemaURI().optional().nullable(),
-          mediaType: zodSchemaMediaType().optional().nullable(),
-          metadata: zodSchemaMultivaluedMapStringObject().optional().nullable(),
-          status: z.number().int().optional().nullable(),
-          statusInfo: zodSchemaStatusType().optional().nullable(),
-          stringHeaders: zodSchemaMultivaluedMapStringString()
-          .optional()
-          .nullable()
+          data: z.array(zodSchemaEventLogEntry()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
       });
   }
 
-  function zodSchemaSetCharacter() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaSetEndpoint() {
-      return z.array(zodSchemaEndpoint());
-  }
-
-  function zodSchemaSetEventType() {
-      return z.array(zodSchemaEventType());
-  }
-
-  function zodSchemaSetLink() {
-      return z.array(zodSchemaLink());
-  }
-
-  function zodSchemaSetString() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaStatusType() {
+  function zodSchemaPageEventType() {
       return z.object({
-          family: zodSchemaFamily().optional().nullable(),
-          reasonPhrase: z.string().optional().nullable(),
-          statusCode: z.number().int().optional().nullable()
+          data: z.array(zodSchemaEventType()),
+          links: z.record(z.string()),
+          meta: zodSchemaMeta()
       });
   }
 
-  function zodSchemaURI() {
-      return z.string();
+  function zodSchemaRenderEmailTemplateRequest() {
+      return z.object({
+          payload: z.string(),
+          template: z.array(z.string())
+      });
+  }
+
+  function zodSchemaRequestDefaultBehaviorGroupPropertyList() {
+      return z.object({
+          ignore_preferences: z.boolean(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaRequestEmailSubscriptionProperties() {
+      return z.object({
+          group_id: zodSchemaUUID().optional().nullable(),
+          only_admins: z.boolean()
+      });
+  }
+
+  function zodSchemaServerInfo() {
+      return z.object({
+          environment: zodSchemaEnvironment().optional().nullable()
+      });
+  }
+
+  function zodSchemaSettingsValues() {
+      return z.object({
+          bundles: z.record(zodSchemaBundleSettingsValue()).optional().nullable()
+      });
+  }
+
+  function zodSchemaStatus() {
+      return z.enum([ 'UP', 'MAINTENANCE' ]);
+  }
+
+  function zodSchemaTemplate() {
+      return z.object({
+          created: zodSchemaLocalDateTime().optional().nullable(),
+          data: z.string(),
+          description: z.string(),
+          id: zodSchemaUUID().optional().nullable(),
+          name: z.string(),
+          updated: zodSchemaLocalDateTime().optional().nullable()
+      });
+  }
+
+  function zodSchemaTriggerDailyDigestRequest() {
+      return z.object({
+          application_name: z.string(),
+          bundle_name: z.string(),
+          end: zodSchemaLocalDateTime().optional().nullable(),
+          org_id: z.string(),
+          start: zodSchemaLocalDateTime().optional().nullable()
+      });
   }
 
   function zodSchemaUUID() {
       return z.string();
   }
 
-  function zodSchemaUriBuilder() {
-      return z.unknown();
+  function zodSchemaUpdateBehaviorGroupRequest() {
+      return z.object({
+          display_name: z.string().optional().nullable(),
+          display_name_not_null_and_blank: z.boolean().optional().nullable(),
+          endpoint_ids: z.array(z.string()).optional().nullable(),
+          event_type_ids: z.array(z.string()).optional().nullable()
+      });
   }
 
-  function zodSchemaWebhookAttributes() {
+  function zodSchemaUserConfigPreferences() {
+      return z.object({
+          daily_email: z.boolean().optional().nullable(),
+          instant_email: z.boolean().optional().nullable()
+      });
+  }
+
+  function zodSchemaWebhookProperties() {
       return z.object({
           basic_authentication: zodSchemaBasicAuthentication()
           .optional()
           .nullable(),
-          disable_ssl_verification: z.boolean().optional().nullable(),
-          method: z.intersection(
-              zodSchemaHttpType(),
-              z.enum([ 'GET', 'POST', 'PUT' ])
-          ),
+          disable_ssl_verification: z.boolean(),
+          method: zodSchemaHttpType(),
           secret_token: z.string().optional().nullable(),
           url: z.string()
       });
   }
+
+  function zodSchema__Empty() {
+      return z.string().max(0).optional();
+  }
 }
 
 export namespace Operations {
-  // GET /notifications/defaults
-  export namespace NotificationServiceGetEndpointsForDefaults {
-    const Response200 = z.array(Schemas.Endpoint);
-    export const actionCreator = () => {
-        const path = '/api/notifications/v1.0/notifications/defaults';
+  // POST /notifications/behaviorGroups
+  // Create a behavior group - assigning actions and linking to event types as requested
+  export namespace NotificationResourceCreateBehaviorGroup {
+    const Response400 = z.string();
+    /*
+ Params
+body: Schemas.CreateBehaviorGroupRequest
+*/
+    export const actionCreator = (params) => {
+        const path = '/api/notifications/v1.0/notifications/behaviorGroups';
         const query = {};
-        return actionBuilder('GET', path)
+        return actionBuilder('POST', path)
         .queryParams(query)
+        .data(params.body)
         .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
+            rules: [
+                new ValidateRule(
+                    Schemas.CreateBehaviorGroupResponse,
+                    'CreateBehaviorGroupResponse',
+                    200
+                ),
+                new ValidateRule(Response400, 'unknown', 400),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // PUT /notifications/defaults/{endpointId}
-  export namespace NotificationServiceAddEndpointToDefaults {
+  // GET /notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}
+  // Retrieve the behavior groups affected by the removal of an endpoint.
+  export namespace NotificationResourceGetBehaviorGroupsAffectedByRemovalOfEndpoint {
+    const Response200 = z.array(Schemas.BehaviorGroup);
     /*
  Params
 'endpointId':Schemas.UUID
 */
     export const actionCreator = (params) => {
         const path =
-        '/api/notifications/v1.0/notifications/defaults/{endpointId}'.replace(
+        '/api/notifications/v1.0/notifications/behaviorGroups/affectedByRemovalOfEndpoint/{endpointId}'.replace(
             '{endpointId}',
             params.endpointId.toString()
         );
         const query = {};
-        return actionBuilder('PUT', path)
+        return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // DELETE /notifications/defaults/{endpointId}
-  export namespace NotificationServiceDeleteEndpointFromDefaults {
+  // PUT /notifications/behaviorGroups/{behaviorGroupId}/actions
+  // Update the list of actions of a behavior group.
+  export namespace NotificationResourceUpdateBehaviorGroupActions {
+    const Body = z.array(z.string());
+    const Response200 = z.string();
     /*
  Params
-'endpointId':Schemas.UUID
+'behaviorGroupId':Schemas.UUID,
+body: Body
 */
     export const actionCreator = (params) => {
         const path =
-        '/api/notifications/v1.0/notifications/defaults/{endpointId}'.replace(
-            '{endpointId}',
-            params.endpointId.toString()
+        '/api/notifications/v1.0/notifications/behaviorGroups/{behaviorGroupId}/actions'.replace(
+            '{behaviorGroupId}',
+            params.behaviorGroupId.toString()
+        );
+        const query = {};
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/behaviorGroups/{id}
+  // Update a behavior group.
+  export namespace NotificationResourceUpdateBehaviorGroup {
+    const Response200 = z.boolean();
+    const Response400 = z.string();
+    const Response404 = z.string();
+    /*
+ Params
+'id':Schemas.UUID,
+body: Schemas.UpdateBehaviorGroupRequest
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
+            '{id}',
+            params.id.toString()
+        );
+        const query = {};
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Response400, 'unknown', 400),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403),
+                new ValidateRule(Response404, 'unknown', 404)
+            ]
+        })
+        .build();
+    };
+  }
+  // DELETE /notifications/behaviorGroups/{id}
+  // Delete a behavior group.
+  export namespace NotificationResourceDeleteBehaviorGroup {
+    const Response200 = z.boolean();
+    /*
+ Params
+'id':Schemas.UUID
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/behaviorGroups/{id}'.replace(
+            '{id}',
+            params.id.toString()
         );
         const query = {};
         return actionBuilder('DELETE', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleId}/behaviorGroups
+  // Retrieve the behavior groups of a bundle.
+  export namespace NotificationResourceFindBehaviorGroupsByBundleId {
+    const Response200 = z.array(Schemas.BehaviorGroup);
+    /*
+ Params
+'bundleId':Schemas.UUID
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleId}/behaviorGroups'.replace(
+            '{bundleId}',
+            params.bundleId.toString()
+        );
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}
+  // Retrieve the bundle by name
+  export namespace NotificationResourceGetBundleByName {
+    const BundleName = z.string();
+    /*
+ Params
+'bundleName':BundleName
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}'.replace(
+            '{bundleName}',
+            params.bundleName.toString()
+        );
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Bundle, 'Bundle', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}/applications/{applicationName}
+  // Retrieve the application by name of a given bundle name
+  export namespace NotificationResourceGetApplicationByNameAndBundleName {
+    const ApplicationName = z.string();
+    const BundleName = z.string();
+    /*
+ Params
+'applicationName':ApplicationName,
+'bundleName':BundleName
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}/applications/{applicationName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString());
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Application, 'Application', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/bundles/{bundleName}/applications/{applicationName}/eventTypes/{eventTypeName}
+  // Retrieve the event type by name of a given bundle name and application name
+  export namespace NotificationResourceGetEventTypesByNameAndBundleAndApplicationName {
+    const ApplicationName = z.string();
+    const BundleName = z.string();
+    const EventTypeName = z.string();
+    /*
+ Params
+'applicationName':ApplicationName,
+'bundleName':BundleName,
+'eventTypeName':EventTypeName
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/bundles/{bundleName}/applications/{applicationName}/eventTypes/{eventTypeName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString())
+        .replace('{eventTypeName}', params.eventTypeName.toString());
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.EventType, 'EventType', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
   // GET /notifications/eventTypes
-  export namespace NotificationServiceGetEventTypes {
+  // Retrieve all event types. The returned list can be filtered by bundle or application.
+  export namespace NotificationResourceGetEventTypes {
+    const ApplicationIds = z.array(z.string());
+    const EventTypeName = z.string();
     const Limit = z.number().int();
     const Offset = z.number().int();
     const PageNumber = z.number().int();
     const SortBy = z.string();
-    const Response200 = z.array(Schemas.EventType);
+    const SortBy = z.string();
     /*
  Params
+'applicationIds'?:ApplicationIds,
+'bundleId'?:Schemas.UUID,
+'eventTypeName'?:EventTypeName,
 'limit'?:Limit,
 'offset'?:Offset,
 'pageNumber'?:PageNumber,
+'sortBy'?:SortBy,
 'sortBy'?:SortBy
 */
     export const actionCreator = (params) => {
         const path = '/api/notifications/v1.0/notifications/eventTypes';
         const query = {};
+        if (params.applicationIds !== undefined) {
+            query.applicationIds = params.applicationIds;
+        }
+
+        if (params.bundleId !== undefined) {
+            query.bundleId = params.bundleId;
+        }
+
+        if (params.eventTypeName !== undefined) {
+            query.eventTypeName = params.eventTypeName;
+        }
+
         if (params.limit !== undefined) {
             query.limit = params.limit;
         }
@@ -2404,36 +3929,73 @@ export namespace Operations {
         }
 
         if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
             query.sort_by = params.sortBy;
         }
 
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
+            rules: [
+                new ValidateRule(Schemas.PageEventType, 'PageEventType', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
         })
         .build();
     };
   }
-  // GET /notifications/eventTypes/{eventTypeId}
-  export namespace NotificationServiceGetLinkedEndpoints {
-    const EventTypeId = z.number().int();
+  // GET /notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}
+  // Retrieve the event types affected by the removal of a behavior group.
+  export namespace NotificationResourceGetEventTypesAffectedByRemovalOfBehaviorGroup {
+    const Response200 = z.array(Schemas.EventType);
+    /*
+ Params
+'behaviorGroupId':Schemas.UUID
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/affectedByRemovalOfBehaviorGroup/{behaviorGroupId}'.replace(
+            '{behaviorGroupId}',
+            params.behaviorGroupId.toString()
+        );
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Retrieve the behavior groups linked to an event type.
+  export namespace NotificationResourceGetLinkedBehaviorGroups {
     const Limit = z.number().int();
     const Offset = z.number().int();
     const PageNumber = z.number().int();
     const SortBy = z.string();
-    const Response200 = z.array(Schemas.Endpoint);
+    const SortBy = z.string();
+    const Response200 = z.array(Schemas.BehaviorGroup);
     /*
  Params
-'eventTypeId':EventTypeId,
+'eventTypeId':Schemas.UUID,
 'limit'?:Limit,
 'offset'?:Offset,
 'pageNumber'?:PageNumber,
+'sortBy'?:SortBy,
 'sortBy'?:SortBy
 */
     export const actionCreator = (params) => {
         const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}'.replace(
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
             '{eventTypeId}',
             params.eventTypeId.toString()
         );
@@ -2451,7 +4013,243 @@ export namespace Operations {
         }
 
         if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
             query.sort_by = params.sortBy;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/eventTypes/{eventTypeId}/behaviorGroups
+  // Update the list of behavior groups of an event type.
+  export namespace NotificationResourceUpdateEventTypeBehaviors {
+    const Body = z.array(z.string());
+    const Response200 = z.string();
+    /*
+ Params
+'eventTypeId':Schemas.UUID,
+body: Body
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups'.replace(
+            '{eventTypeId}',
+            params.eventTypeId.toString()
+        );
+        const query = {};
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'unknown', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // DELETE /notifications/eventTypes/{eventTypeId}/behaviorGroups/{behaviorGroupId}
+  // Delete a behavior group from the given event type.
+  export namespace NotificationResourceDeleteBehaviorGroupFromEventType {
+    /*
+ Params
+'behaviorGroupId':Schemas.UUID,
+'eventTypeId':Schemas.UUID
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/behaviorGroups/{behaviorGroupId}'
+        .replace('{behaviorGroupId}', params.behaviorGroupId.toString())
+        .replace('{eventTypeId}', params.eventTypeId.toString());
+        const query = {};
+        return actionBuilder('DELETE', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 204),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /notifications/eventTypes/{eventTypeUuid}/behaviorGroups/{behaviorGroupUuid}
+  // Add a behavior group to the given event type.
+  export namespace NotificationResourceAppendBehaviorGroupToEventType {
+    /*
+ Params
+'behaviorGroupUuid':Schemas.UUID,
+'eventTypeUuid':Schemas.UUID
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeUuid}/behaviorGroups/{behaviorGroupUuid}'
+        .replace(
+            '{behaviorGroupUuid}',
+            params.behaviorGroupUuid.toString()
+        )
+        .replace('{eventTypeUuid}', params.eventTypeUuid.toString());
+        const query = {};
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 204),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/events
+  // Retrieve the event log entries.
+  export namespace EventResourceGetEvents {
+    const AppIds = z.array(z.string());
+    const BundleIds = z.array(z.string());
+    const EndpointTypes = z.array(z.string());
+    const EventTypeDisplayName = z.string();
+    const IncludeActions = z.boolean();
+    const IncludeDetails = z.boolean();
+    const IncludePayload = z.boolean();
+    const InvocationResults = z.array(z.boolean());
+    const Limit = z.number().int();
+    const Offset = z.number().int();
+    const PageNumber = z.number().int();
+    const SortBy = z.string();
+    const SortBy = z.string();
+    const Status = z.array(Schemas.EventLogEntryActionStatus);
+    /*
+ Params
+'appIds'?:AppIds,
+'bundleIds'?:BundleIds,
+'endDate'?:Schemas.LocalDate,
+'endpointTypes'?:EndpointTypes,
+'eventTypeDisplayName'?:EventTypeDisplayName,
+'includeActions'?:IncludeActions,
+'includeDetails'?:IncludeDetails,
+'includePayload'?:IncludePayload,
+'invocationResults'?:InvocationResults,
+'limit'?:Limit,
+'offset'?:Offset,
+'pageNumber'?:PageNumber,
+'sortBy'?:SortBy,
+'sortBy'?:SortBy,
+'startDate'?:Schemas.LocalDate,
+'status'?:Status
+*/
+    export const actionCreator = (params) => {
+        const path = '/api/notifications/v1.0/notifications/events';
+        const query = {};
+        if (params.appIds !== undefined) {
+            query.appIds = params.appIds;
+        }
+
+        if (params.bundleIds !== undefined) {
+            query.bundleIds = params.bundleIds;
+        }
+
+        if (params.endDate !== undefined) {
+            query.endDate = params.endDate;
+        }
+
+        if (params.endpointTypes !== undefined) {
+            query.endpointTypes = params.endpointTypes;
+        }
+
+        if (params.eventTypeDisplayName !== undefined) {
+            query.eventTypeDisplayName = params.eventTypeDisplayName;
+        }
+
+        if (params.includeActions !== undefined) {
+            query.includeActions = params.includeActions;
+        }
+
+        if (params.includeDetails !== undefined) {
+            query.includeDetails = params.includeDetails;
+        }
+
+        if (params.includePayload !== undefined) {
+            query.includePayload = params.includePayload;
+        }
+
+        if (params.invocationResults !== undefined) {
+            query.invocationResults = params.invocationResults;
+        }
+
+        if (params.limit !== undefined) {
+            query.limit = params.limit;
+        }
+
+        if (params.offset !== undefined) {
+            query.offset = params.offset;
+        }
+
+        if (params.pageNumber !== undefined) {
+            query.pageNumber = params.pageNumber;
+        }
+
+        if (params.sortBy !== undefined) {
+            query.sortBy = params.sortBy;
+        }
+
+        if (params.sortBy !== undefined) {
+            query.sort_by = params.sortBy;
+        }
+
+        if (params.startDate !== undefined) {
+            query.startDate = params.startDate;
+        }
+
+        if (params.status !== undefined) {
+            query.status = params.status;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(
+                    Schemas.PageEventLogEntry,
+                    'PageEventLogEntry',
+                    200
+                ),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /notifications/facets/applications
+  // Return a thin list of configured applications. This can be used to configure a filter in the UI
+  export namespace NotificationResourceGetApplicationsFacets {
+    const BundleName = z.string();
+    const Response200 = z.array(Schemas.Facet);
+    /*
+ Params
+'bundleName'?:BundleName
+*/
+    export const actionCreator = (params) => {
+        const path = '/api/notifications/v1.0/notifications/facets/applications';
+        const query = {};
+        if (params.bundleName !== undefined) {
+            query.bundleName = params.bundleName;
         }
 
         return actionBuilder('GET', path)
@@ -2462,57 +4260,22 @@ export namespace Operations {
         .build();
     };
   }
-  // PUT /notifications/eventTypes/{eventTypeId}/{endpointId}
-  export namespace NotificationServiceLinkEndpointToEventType {
-    const EventTypeId = z.number().int();
-    const Response200 = z.string();
+  // GET /notifications/facets/bundles
+  // Return a thin list of configured bundles. This can be used to configure a filter in the UI
+  export namespace NotificationResourceGetBundleFacets {
+    const IncludeApplications = z.boolean();
+    const Response200 = z.array(Schemas.Facet);
     /*
  Params
-'endpointId':Schemas.UUID,
-'eventTypeId':EventTypeId
+'includeApplications'?:IncludeApplications
 */
     export const actionCreator = (params) => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/{endpointId}'
-        .replace('{endpointId}', params.endpointId.toString())
-        .replace('{eventTypeId}', params.eventTypeId.toString());
+        const path = '/api/notifications/v1.0/notifications/facets/bundles';
         const query = {};
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
-        })
-        .build();
-    };
-  }
-  // DELETE /notifications/eventTypes/{eventTypeId}/{endpointId}
-  export namespace NotificationServiceUnlinkEndpointFromEventType {
-    const EventTypeId = z.number().int();
-    /*
- Params
-'endpointId':Schemas.UUID,
-'eventTypeId':EventTypeId
-*/
-    export const actionCreator = (params) => {
-        const path =
-        '/api/notifications/v1.0/notifications/eventTypes/{eventTypeId}/{endpointId}'
-        .replace('{endpointId}', params.endpointId.toString())
-        .replace('{eventTypeId}', params.eventTypeId.toString());
-        const query = {};
-        return actionBuilder('DELETE', path)
-        .queryParams(query)
-        .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
-        })
-        .build();
-    };
-  }
-  // GET /notifications/updates
-  export namespace NotificationServiceGetNotificationUpdates {
-    const Response200 = z.array(Schemas.Notification);
-    export const actionCreator = () => {
-        const path = '/api/notifications/v1.0/notifications/updates';
-        const query = {};
+        if (params.includeApplications !== undefined) {
+            query.includeApplications = params.includeApplications;
+        }
+
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
@@ -2521,21 +4284,115 @@ export namespace Operations {
         .build();
     };
   }
-  // DELETE /notifications/{id}
-  export namespace NotificationServiceMarkRead {
-    const Body = z.number().int();
+  // GET /org-config/daily-digest/time-preference
+  export namespace OrgConfigResourceGetDailyDigestTimePreference {
+    export const actionCreator = () => {
+        const path =
+        '/api/notifications/v1.0/org-config/daily-digest/time-preference';
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /org-config/daily-digest/time-preference
+  // Save the daily digest UTC time preference. To cover all time zones conversion to UTC, the accepted minute values are 00, 15, 30 and 45.
+  export namespace OrgConfigResourceSaveDailyDigestTimePreference {
     /*
  Params
-body: Body
+body: Schemas.LocalTime
 */
     export const actionCreator = (params) => {
-        const path = '/api/notifications/v1.0/notifications/{id}';
+        const path =
+        '/api/notifications/v1.0/org-config/daily-digest/time-preference';
         const query = {};
-        return actionBuilder('DELETE', path)
+        return actionBuilder('PUT', path)
         .queryParams(query)
         .data(params.body)
         .config({
-            rules: [ new ValidateRule(Schemas.Response, 'Response', 200) ]
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 401),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /user-config/notification-preference
+  export namespace UserConfigResourceGetSettingsSchema {
+    const BundleName = z.string();
+    /*
+ Params
+'bundleName'?:BundleName
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference';
+        const query = {};
+        if (params.bundleName !== undefined) {
+            query.bundleName = params.bundleName;
+        }
+
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 200) ]
+        })
+        .build();
+    };
+  }
+  // POST /user-config/notification-preference
+  export namespace UserConfigResourceSaveSettings {
+    /*
+ Params
+body: Schemas.SettingsValues
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference';
+        const query = {};
+        return actionBuilder('POST', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 200) ]
+        })
+        .build();
+    };
+  }
+  // GET /user-config/notification-preference/{bundleName}/{applicationName}
+  export namespace UserConfigResourceGetPreferences {
+    const ApplicationName = z.string();
+    const BundleName = z.string();
+    /*
+ Params
+'applicationName':ApplicationName,
+'bundleName':BundleName
+*/
+    export const actionCreator = (params) => {
+        const path =
+        '/api/notifications/v1.0/user-config/notification-preference/{bundleName}/{applicationName}'
+        .replace('{applicationName}', params.applicationName.toString())
+        .replace('{bundleName}', params.bundleName.toString());
+        const query = {};
+        return actionBuilder('GET', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(
+                    Schemas.UserConfigPreferences,
+                    'UserConfigPreferences',
+                    200
+                )
+            ]
         })
         .build();
     };
