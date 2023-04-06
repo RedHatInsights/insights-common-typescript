@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript-cli@0.6.1...openapi2typescript-cli@0.7.0) (2023-04-06)
+
+
+### Features
+
+* skip deprecated properties/params ([c15309a](https://github.com/RedHatInsights/insights-common-typescript/commit/c15309a13be87d348f79bffdbad881ec52d15234))
+
+
+
+
+
 ## [0.6.1](https://github.com/RedHatInsights/insights-common-typescript/compare/openapi2typescript-cli@0.6.0...openapi2typescript-cli@0.6.1) (2022-07-15)
 
 
