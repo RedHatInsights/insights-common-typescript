@@ -37,7 +37,8 @@ describe('src/cli/schema', () => {
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 skipTypes: true,
                 strict: true,
-                explicitTypes: false
+                explicitTypes: false,
+                skipDeprecated: false
             }).then(() => {
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();
                 expect(readFileSync(`${tempSchemaDir}/Generated.ts`).toString()).toMatchSnapshot();
@@ -53,7 +54,8 @@ describe('src/cli/schema', () => {
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 skipTypes: false,
                 strict: true,
-                explicitTypes: false
+                explicitTypes: false,
+                skipDeprecated: false
             }).then(() => {
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();
                 expect(readFileSync(`${tempSchemaDir}/Generated.ts`).toString()).toContain('z.infer<');
@@ -69,7 +71,8 @@ describe('src/cli/schema', () => {
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 skipTypes: false,
                 strict: true,
-                explicitTypes: true
+                explicitTypes: true,
+                skipDeprecated: false
             }).then(() => {
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();
                 expect(readFileSync(`${tempSchemaDir}/Generated.ts`).toString()).not.toContain('z.infer<');
@@ -85,7 +88,8 @@ describe('src/cli/schema', () => {
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 skipTypes: true,
                 strict: false,
-                explicitTypes: false
+                explicitTypes: false,
+                skipDeprecated: false
             }).then(() => {
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();
                 expect(readFileSync(`${tempSchemaDir}/Generated.ts`).toString()).toContain('.nonstrict()');
@@ -101,7 +105,8 @@ describe('src/cli/schema', () => {
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 skipTypes: true,
                 strict: true,
-                explicitTypes: false
+                explicitTypes: false,
+                skipDeprecated: false
             }).then(() => {
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();
                 expect(readFileSync(`${tempSchemaDir}/Generated.ts`).toString()).not.toContain('.nonstrict()');
@@ -122,7 +127,8 @@ describe('src/cli/schema', () => {
                 skipTypes: false,
                 actionGenerator: ActionGeneratorType.REACT_FETCHING_LIBRARY,
                 strict: true,
-                explicitTypes: false
+                explicitTypes: false,
+                skipDeprecated: false
             }).then(() => {
                 (fetchMock as any).restore();
                 expect(existsSync(`${tempSchemaDir}/Generated.ts`)).toBeTruthy();

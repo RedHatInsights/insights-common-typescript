@@ -60,6 +60,11 @@ export const getProgram = () => {
         'some cases it could help the IDE when dealing with recursion.',
         false
     )
+    .option(
+        '--skip-deprecated',
+        'Skips deprecated params.',
+        false
+    )
     .requiredOption(
         '-i, --input <openapijson-file-or-url>',
         'URL or local path to the openapi.json file.'

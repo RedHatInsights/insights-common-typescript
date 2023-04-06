@@ -62,6 +62,74 @@ describe('src/core/ApiDescriptorBuilder', () => {
         }).basePath).toBe('');
     });
 
+    it('Skips deprecated properties if set', () => {
+        const baseSchema = {
+            ...emptyOpenApi,
+            components: {
+                schemas: {
+                    MySchema: {
+                        type: 'object',
+                        properties: {
+                            good: {
+                                type: 'string'
+                            },
+                            bad: {
+                                type: 'string',
+                                deprecated: true
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        expect(buildApiDescriptor(baseSchema)).toEqual({
+            basePath: '',
+            paths: [],
+            components: {
+                schemas: {
+                    MySchema: {
+                        type: 'OBJECT',
+                        typeName: 'MySchema',
+                        additionalProperties: undefined,
+                        properties: {
+                            bad: {
+                                isOptional: true,
+                                type: 'STRING'
+                            },
+                            good: {
+                                isOptional: true,
+                                type: 'STRING'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        expect(buildApiDescriptor(baseSchema, {
+            skipDeprecated: true
+        })).toEqual({
+            basePath: '',
+            paths: [],
+            components: {
+                schemas: {
+                    MySchema: {
+                        type: 'OBJECT',
+                        typeName: 'MySchema',
+                        additionalProperties: undefined,
+                        properties: {
+                            good: {
+                                isOptional: true,
+                                type: 'STRING'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })
+
     it('Throws if using a default response', () => {
         expect(() => buildApiDescriptor({
             ...emptyOpenApi,
@@ -412,22 +480,27 @@ describe('src/core/ApiDescriptorBuilder', () => {
             }
         });
 
-        (descriptor as any).components.schemas.Foo.anyOf[0].referred = undefined;
+        (descriptor as any).components.schemas.Foo.allOf[0].anyOf[0].referred = undefined;
 
         expect(descriptor).toEqual({
             basePath: '',
             components: {
                 schemas: {
                     Foo: {
-                        type: SchemaType.ANY_OF,
+                        type: SchemaType.ALL_OF,
                         typeName: 'Foo',
-                        anyOf: [
+                        allOf: [
                             {
-                                typeName: 'Foo',
-                                hasLoop: true,
-                                isNullable: false,
-                                isOptional: false,
-                                referred: undefined
+                                type: SchemaType.ANY_OF,
+                                anyOf: [
+                                    {
+                                        typeName: 'Foo',
+                                        hasLoop: true,
+                                        isNullable: false,
+                                        isOptional: false,
+                                        referred: undefined
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -453,22 +526,27 @@ describe('src/core/ApiDescriptorBuilder', () => {
             }
         });
 
-        (descriptor as any).components.schemas.Foo.oneOf[0].referred = undefined;
+        (descriptor as any).components.schemas.Foo.allOf[0].oneOf[0].referred = undefined;
 
         expect(descriptor).toEqual({
             basePath: '',
             components: {
                 schemas: {
                     Foo: {
-                        type: SchemaType.ONE_OF,
+                        type: SchemaType.ALL_OF,
                         typeName: 'Foo',
-                        oneOf: [
+                        allOf: [
                             {
-                                typeName: 'Foo',
-                                hasLoop: true,
-                                isNullable: false,
-                                isOptional: false,
-                                referred: undefined
+                                type: SchemaType.ONE_OF,
+                                oneOf: [
+                                    {
+                                        typeName: 'Foo',
+                                        hasLoop: true,
+                                        isNullable: false,
+                                        isOptional: false,
+                                        referred: undefined
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -494,7 +572,7 @@ describe('src/core/ApiDescriptorBuilder', () => {
             }
         });
 
-        (descriptor as any).components.schemas.Foo.allOf[0].referred = undefined;
+        (descriptor as any).components.schemas.Foo.allOf[0].allOf[0].referred = undefined;
 
         expect(descriptor).toEqual({
             basePath: '',
@@ -505,11 +583,16 @@ describe('src/core/ApiDescriptorBuilder', () => {
                         typeName: 'Foo',
                         allOf: [
                             {
-                                typeName: 'Foo',
-                                hasLoop: true,
-                                isNullable: false,
-                                isOptional: false,
-                                referred: undefined
+                                type: SchemaType.ALL_OF,
+                                allOf: [
+                                    {
+                                        typeName: 'Foo',
+                                        hasLoop: true,
+                                        isNullable: false,
+                                        isOptional: false,
+                                        referred: undefined
+                                    }
+                                ]
                             }
                         ]
                     }
