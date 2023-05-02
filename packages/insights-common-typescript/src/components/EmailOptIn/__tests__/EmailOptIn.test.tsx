@@ -8,7 +8,7 @@ describe('src/components/EmailOptIn', () => {
         expect(
             screen.getByText('Open user preferences', {
                 selector: 'a'
-            })).toHaveAttribute('href', '/beta/user-preferences/notification/mybundle'
+            })).toHaveAttribute('href', '/preview/user-preferences/notification/mybundle'
         );
     });
 
@@ -38,7 +38,7 @@ describe('src/components/EmailOptIn', () => {
             expect(
                 screen.getByText('Open user preferences', {
                     selector: 'a'
-                })).toHaveAttribute('href', '/beta/user-preferences/notification/mybundle'
+                })).toHaveAttribute('href', '/preview/user-preferences/notification/mybundle'
             );
         });
 
