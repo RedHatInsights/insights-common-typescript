@@ -2,7 +2,7 @@ import { DeepReadonly } from 'ts-essentials';
 
 export const localUrl = (path: string, isBeta: boolean): string => {
     if (isBeta) {
-        return `/beta${path}`;
+        return `/preview${path}`;
     }
 
     return path;
