@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.13.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.3...@redhat-cloud-services/insights-common-typescript@4.13.0) (2023-05-02)
+
+
+### Features
+
+* update localUrl for new /preview environment ([3fdb9d5](https://github.com/RedHatInsights/insights-common-typescript/commit/3fdb9d540e6b377ea98e2a7f4a4972447779e13f))
+
+
+
+
+
 ## [4.12.3](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.2...@redhat-cloud-services/insights-common-typescript@4.12.3) (2022-07-15)
 
 
