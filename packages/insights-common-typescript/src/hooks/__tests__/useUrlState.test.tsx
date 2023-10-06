@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useUrlState, UseUrlStateType, useUrlStateString, UseUrlStateStringType } from '../..';
-import { MemoryRouter, useLocation, useHistory } from 'react-router';
+import { MemoryRouter, useLocation, useNavigate } from 'react-router';
 
 const getWrapper = (path?: string): React.FunctionComponent<any> => {
     const Wrapper = (props) => (
@@ -69,7 +69,7 @@ describe('src/hooks/useUrlState', () => {
             (args: Parameters<UseUrlStateType<MyObject>>) => ({
                 urlState: useUrlState<MyObject>(...args),
                 location: useLocation(),
-                history: useHistory()
+                navigate: useNavigate()
             }), {
                 initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
                 wrapper: getWrapper()
@@ -77,7 +77,7 @@ describe('src/hooks/useUrlState', () => {
         );
 
         act(() => {
-            result.current.history.replace({
+            result.current.navigate({
                 search: '?my-param=foo_15'
             });
         });
@@ -92,7 +92,7 @@ describe('src/hooks/useUrlState', () => {
             (args: Parameters<UseUrlStateType<MyObject>>) => ({
                 urlState: useUrlState<MyObject>(...args),
                 location: useLocation(),
-                history: useHistory()
+                navigate: useNavigate()
             }), {
                 initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
                 wrapper: getWrapper()
@@ -100,7 +100,7 @@ describe('src/hooks/useUrlState', () => {
         );
 
         act(() => {
-            result.current.history.replace({});
+            result.current.navigate({});
         });
         const { search } = result.current.location;
         const [ value ] = result.current.urlState;
@@ -113,19 +113,19 @@ describe('src/hooks/useUrlState', () => {
             (args: Parameters<UseUrlStateType<MyObject>>) => ({
                 urlState: useUrlState<MyObject>(...args),
                 location: useLocation(),
-                history: useHistory()
+                navigate: useNavigate()
             }), {
                 initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
                 wrapper: getWrapper()
             }
         );
 
-        const historyReplace = jest.spyOn(result.current.history, 'replace');
+        const navigate = jest.spyOn(result.current, 'navigate');
 
         act(() => {
             result.current.urlState[1]({ val: 'hello', val2: 5 });
         });
-        expect(historyReplace).not.toHaveBeenCalled();
+        expect(navigate).not.toHaveBeenCalled();
     });
 
     it('removes url param if serializer(deserializer(params)) returns undefined', () => {
@@ -140,7 +140,7 @@ describe('src/hooks/useUrlState', () => {
         );
 
         const { search } = result.current.location;
-        expect(search).toEqual('?');
+        expect(search).toEqual('');
     });
 
     it('should change value and location on setState', () => {
@@ -209,7 +209,7 @@ describe('src/hooks/useUrlState', () => {
 
         const { search } = result.current.location;
         const [ state ] = result.current.urlState;
-        expect(search).toEqual('?');
+        expect(search).toEqual('');
         expect(state).toEqual(undefined);
     });
 
@@ -403,7 +403,7 @@ describe('src/hooks/useUrlState', () => {
 
             {
                 const { search } = result.current.location;
-                expect(search).toEqual('?');
+                expect(search).toEqual('');
             }
         });
 
@@ -457,7 +457,7 @@ describe('src/hooks/useUrlState', () => {
                 (args: Parameters<UseUrlStateStringType>) => ({
                     urlStateString: useUrlStateString(...args),
                     location: useLocation(),
-                    history: useHistory()
+                    navigate: useNavigate()
                 }), {
                     initialProps: [ 'my-param', 'init-value' ],
                     wrapper: getWrapper('http://localhost?my-param=foo-bar')
@@ -465,7 +465,7 @@ describe('src/hooks/useUrlState', () => {
             );
 
             act(() => {
-                result.current.history.replace({});
+                result.current.navigate({});
             });
 
             expect(result.current.urlStateString[0]).toEqual('');

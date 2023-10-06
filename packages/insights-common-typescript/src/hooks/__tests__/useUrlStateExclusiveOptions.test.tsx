@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useUrlStateExclusiveOptions } from '../..';
 import * as React from 'react';
-import { MemoryRouter, useLocation, useHistory } from 'react-router';
+import { MemoryRouter, useLocation, useNavigate } from 'react-router';
 import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
 
 const getWrapper = (path?: string): React.FunctionComponent => {
@@ -70,7 +70,7 @@ describe('src/hooks/useUrlStateExclusiveOptions', () => {
         });
 
         expect(result.current.state[0]).toEqual(undefined);
-        expect(result.current.location.search).toEqual('?');
+        expect(result.current.location.search).toEqual('');
     });
 
     it('Ignores case when watching, but preserves case option', () => {
@@ -92,14 +92,14 @@ describe('src/hooks/useUrlStateExclusiveOptions', () => {
             return {
                 state: useUrlStateExclusiveOptions('varname', [ 'foo', 'bar', 'baz' ], 'foo'),
                 location: useLocation(),
-                history: useHistory()
+                navigate: useNavigate()
             };
         }, {
             wrapper: getWrapper('?varname=bar')
         });
 
         act(() => {
-            result.current.history.replace({
+            result.current.navigate({
                 search: '?varname=baz'
             });
         });
@@ -113,14 +113,14 @@ describe('src/hooks/useUrlStateExclusiveOptions', () => {
             return {
                 state: useUrlStateExclusiveOptions('varname', [ 'foo', 'bar', 'baz' ], 'foo'),
                 location: useLocation(),
-                history: useHistory()
+                navigate: useNavigate()
             };
         }, {
             wrapper: getWrapper('?varname=bar')
         });
 
         act(() => {
-            result.current.history.replace({});
+            result.current.navigate({});
         });
 
         expect(result.current.state[0]).toEqual(undefined);
@@ -140,7 +140,7 @@ describe('src/hooks/useUrlStateExclusiveOptions', () => {
         await waitForAsyncEventsHooks();
 
         expect(result.current.state[0]).toEqual(undefined);
-        expect(result.current.location.search).toEqual('?');
+        expect(result.current.location.search).toEqual('');
     });
 
     it('If options are undefined, uses what is received', async () => {

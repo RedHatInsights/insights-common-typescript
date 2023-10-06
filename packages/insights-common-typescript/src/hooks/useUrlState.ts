@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 
@@ -10,7 +10,7 @@ export type UseUrlStateType<T> = (name: string, serializer: Serializer<T>, deser
 
 export const useUrlState =
     <T>(name: string, serializer: Serializer<T>, deserializer: Deserializer<T>, initialValue?: T): UseUrlStateResponse<T> => {
-        const history = useHistory();
+        const navigate = useNavigate();
         const location = useLocation();
 
         const setUrlValue = useCallback((serializedValue: string | undefined) => {
@@ -23,12 +23,12 @@ export const useUrlState =
 
             const searchString = '?' + search.toString();
             if (searchString !== location.search) {
-                history.replace({
+                navigate({
                     ...location,
                     search: searchString
                 });
             }
-        }, [ location, history, name ]);
+        }, [ location, navigate, name ]);
 
         const getUrlValue = useCallback(() => {
             const params = new URLSearchParams(location.search);
