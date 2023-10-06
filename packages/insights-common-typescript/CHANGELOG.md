@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@5.0.0...@redhat-cloud-services/insights-common-typescript@5.0.1) (2023-10-06)
+
+
+### Bug Fixes
+
+* **release:** trigger release ([#89](https://github.com/RedHatInsights/insights-common-typescript/issues/89)) ([e6b152e](https://github.com/RedHatInsights/insights-common-typescript/commit/e6b152e646b67c93da4b35b322bc4fac1dce9bd5))
+
+
+
+
+
 # [5.0.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.13.0...@redhat-cloud-services/insights-common-typescript@5.0.0) (2023-10-06)
 
 
