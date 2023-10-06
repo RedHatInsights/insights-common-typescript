@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.13.0...@redhat-cloud-services/insights-common-typescript@5.0.0) (2023-10-06)
+
+
+### Features
+
+* **dependency update:** update to react router v6 ([#88](https://github.com/RedHatInsights/insights-common-typescript/issues/88)) ([12c8e6e](https://github.com/RedHatInsights/insights-common-typescript/commit/12c8e6e096d528fefc60b4d2b76910a78cc59120))
+
+
+### BREAKING CHANGES
+
+* **dependency update:** The package will not be usable with react router v5
+
+
+
+
+
 # [4.13.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@4.12.3...@redhat-cloud-services/insights-common-typescript@4.13.0) (2023-05-02)
 
 
