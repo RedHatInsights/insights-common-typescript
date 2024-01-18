@@ -3,13 +3,14 @@ import { useField } from 'formik';
 import { FormGroup, Text, TextInput as PFTextInput, TextInputProps, TextVariants } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
+import { withoutOuiaProps } from '../../../utils';
 import { getOuiaProps } from '../../../utils/Ouia';
 
-interface FormTextInputProps extends OuiaComponentProps, Omit<TextInputProps, 'onChange' | 'innerRef'> {
+interface FormTextInputProps extends Omit<TextInputProps, 'onChange' | 'innerRef' | 'ouiaId'> {
     id: string;
     name: string;
     hint?: string;
+    ouiaId?: string;
 }
 
 export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props) => {

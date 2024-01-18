@@ -3,12 +3,12 @@ import { useField } from 'formik';
 import { Checkbox as PFCheckbox, FormGroup, CheckboxProps as PFCheckboxProps } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
-import { OuiaComponentProps } from '../../../utils';
 import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
 
-interface CheckboxProps extends OuiaComponentProps, Omit<PFCheckboxProps, 'onChange' | 'ref'> {
+interface CheckboxProps extends Omit<PFCheckboxProps, 'onChange' | 'ref' | 'ouiaId'> {
     name: string;
     isRequired?: boolean;
+    ouiaId?: string;
 }
 
 export const Checkbox: React.FunctionComponent<CheckboxProps> = (props) => {
