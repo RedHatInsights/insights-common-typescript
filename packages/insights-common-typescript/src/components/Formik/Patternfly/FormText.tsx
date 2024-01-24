@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useField } from 'formik';
 import { FormGroup, Text, TextVariants, TextProps } from '@patternfly/react-core';
-import { getOuiaProps, OuiaComponentProps, withoutOuiaProps } from '../../../utils/Ouia';
+import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
 
-interface FormTextProps extends OuiaComponentProps, Omit<TextProps, 'ref'> {
+interface FormTextProps extends Omit<TextProps, 'ref' | 'ouiaId'> {
     id: string;
     name: string;
     isRequired?: boolean;
+    ouiaId?: string;
 }
 
 export const FormText: React.FunctionComponent<FormTextProps> = (props) => {
