@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.27](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.26...insights-common-typescript-dev@0.1.27) (2024-01-24)
+
+**Note:** Version bump only for package insights-common-typescript-dev
+
+
+
+
+
 ## [0.1.26](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.25...insights-common-typescript-dev@0.1.26) (2023-10-06)
 
 **Note:** Version bump only for package insights-common-typescript-dev

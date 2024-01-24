@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.0.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@5.0.1...@redhat-cloud-services/insights-common-typescript@6.0.0) (2024-01-24)
+
+
+### Features
+
+* **dependencies:** update react to v 18 ([2abdb61](https://github.com/RedHatInsights/insights-common-typescript/commit/2abdb619c4fc78c57dcc40e376951d3a5eac37ed))
+
+
+### BREAKING CHANGES
+
+* **dependencies:** React 18 brings a few improvements and requires updating other libraries
+
+
+
+
+
 ## [5.0.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@5.0.0...@redhat-cloud-services/insights-common-typescript@5.0.1) (2023-10-06)
 
 
