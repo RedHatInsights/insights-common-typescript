@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.0...@redhat-cloud-services/insights-common-typescript@6.0.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* **envdetector:** envDetector components were missing children props declaration ([#91](https://github.com/RedHatInsights/insights-common-typescript/issues/91)) ([d9fb7ac](https://github.com/RedHatInsights/insights-common-typescript/commit/d9fb7ac56940be9a59dfbbde9f61b70969843f99))
+
+
+
+
+
 # [6.0.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@5.0.1...@redhat-cloud-services/insights-common-typescript@6.0.0) (2024-01-24)
 
 
