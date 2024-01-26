@@ -8,7 +8,7 @@ interface EnvDetectorProps {
     currentEnvironment: Environment;
 }
 
-export const EnvDetector: React.FunctionComponent<EnvDetectorProps> = (props) => {
+export const EnvDetector: React.FunctionComponent<React.PropsWithChildren<EnvDetectorProps>> = (props) => {
     const environment = React.useMemo(
         () => Array.isArray(props.onEnvironment) ? props.onEnvironment : [ props.onEnvironment ],
         [ props.onEnvironment ]
@@ -28,7 +28,7 @@ interface InsightsBetaDetectorProps extends Omit<EnvDetectorProps, 'currentEnvir
     insights: InsightsType;
 }
 
-export const InsightsEnvDetector: React.FunctionComponent<InsightsBetaDetectorProps> = (props) => {
+export const InsightsEnvDetector: React.FunctionComponent<React.PropsWithChildren<InsightsBetaDetectorProps>> = (props) => {
     const currentEnvironment: Environment = React.useMemo(() => {
         const isBeta = props.insights.chrome.isBeta();
         const env: NonBetaEnvironment = props.insights.chrome.getEnvironment();
