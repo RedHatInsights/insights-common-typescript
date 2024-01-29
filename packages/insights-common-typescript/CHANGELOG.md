@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.1...@redhat-cloud-services/insights-common-typescript@6.0.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* **axios:** update axios to newer version ([#92](https://github.com/RedHatInsights/insights-common-typescript/issues/92)) ([49a0303](https://github.com/RedHatInsights/insights-common-typescript/commit/49a0303a1f382544c03213207744ff99d333d689))
+
+
+
+
+
 ## [6.0.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.0...@redhat-cloud-services/insights-common-typescript@6.0.1) (2024-01-26)
 
 
