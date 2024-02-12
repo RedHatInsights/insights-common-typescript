@@ -1,14 +1,8 @@
 import * as React from 'react';
-import {
-    Alert,
-    AlertVariant,
-    Button,
-    ButtonVariant,
-    Modal,
-    ModalProps,
-    ModalVariant,
-    Spinner
-} from '@patternfly/react-core';
+import { Alert, AlertVariant } from '@patternfly/react-core/dist/dynamic/components/Alert';
+import { Button, ButtonVariant } from '@patternfly/react-core/dist/dynamic/components/Button';
+import { Modal, ModalProps, ModalVariant } from '@patternfly/react-core/dist/dynamic/components/Modal';
+import { Spinner } from '@patternfly/react-core/dist/dynamic/components/Spinner';
 
 export interface ActionModalError {
     title: string;

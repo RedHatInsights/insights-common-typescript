@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
 import { Messages } from '../../properties/Messages';
-import { ErrorCircleOIcon } from '@patternfly/react-icons';
-import { Text, ExpandableSection } from '@patternfly/react-core';
+import { ErrorCircleOIcon } from '@patternfly/react-icons/dist/dynamic/icons/error-circle-o-icon';
+import { ExpandableSection } from '@patternfly/react-core/dist/dynamic/components/ExpandableSection';
+import { Text } from '@patternfly/react-core/dist/dynamic/components/Text';
 import { global_spacer_sm, global_BackgroundColor_dark_300 } from '@patternfly/react-tokens';
 import { join } from '../../utils/ComponentUtils';
 import { style } from 'typestyle';

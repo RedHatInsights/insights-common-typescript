@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
+import { Button } from '@patternfly/react-core/dist/dynamic/components/Button';
+import {
+    EmptyState as EmptyStatePf,
+    EmptyStateBody,
+    EmptyStateIcon,
+    EmptyStateVariant
+} from '@patternfly/react-core/dist/dynamic/components/EmptyState';
+import { Title } from '@patternfly/react-core/dist/dynamic/components/Title';
 import { global_spacer_3xl } from '@patternfly/react-tokens';
 import { style } from 'typestyle';
 import { calc } from 'csx';

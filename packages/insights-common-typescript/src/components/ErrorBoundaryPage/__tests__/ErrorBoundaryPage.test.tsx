@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { ErrorBoundaryPage } from '../../..';
 import jestMock from 'jest-mock';
 
-jest.mock('@redhat-cloud-services/frontend-components', () => {
+jest.mock('@redhat-cloud-services/frontend-components/PageHeader', () => {
 
     const Children: React.FunctionComponent = (props) => {
         // eslint-disable-next-line testing-library/no-node-access
@@ -16,9 +16,20 @@ jest.mock('@redhat-cloud-services/frontend-components', () => {
     };
 
     return {
-        Main: Children,
         PageHeader: Children,
         PageHeaderTitle: Title
+    };
+});
+
+jest.mock('@redhat-cloud-services/frontend-components/Main', () => {
+
+    const Children: React.FunctionComponent = (props) => {
+        // eslint-disable-next-line testing-library/no-node-access
+        return <span>{ props.children }</span>;
+    };
+
+    return {
+        Main: Children
     };
 });
 

@@ -9,7 +9,7 @@ import {
     SetFilters,
     StandardFilterEnum
 } from '../types';
-import { FilterChipsFilter } from '@redhat-cloud-services/frontend-components';
+import { FilterChipsFilter } from '@redhat-cloud-services/frontend-components/FilterChips';
 
 const getFilterItemType = <FilterColumn extends StandardFilterEnum<any>>(
     column: EnumElement<FilterColumn>,

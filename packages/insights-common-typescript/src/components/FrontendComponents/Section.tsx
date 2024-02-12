@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Section as IFCSection, DarkContext } from '@redhat-cloud-services/frontend-components';
+import { Section as IFCSection } from '@redhat-cloud-services/frontend-components/Section';
+import { DarkContext } from '@redhat-cloud-services/frontend-components/Dark';
 import { classes } from 'typestyle';
 import { OuiaComponentProps } from '../../utils';
 import { getOuiaProps } from '../../utils/Ouia';

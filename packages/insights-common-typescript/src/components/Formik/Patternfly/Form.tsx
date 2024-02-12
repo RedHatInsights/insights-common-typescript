@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form as PFForm, FormProps as PFFormProps } from '@patternfly/react-core';
+import { Form as PFForm, FormProps as PFFormProps } from '@patternfly/react-core/dist/dynamic/components/Form';
 import { OuiaComponentProps } from '../../../utils';
 import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
 

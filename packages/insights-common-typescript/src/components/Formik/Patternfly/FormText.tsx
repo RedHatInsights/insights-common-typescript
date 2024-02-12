@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, Text, TextVariants, TextProps } from '@patternfly/react-core';
+import { Text, TextVariants, TextProps } from '@patternfly/react-core/dist/dynamic/components/Text';
+import { FormGroup } from '@patternfly/react-core/dist/dynamic/components/Form';
 import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
 
 interface FormTextProps extends Omit<TextProps, 'ref' | 'ouiaId'> {
@@ -11,15 +12,11 @@ interface FormTextProps extends Omit<TextProps, 'ref' | 'ouiaId'> {
 }
 
 export const FormText: React.FunctionComponent<FormTextProps> = (props) => {
-    const [ field, meta ] = useField({ ...props });
-    const isValid = !meta.error || !meta.touched;
+    const [ field ] = useField({ ...props });
 
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
-            isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
             { ...getOuiaProps('FormikPatternfly/FormText', props) }
         >
