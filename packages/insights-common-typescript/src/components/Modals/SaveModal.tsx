@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActionModal, ActionModalProps } from './ActionModal';
-import { ButtonVariant } from '@patternfly/react-core';
+import { ButtonVariant } from '@patternfly/react-core/dist/dynamic/components/Button';
 import { SemiPartial } from '../../types/Utils';
 
 type ChangedProps = 'isPerformingAction' | 'onAction';

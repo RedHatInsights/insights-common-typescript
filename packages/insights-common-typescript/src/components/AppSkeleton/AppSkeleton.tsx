@@ -1,14 +1,10 @@
 import * as React from 'react';
-
-import {
-    Main,
-    PageHeader,
-    PageHeaderTitle,
-    Section,
-    Skeleton,
-    Spinner
-} from '@redhat-cloud-services/frontend-components';
-import { Bullseye } from '@patternfly/react-core';
+import { Main } from '@redhat-cloud-services/frontend-components/Main';
+import { Section } from '@redhat-cloud-services/frontend-components/Section';
+import { Skeleton } from '@redhat-cloud-services/frontend-components/Skeleton';
+import { Spinner } from '@redhat-cloud-services/frontend-components/Spinner';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components/PageHeader';
+import { Bullseye } from '@patternfly/react-core/dist/dynamic/layouts/Bullseye';
 
 import { OuiaComponentProps, getOuiaProps } from '../../utils/Ouia';
 

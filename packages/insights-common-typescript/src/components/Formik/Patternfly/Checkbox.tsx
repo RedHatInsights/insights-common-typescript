@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { Checkbox as PFCheckbox, FormGroup, CheckboxProps as PFCheckboxProps } from '@patternfly/react-core';
+import { Checkbox as PFCheckbox, CheckboxProps as PFCheckboxProps } from '@patternfly/react-core/dist/dynamic/components/Checkbox';
+import { FormGroup, FormHelperText } from '@patternfly/react-core/dist/dynamic/components/Form';
+import { HelperText, HelperTextItem } from '@patternfly/react-core/dist/dynamic/components/HelperText';
 
 import { onChangePFAdapter } from './Common';
 import { getOuiaProps, withoutOuiaProps } from '../../../utils/Ouia';
@@ -18,9 +20,7 @@ export const Checkbox: React.FunctionComponent<CheckboxProps> = (props) => {
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             { ...getOuiaProps('FormikPatternfly/Checkbox', props) }
         >
             <PFCheckbox
@@ -28,8 +28,15 @@ export const Checkbox: React.FunctionComponent<CheckboxProps> = (props) => {
                 { ...withoutOuiaProps(props) }
                 { ...field }
                 isValid={ isValid }
-                onChange={ onChangePFAdapter<boolean>(field) }
+                isRequired={ props.isRequired }
+                onChange={ onChangePFAdapter(field) }
             />
+            {meta.error && <FormHelperText>
+                <HelperText>
+                    <HelperTextItem>{ meta.error }</HelperTextItem>
+                </HelperText>
+            </FormHelperText>
+            }
         </FormGroup>
     );
 };

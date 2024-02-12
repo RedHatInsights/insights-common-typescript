@@ -18,7 +18,7 @@ describe('src/components/Modals/DeleteModal', () => {
         );
 
         expect(
-            ouiaSelectors.getByOuia('PF4/Button', 'action')
+            ouiaSelectors.getByOuia('PF5/Button', 'action')
         ).toHaveTextContent('Delete');
     });
 
@@ -35,7 +35,7 @@ describe('src/components/Modals/DeleteModal', () => {
         );
 
         expect(
-            ouiaSelectors.getByOuia('PF4/Button', 'action')
+            ouiaSelectors.getByOuia('PF5/Button', 'action')
         ).toHaveClass('pf-m-danger');
     });
 });

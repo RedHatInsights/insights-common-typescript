@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, TextArea as PFTextArea, TextAreaProps as PFTextAreaProps } from '@patternfly/react-core';
+import { TextArea as PFTextArea, TextAreaProps as PFTextAreaProps } from '@patternfly/react-core/dist/dynamic/components/TextArea';
+import { FormGroup, FormHelperText } from '@patternfly/react-core/dist/dynamic/components/Form';
+import { HelperText, HelperTextItem } from '@patternfly/react-core/dist/dynamic/components/HelperText';
 
 import { onChangePFAdapter } from './Common';
 import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
@@ -19,9 +21,7 @@ export const FormTextArea: React.FunctionComponent<FormTextAreaProps> = (props) 
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
             { ...getOuiaProps('FormikPatternfly/FormTextArea', props) }
         >
@@ -30,8 +30,15 @@ export const FormTextArea: React.FunctionComponent<FormTextAreaProps> = (props) 
                 { ...field }
                 value={ field.value || '' }
                 validated={ (isValid) ? 'default' : 'error' }
-                onChange={ onChangePFAdapter<string | number, React.FormEvent<HTMLTextAreaElement>>(field) }
+                isRequired={ props.isRequired }
+                onChange={ onChangePFAdapter<React.FormEvent<HTMLTextAreaElement>, string | number>(field) }
             />
+            {meta.error && <FormHelperText>
+                <HelperText>
+                    <HelperTextItem>{ meta.error }</HelperTextItem>
+                </HelperText>
+            </FormHelperText>
+            }
         </FormGroup>
     );
 };

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, Switch as PFSwitch, SwitchProps as PFSwitchProps } from '@patternfly/react-core';
+import { Switch as PFSwitch, SwitchProps as PFSwitchProps } from '@patternfly/react-core/dist/dynamic/components/Switch';
+import { FormGroup, FormHelperText } from '@patternfly/react-core/dist/dynamic/components/Form';
+import { HelperText, HelperTextItem } from '@patternfly/react-core/dist/dynamic/components/HelperText';
 
 import { onChangePFAdapter } from './Common';
 import { OuiaComponentProps, withoutOuiaProps } from '../../../utils';
@@ -16,14 +18,11 @@ interface SwitchProps extends OuiaComponentProps, Omit<PFSwitchProps, 'onChange'
 export const Switch: React.FunctionComponent<SwitchProps> = (props) => {
     const [ field, meta ] = useField({ ...props, type: 'checkbox' });
     const { labelOn: label, ...restProps } = props;
-    const isValid = !meta.error || !meta.touched;
 
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
             { ...getOuiaProps('FormikPatternfly/Switch', props) }
         >
@@ -35,8 +34,14 @@ export const Switch: React.FunctionComponent<SwitchProps> = (props) => {
                     ouiaId="pf-switch"
                     ouiaSafe={ props.ouiaSafe }
                     label={ label }
-                    onChange={ onChangePFAdapter<boolean>(field) }
+                    onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>, boolean>(field) }
                 />
+                {meta.error && <FormHelperText>
+                    <HelperText>
+                        <HelperTextItem>{ meta.error }</HelperTextItem>
+                    </HelperText>
+                </FormHelperText>
+                }
             </div>
         </FormGroup>
     );

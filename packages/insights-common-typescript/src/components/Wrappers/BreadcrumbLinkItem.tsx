@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BreadcrumbItem, BreadcrumbItemProps } from '@patternfly/react-core';
+import { BreadcrumbItem, BreadcrumbItemProps } from '@patternfly/react-core/dist/dynamic/components/Breadcrumb';
 import { LinkAdapter } from './LinkAdapter';
 import { OuiaComponentProps, withoutOuiaProps } from '../../utils';
 import { getOuiaProps } from '../../utils/Ouia';

@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, Text, TextInput as PFTextInput, TextInputProps, TextVariants } from '@patternfly/react-core';
+import { Text, TextVariants } from '@patternfly/react-core/dist/dynamic/components/Text';
+import { TextInput as PFTextInput, TextInputProps } from '@patternfly/react-core/dist/dynamic/components/TextInput';
+import { FormGroup, FormHelperText } from '@patternfly/react-core/dist/dynamic/components/Form';
+import { HelperText, HelperTextItem } from '@patternfly/react-core/dist/dynamic/components/HelperText';
 
 import { onChangePFAdapter } from './Common';
 import { withoutOuiaProps } from '../../../utils';
@@ -21,20 +24,24 @@ export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
             { ...getOuiaProps('FormikPatternfly/FormTextInput', props) }
         >
             <PFTextInput
                 { ...withoutOuiaProps(otherProps) }
                 { ...field }
-                value={ field.value !== undefined ? field.value.toString() : '' }
                 validated={ (isValid) ? 'default' : 'error' }
-                onChange={ onChangePFAdapter<string | number>(field) }
+                value={ field.value !== undefined ? field.value.toString() : '' }
+                onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>, string | number>(field) }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
+            {meta.error && <FormHelperText>
+                <HelperText>
+                    <HelperTextItem>{ meta.error }</HelperTextItem>
+                </HelperText>
+            </FormHelperText>
+            }
         </FormGroup>
     );
 };

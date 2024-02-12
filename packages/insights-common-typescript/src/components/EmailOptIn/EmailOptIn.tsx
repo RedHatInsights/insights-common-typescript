@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Alert, AlertVariant, Text, TextContent } from '@patternfly/react-core';
+import { Text, TextContent } from '@patternfly/react-core/dist/dynamic/components/Text';
+import { Alert, AlertVariant } from '@patternfly/react-core/dist/dynamic/components/Alert';
 
 import { Messages } from '../../properties/Messages';
 import { Config } from '../../config';
