@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.2...@redhat-cloud-services/insights-common-typescript@6.1.0) (2024-02-13)
+
+
+### Bug Fixes
+
+* **release:** fix release by pushing linted file ([#94](https://github.com/RedHatInsights/insights-common-typescript/issues/94)) ([03bc9a6](https://github.com/RedHatInsights/insights-common-typescript/commit/03bc9a6d092164b047474cb3c40c5fad7821008e))
+
+
+### Features
+
+* **update to pf5:** update dependencies to work with PF5 ([#93](https://github.com/RedHatInsights/insights-common-typescript/issues/93)) ([4e20e52](https://github.com/RedHatInsights/insights-common-typescript/commit/4e20e523b81bd35b5042632d7cefbf71f1262f99))
+
+
+
+
+
 ## [6.0.2](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.1...@redhat-cloud-services/insights-common-typescript@6.0.2) (2024-01-29)
 
 
