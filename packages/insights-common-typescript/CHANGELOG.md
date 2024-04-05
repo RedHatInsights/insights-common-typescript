@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.1.0...@redhat-cloud-services/insights-common-typescript@6.1.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* **onchange callback:** change sending event instead of value ([#95](https://github.com/RedHatInsights/insights-common-typescript/issues/95)) ([a2e2537](https://github.com/RedHatInsights/insights-common-typescript/commit/a2e2537b936936c23f46c7ecb125ccf1064dd78b))
+
+
+
+
+
 # [6.1.0](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.0.2...@redhat-cloud-services/insights-common-typescript@6.1.0) (2024-02-13)
 
 
