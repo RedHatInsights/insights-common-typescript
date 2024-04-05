@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { FieldInputProps } from 'formik';
 
-export const onChangePFAdapter = <T = React.FormEvent<HTMLInputElement>, E = boolean>(field: FieldInputProps<T>) => {
-    return (_: T, e: E) => {
+export const onChangePFAdapter = <T = React.FormEvent<HTMLInputElement>>(field: FieldInputProps<T>) => {
+    return (e: T) => {
         return field.onChange(e);
     };
 };
