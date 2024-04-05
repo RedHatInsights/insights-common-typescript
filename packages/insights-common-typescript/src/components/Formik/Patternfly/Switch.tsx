@@ -34,7 +34,7 @@ export const Switch: React.FunctionComponent<SwitchProps> = (props) => {
                     ouiaId="pf-switch"
                     ouiaSafe={ props.ouiaSafe }
                     label={ label }
-                    onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>, boolean>(field) }
+                    onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>>(field) }
                 />
                 {meta.error && <FormHelperText>
                     <HelperText>

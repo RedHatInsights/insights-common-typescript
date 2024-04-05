@@ -31,7 +31,7 @@ export const FormTextArea: React.FunctionComponent<FormTextAreaProps> = (props) 
                 value={ field.value || '' }
                 validated={ (isValid) ? 'default' : 'error' }
                 isRequired={ props.isRequired }
-                onChange={ onChangePFAdapter<React.FormEvent<HTMLTextAreaElement>, string | number>(field) }
+                onChange={ onChangePFAdapter<React.FormEvent<HTMLTextAreaElement>>(field) }
             />
             {meta.error && <FormHelperText>
                 <HelperText>

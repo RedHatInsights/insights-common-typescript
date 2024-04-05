@@ -33,7 +33,7 @@ export const FormTextInput: React.FunctionComponent<FormTextInputProps> = (props
                 { ...field }
                 validated={ (isValid) ? 'default' : 'error' }
                 value={ field.value !== undefined ? field.value.toString() : '' }
-                onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>, string | number>(field) }
+                onChange={ onChangePFAdapter<React.FormEvent<HTMLInputElement>>(field) }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
             {meta.error && <FormHelperText>

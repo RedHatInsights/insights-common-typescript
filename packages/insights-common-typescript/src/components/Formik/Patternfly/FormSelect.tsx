@@ -28,7 +28,7 @@ export const FormSelect: React.FunctionComponent<FormSelectProps> = (props) => {
             <PFFormSelect
                 { ...withoutOuiaProps(props) }
                 { ...field }
-                onChange={ onChangePFAdapter<React.FormEvent<HTMLSelectElement>, string | number>(field) }
+                onChange={ onChangePFAdapter<React.FormEvent<HTMLSelectElement>>(field) }
                 isRequired={ props.isRequired }
                 validated={ (isValid) ? 'default' : 'error' }
             >
