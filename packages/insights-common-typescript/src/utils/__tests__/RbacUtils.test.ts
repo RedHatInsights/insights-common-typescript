@@ -1,7 +1,7 @@
 import { fetchRBAC, RbacPermissionsBuilder } from '../..';
-import axios from 'axios';
-import { Access, AccessPagination } from '@redhat-cloud-services/rbac-client';
+import { Access, AccessPagination } from '@redhat-cloud-services/rbac-client/types';
 import MockAdapter from 'axios-mock-adapter';
+import axiosInstance from '@redhat-cloud-services/frontend-components-utilities/interceptors/interceptors';
 
 describe('src/utils/RbacUtils', () => {
     it('RbacPermissionBuilder detects fullAccess', () => {
@@ -107,7 +107,7 @@ describe('src/utils/RbacUtils', () => {
     });
 
     it('fetchRBAC fetches the RBAC object', async () => {
-        const mock = new MockAdapter(axios);
+        const mock = new MockAdapter(axiosInstance);
         mock.onGet('/api/rbac/v1/access/?application=policies').reply(200,
             {
                 data: [
