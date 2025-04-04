@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import { ErrorBoundaryPage } from '../../..';
-import jestMock from 'jest-mock';
 
 jest.mock('@redhat-cloud-services/frontend-components/PageHeader', () => {
 
@@ -49,7 +49,7 @@ describe('src/pages/Error/Page', () => {
     it('Renders content when there is no error', () => {
         render(<ErrorBoundaryPage
             ouiaId={ 'error-boundary' }
-            action={ jestMock.fn }
+            action={ jest.fn() }
             actionLabel={ 'Foo!' }
             title={ 'Something wrong' }
             pageHeader={ 'Policies' }
@@ -68,7 +68,7 @@ describe('src/pages/Error/Page', () => {
 
         render(<ErrorBoundaryPage
             ouiaId={ 'error-boundary' }
-            action={ jestMock.fn }
+            action={ jest.fn() }
             actionLabel={ 'Foo!' }
             title={ 'Something wrong' }
             pageHeader={ 'Policies' }
@@ -87,7 +87,7 @@ describe('src/pages/Error/Page', () => {
 
         render(<ErrorBoundaryPage
             ouiaId={ 'error-boundary' }
-            action={ jestMock.fn }
+            action={ jest.fn() }
             actionLabel={ 'Foo!' }
             title={ 'Something wrong' }
             pageHeader={ 'Policies' }
@@ -99,14 +99,14 @@ describe('src/pages/Error/Page', () => {
         expect(screen.getByText(/surprise/i)).not.toBeVisible();
     });
 
-    it('Shows when show details is clicked', () => {
+    it('Shows when show details is clicked', async () => {
         const Surprise = () => {
             throw new Error('surprise');
         };
 
         render(<ErrorBoundaryPage
             ouiaId={ 'error-boundary' }
-            action={ jestMock.fn }
+            action={ jest.fn() }
             actionLabel={ 'Foo!' }
             title={ 'Something wrong' }
             pageHeader={ 'Policies' }
@@ -115,16 +115,16 @@ describe('src/pages/Error/Page', () => {
             <Surprise/>
         </ErrorBoundaryPage>);
 
-        userEvent.click(screen.getByText(/show details/i));
+        await userEvent.click(screen.getByText(/show details/i));
         expect(screen.getByText(/surprise/i)).toBeVisible();
     });
 
-    it('Action is fired when clicking the button', () => {
+    it('Action is fired when clicking the button', async () => {
         const Surprise = () => {
             throw new Error('surprise');
         };
 
-        const action = jestMock.fn();
+        const action = jest.fn();
 
         render(<ErrorBoundaryPage
             ouiaId={ 'error-boundary' }
@@ -137,7 +137,7 @@ describe('src/pages/Error/Page', () => {
             <Surprise/>
         </ErrorBoundaryPage>);
 
-        userEvent.click(screen.getByRole('button', {
+        await userEvent.click(screen.getByRole('button', {
             name: /foo/i
         }));
         expect(action).toHaveBeenCalledTimes(1);

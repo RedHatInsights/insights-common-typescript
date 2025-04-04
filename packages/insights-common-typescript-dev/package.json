@@ -23,7 +23,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@redhat-cloud-services/insights-common-typescript": "file:../insights-common-typescript",
-    "jest-mock": "27.0.3"
+    "@redhat-cloud-services/insights-common-typescript": "file:../insights-common-typescript"
   }
 }

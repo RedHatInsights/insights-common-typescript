@@ -68,7 +68,6 @@ export default function makeConfig(params) {
                     '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry': 'ReducerRegistry',
                     'redux-promise-middleware': 'promiseMiddleware',
                     'react-fetching-library': 'reactFetchingLibrary',
-                    'jest-mock': 'jestMock',
                     '@redhat-cloud-services/rbac-client': 'rbacClient',
                     axios: 'axios',
                     'react-router-dom': 'reactRouterDom',

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import jestMock from 'jest-mock';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { DeleteModal } from '../..';
 
@@ -9,8 +8,8 @@ describe('src/components/Modals/DeleteModal', () => {
         render(
             <DeleteModal
                 isDeleting={ false }
-                onDelete={ jestMock.fn() }
-                onClose={ jestMock.fn() }
+                onDelete={ jest.fn() }
+                onClose={ jest.fn() }
                 isOpen={ true }
                 title={ 'foobar' }
                 content={ 'content' }
@@ -26,8 +25,8 @@ describe('src/components/Modals/DeleteModal', () => {
         render(
             <DeleteModal
                 isDeleting={ false }
-                onDelete={ jestMock.fn() }
-                onClose={ jestMock.fn() }
+                onDelete={ jest.fn() }
+                onClose={ jest.fn() }
                 isOpen={ true }
                 title={ 'foobar' }
                 content={ 'content' }

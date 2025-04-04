@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import jestMock from 'jest-mock';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { SaveModal } from '../..';
 
@@ -9,8 +8,8 @@ describe('src/components/Modals/SaveModal', () => {
         render(
             <SaveModal
                 isSaving={ false }
-                onSave={ jestMock.fn() }
-                onClose={ jestMock.fn() }
+                onSave={ jest.fn() }
+                onClose={ jest.fn() }
                 isOpen={ true }
                 title={ 'foobar' }
                 content={ 'content' }
@@ -26,8 +25,8 @@ describe('src/components/Modals/SaveModal', () => {
         render(
             <SaveModal
                 isSaving={ false }
-                onSave={ jestMock.fn() }
-                onClose={ jestMock.fn() }
+                onSave={ jest.fn() }
+                onClose={ jest.fn() }
                 isOpen={ true }
                 title={ 'foobar' }
                 content={ 'content' }
@@ -43,8 +42,8 @@ describe('src/components/Modals/SaveModal', () => {
         render(
             <SaveModal
                 isSaving={ false }
-                onSave={ jestMock.fn() }
-                onClose={ jestMock.fn() }
+                onSave={ jest.fn() }
+                onClose={ jest.fn() }
                 isOpen={ true }
                 title={ 'foobar' }
                 content={ 'content' }
