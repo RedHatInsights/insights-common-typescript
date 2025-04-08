@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.2](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.1.1...@redhat-cloud-services/insights-common-typescript@6.1.2) (2025-04-08)
+
+
+### Bug Fixes
+
+* **RHINENG-15922:** Upgrade axios and FEC packages, fix tests, RBACUtils ([#96](https://github.com/RedHatInsights/insights-common-typescript/issues/96)) ([72bde75](https://github.com/RedHatInsights/insights-common-typescript/commit/72bde7577040758d8ccbe3f071888b52484372c3))
+
+
+
+
+
 ## [6.1.1](https://github.com/RedHatInsights/insights-common-typescript/compare/@redhat-cloud-services/insights-common-typescript@6.1.0...@redhat-cloud-services/insights-common-typescript@6.1.1) (2024-04-05)
 
 

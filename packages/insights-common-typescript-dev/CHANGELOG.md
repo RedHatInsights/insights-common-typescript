@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.32](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.31...insights-common-typescript-dev@0.1.32) (2025-04-08)
+
+
+### Bug Fixes
+
+* **RHINENG-15922:** Upgrade axios and FEC packages, fix tests, RBACUtils ([#96](https://github.com/RedHatInsights/insights-common-typescript/issues/96)) ([72bde75](https://github.com/RedHatInsights/insights-common-typescript/commit/72bde7577040758d8ccbe3f071888b52484372c3))
+
+
+
+
+
 ## [0.1.31](https://github.com/RedHatInsights/insights-common-typescript/compare/insights-common-typescript-dev@0.1.30...insights-common-typescript-dev@0.1.31) (2024-04-05)
 
 **Note:** Version bump only for package insights-common-typescript-dev
