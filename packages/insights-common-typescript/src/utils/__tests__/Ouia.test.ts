@@ -1,5 +1,6 @@
 import { getOuiaPropsFactory, ouiaIdConcat, setOuiaPage, withoutOuiaProps } from '../..';
 import { getOuiaProps } from '../Ouia';
+import '@testing-library/jest-dom';
 
 describe('src/utils/Ouia.test.ts', () => {
     describe('setOuiaPage', () => {

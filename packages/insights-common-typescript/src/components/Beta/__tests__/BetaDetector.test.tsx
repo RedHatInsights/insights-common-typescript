@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { InsightsType, BetaDetector, BetaIf, BetaIfNot, InsightsBetaDetector } from '../../..';
+import '@testing-library/jest-dom';
 
 describe('src/components/Beta', () => {
 

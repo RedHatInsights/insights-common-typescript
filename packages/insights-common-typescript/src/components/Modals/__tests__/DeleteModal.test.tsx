@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import jestMock from 'jest-mock';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { DeleteModal } from '../..';
+import '@testing-library/jest-dom';
 
 describe('src/components/Modals/DeleteModal', () => {
     it('Shows action modal with Delete action button', () => {
