@@ -49,7 +49,7 @@ export default function makeConfig(params) {
                 }
             ],
             external: [
-                'fs', 'child_process', 'path', 'readline', 'os', 'events', 'util'
+                'fs', 'child_process', 'path', 'readline', 'os', 'events', 'util', 'prettier'
             ],
             plugins
         }

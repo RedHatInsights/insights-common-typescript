@@ -1,4 +1,3 @@
-import jestMock from 'jest-mock';
 import { InsightsType } from '@redhat-cloud-services/insights-common-typescript';
 
 interface Window {
@@ -10,17 +9,17 @@ declare const window: Window;
 export const mockInsights = (mock?: InsightsType) => {
     window.insights = mock || {
         chrome: {
-            init: jestMock.fn(),
-            identifyApp: jestMock.fn((_appId: string) => Promise.resolve()),
-            on: jestMock.fn(),
-            getApp: jestMock.fn(() => 'my-app'),
-            getBundle: jestMock.fn(() => 'my-bundle'),
-            isPenTest: jestMock.fn(() => false),
+            init: jest.fn(),
+            identifyApp: jest.fn((_appId: string) => Promise.resolve()),
+            on: jest.fn(),
+            getApp: jest.fn(() => 'my-app'),
+            getBundle: jest.fn(() => 'my-bundle'),
+            isPenTest: jest.fn(() => false),
             isProd: false,
-            isBeta: jestMock.fn(() => true),
-            getEnvironment: jestMock.fn(() => 'ci'),
+            isBeta: jest.fn(() => true),
+            getEnvironment: jest.fn(() => 'ci'),
             auth: {
-                getUser: jestMock.fn(() => Promise.resolve({
+                getUser: jest.fn(() => Promise.resolve({
                     identity: {
                         account_number: '123456',
                         internal: {

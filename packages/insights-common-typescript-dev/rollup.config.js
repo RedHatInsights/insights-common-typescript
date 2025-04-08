@@ -14,10 +14,7 @@ export default function makeConfig(params) {
             file: 'index.js',
             format: 'umd',
             name: 'index',
-            sourcemap: true,
-            globals: {
-                'jest-mock': 'jestMock'
-            }
+            sourcemap: true
         }
     ];
 
@@ -37,9 +34,9 @@ export default function makeConfig(params) {
                 format: 'cjs',
                 sourcemap: true
             }
-        )
+        );
     } else {
-        dtsPlugin.push()
+        dtsPlugin.push();
     }
 
     return [

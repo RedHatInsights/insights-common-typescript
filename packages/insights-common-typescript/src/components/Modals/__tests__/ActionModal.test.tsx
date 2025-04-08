@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { getByText, render, screen } from '@testing-library/react';
 import { ActionModal } from '../..';
-import jestMock from 'jest-mock';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ButtonVariant } from '@patternfly/react-core/dist/dynamic/components/Button';
 import { ModalVariant } from '@patternfly/react-core/dist/dynamic/components/Modal';
@@ -16,8 +16,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -34,8 +34,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -53,8 +53,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonVariant={ ButtonVariant.primary }
                 actionButtonTitle={ 'do it' }
             />
@@ -70,8 +70,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonVariant={ ButtonVariant.primary }
                 actionButtonTitle={ 'do it' }
                 cancelButtonTitle={ 'nooooo' }
@@ -88,8 +88,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonVariant={ ButtonVariant.danger }
                 actionButtonTitle={ 'do it' }
                 cancelButtonTitle={ 'nooooo' }
@@ -106,8 +106,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonVariant={ ButtonVariant.danger }
                 actionButtonTitle={ 'do it' }
                 cancelButtonTitle={ 'nooooo' }
@@ -126,8 +126,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonVariant={ ButtonVariant.danger }
                 actionButtonTitle={ 'do it' }
                 cancelButtonTitle={ 'nooooo' }
@@ -147,8 +147,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ false }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -166,8 +166,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ true }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -185,8 +185,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ true }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -204,8 +204,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ true }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -222,8 +222,8 @@ describe('src/components/Modals/ActionModal', () => {
                 isPerformingAction={ true }
                 title={ 'foo' }
                 content={ 'bar' }
-                onClose={ jestMock.fn() }
-                onAction={ jestMock.fn() }
+                onClose={ jest.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
@@ -242,7 +242,7 @@ describe('src/components/Modals/ActionModal', () => {
     });
 
     it('onClose is called with false when clicking the cancel and the x button', async () => {
-        const onClose = jestMock.fn();
+        const onClose = jest.fn();
         render(
             <ActionModal
                 isOpen={ true }
@@ -250,17 +250,17 @@ describe('src/components/Modals/ActionModal', () => {
                 title={ 'foo' }
                 content={ 'bar' }
                 onClose={ onClose }
-                onAction={ jestMock.fn() }
+                onAction={ jest.fn() }
                 actionButtonTitle={ 'do it' }
                 actionButtonVariant={ ButtonVariant.primary }
                 cancelButtonTitle={ 'no!' }
             />
         );
 
-        userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'cancel'));
+        await userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'cancel'));
         expect(onClose).toHaveBeenLastCalledWith(false);
 
-        userEvent.click(screen.getByLabelText(/close/i, {
+        await userEvent.click(screen.getByLabelText(/close/i, {
             selector: 'button'
         }));
         expect(onClose).toHaveBeenLastCalledWith(false);
@@ -269,8 +269,8 @@ describe('src/components/Modals/ActionModal', () => {
     });
 
     it('onAction is called when clicking the delete button, it calls onClose (with true) if returns true', async () => {
-        const onClose = jestMock.fn();
-        const onAction = jestMock.fn(() => true);
+        const onClose = jest.fn();
+        const onAction = jest.fn(() => true);
         render(
             <ActionModal
                 isOpen={ true }
@@ -285,15 +285,15 @@ describe('src/components/Modals/ActionModal', () => {
             />
         );
 
-        userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
+        await userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
         await waitForAsyncEvents();
         expect(onAction).toHaveBeenCalled();
         expect(onClose).toHaveBeenLastCalledWith(true);
     });
 
     it('onAction also supports returning a Promise<boolean>', async () => {
-        const onClose = jestMock.fn();
-        const onAction = jestMock.fn(() => Promise.resolve(true));
+        const onClose = jest.fn();
+        const onAction = jest.fn(() => Promise.resolve(true));
         render(
             <ActionModal
                 isOpen={ true }
@@ -308,15 +308,15 @@ describe('src/components/Modals/ActionModal', () => {
             />
         );
 
-        userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
+        await userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
         await waitForAsyncEvents();
         expect(onAction).toHaveBeenCalled();
         expect(onClose).toHaveBeenLastCalledWith(true);
     });
 
     it('onAction is called when clicking the delete button, it does not call onClose if returns false', async () => {
-        const onClose = jestMock.fn();
-        const onAction = jestMock.fn(() => false);
+        const onClose = jest.fn();
+        const onAction = jest.fn(() => false);
         render(
             <ActionModal
                 isOpen={ true }
@@ -331,7 +331,7 @@ describe('src/components/Modals/ActionModal', () => {
             />
         );
 
-        userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
+        await userEvent.click(ouiaSelectors.getByOuia('PF5/Button', 'action'));
         await waitForAsyncEvents();
         expect(onAction).toHaveBeenCalled();
         expect(onClose).not.toHaveBeenCalled();
