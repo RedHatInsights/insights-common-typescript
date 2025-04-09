@@ -2,6 +2,7 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { SaveModal } from '../..';
+import '@testing-library/jest-dom';
 
 describe('src/components/Modals/SaveModal', () => {
     it('Shows action modal with Save action button', () => {

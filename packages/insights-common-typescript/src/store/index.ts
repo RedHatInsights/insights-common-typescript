@@ -15,7 +15,7 @@ export const initStore = <State, Reducer extends Record<string, any>>(initialSta
     }
 
     registry = new ReducerRegistry(initialState ?? {}, [
-        promiseMiddleware(),
+        promiseMiddleware,
         ...middleware
     ]);
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { EmailOptIn, InsightsEmailOptIn } from '../EmailOptIn';
+import '@testing-library/jest-dom';
 
 describe('src/components/EmailOptIn', () => {
     it('Builds link for beta', () => {

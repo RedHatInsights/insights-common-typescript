@@ -2,6 +2,7 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { ouiaSelectors } from 'insights-common-typescript-dev';
 import { DeleteModal } from '../..';
+import '@testing-library/jest-dom';
 
 describe('src/components/Modals/DeleteModal', () => {
     it('Shows action modal with Delete action button', () => {
